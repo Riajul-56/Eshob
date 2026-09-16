@@ -27,6 +27,7 @@ export async function getCurrentUserAndBusiness() {
     .limit(1)
     .maybeSingle();
 
+//nothing 
   const business = (member?.businesses as unknown as Business) ?? null;
   return { user, business, businessId: member?.business_id ?? null };
 }

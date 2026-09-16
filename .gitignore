@@ -30,3 +30,6 @@ next-env.d.ts
 # supabase
 /supabase/.branches
 /supabase/.temp
+
+# scratch copies written by Claude
+/Claude outputs/
