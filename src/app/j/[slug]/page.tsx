@@ -5,6 +5,7 @@ import { getCustomerId } from "@/lib/customer";
 import { JoinForm, CollectButton, RedeemForm } from "./interactive";
 import { ScratchCard } from "./scratch-card";
 import { InstallPrompt } from "./install-prompt";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -37,7 +38,8 @@ type CampaignRow = {
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-5 py-10">
+    <main className="relative mx-auto flex min-h-screen max-w-sm flex-col justify-center px-5 py-10">
+      <ThemeToggle className="absolute right-4 top-4" />
       {children}
       <InstallPrompt />
     </main>
@@ -60,9 +62,9 @@ export default async function JoinPage({ params }: { params: Promise<{ slug: str
     return (
       <Shell>
         <div className="text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-200 text-2xl">◎</div>
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-line text-2xl">◎</div>
           <h1 className="text-xl font-bold">Card not available</h1>
-          <p className="mt-2 text-sm text-slate-500">This loyalty card is paused or doesn&apos;t exist.</p>
+          <p className="mt-2 text-sm text-muted">This loyalty card is paused or doesn&apos;t exist.</p>
         </div>
       </Shell>
     );
@@ -125,9 +127,9 @@ export default async function JoinPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
       <div className="text-lg font-bold">{businessName}</div>
-      <div className="text-xs uppercase tracking-widest text-brand">Premium partner ✓</div>
+      <div className="text-xs uppercase tracking-widest text-accent">Premium partner ✓</div>
       {hasMenu && (
-        <Link href={`/m/${campaign.business_id}`} className="mt-2 rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50">
+        <Link href={`/m/${campaign.business_id}`} className="mt-2 rounded-full border border-line-strong bg-card px-3 py-1 text-xs font-medium text-body hover:bg-app">
           📋 View our menu
         </Link>
       )}
@@ -139,9 +141,9 @@ export default async function JoinPage({ params }: { params: Promise<{ slug: str
     return (
       <Shell>
         {Header}
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-line bg-card p-6 shadow-sm">
           <h1 className="text-center text-xl font-bold">{campaign.name}</h1>
-          <p className="mt-1 text-center text-sm text-slate-600">
+          <p className="mt-1 text-center text-sm text-body">
             Collect {campaign.stamps_required} stamps → <strong>{campaign.reward_text}</strong>
           </p>
           <JoinForm slug={slug} geoRequired={!!geoRequired} />
@@ -163,32 +165,32 @@ export default async function JoinPage({ params }: { params: Promise<{ slug: str
     <Shell>
       {Header}
 
-      <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-3xl border border-line bg-card p-6 shadow-sm">
         {/* progress */}
         <div className="flex items-center justify-between">
           <div className="text-lg font-bold">
             {count} of {required} Stamps
           </div>
-          <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand">
+          <span className="rounded-full bg-accent/10 px-2.5 py-1 text-xs font-semibold text-accent">
             ✦ {xp} XP
           </span>
         </div>
-        <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
+        <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-elev">
           <div className="h-full rounded-full bg-brand transition-all" style={{ width: `${pct}%` }} />
         </div>
 
         {/* next treat */}
-        <div className="mt-5 flex items-center gap-3 rounded-2xl bg-slate-50 p-3">
+        <div className="mt-5 flex items-center gap-3 rounded-2xl bg-app p-3">
           {campaign.reward_image_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={campaign.reward_image_url} alt="" className="h-14 w-14 flex-none rounded-xl object-cover" />
           ) : (
-            <div className="flex h-14 w-14 flex-none items-center justify-center rounded-xl bg-brand/10 text-2xl">🎁</div>
+            <div className="flex h-14 w-14 flex-none items-center justify-center rounded-xl bg-accent/10 text-2xl">🎁</div>
           )}
           <div className="min-w-0">
-            <div className="text-xs font-semibold uppercase tracking-wide text-emerald-600">Your next treat</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-ok">Your next treat</div>
             <div className="truncate font-bold">{campaign.reward_text}</div>
-            <div className="text-sm text-slate-500">
+            <div className="text-sm text-muted">
               {full ? "Ready to claim!" : `Collect ${remaining} more stamp${remaining > 1 ? "s" : ""}`}
             </div>
           </div>
@@ -205,8 +207,8 @@ export default async function JoinPage({ params }: { params: Promise<{ slug: str
                   filled
                     ? "border-brand bg-brand text-white"
                     : isReward
-                    ? "border-2 border-dashed border-brand/50 text-brand"
-                    : "border-dashed border-slate-300 text-slate-300"
+                    ? "border-2 border-dashed border-brand/50 text-accent"
+                    : "border-dashed border-line-strong text-faint"
                 }`}
               >
                 {filled ? "★" : isReward ? "🎁" : i + 1}
@@ -237,7 +239,7 @@ export default async function JoinPage({ params }: { params: Promise<{ slug: str
           href={googleReview}
           target="_blank"
           rel="noopener"
-          className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-amber-400 px-4 py-3 font-semibold text-amber-950 hover:bg-amber-500"
+          className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-warn-solid px-4 py-3 font-semibold text-warn-strong transition hover:brightness-110"
         >
           ★ Rate us on Google
         </a>
@@ -246,7 +248,7 @@ export default async function JoinPage({ params }: { params: Promise<{ slug: str
       {/* other offers */}
       {others && others.length > 0 && (
         <div className="mt-5">
-          <div className="mb-2 px-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
+          <div className="mb-2 px-1 text-xs font-semibold uppercase tracking-wide text-faint">
             More rewards here
           </div>
           <div className="space-y-2">
@@ -254,19 +256,19 @@ export default async function JoinPage({ params }: { params: Promise<{ slug: str
               <Link
                 key={o.slug}
                 href={`/j/${o.slug}`}
-                className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 hover:border-brand/40"
+                className="flex items-center gap-3 rounded-2xl border border-line bg-card p-3 hover:border-brand/40"
               >
                 {o.reward_image_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={o.reward_image_url} alt="" className="h-10 w-10 flex-none rounded-lg object-cover" />
                 ) : (
-                  <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-brand/10 text-lg">🎁</div>
+                  <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-accent/10 text-lg">🎁</div>
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-sm font-medium">{o.reward_text}</div>
-                  <div className="text-xs text-slate-400">{o.stamps_required} stamps</div>
+                  <div className="text-xs text-faint">{o.stamps_required} stamps</div>
                 </div>
-                <span className="text-slate-300">›</span>
+                <span className="text-faint">›</span>
               </Link>
             ))}
           </div>

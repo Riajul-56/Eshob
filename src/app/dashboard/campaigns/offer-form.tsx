@@ -31,7 +31,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
       {/* form */}
       <form
         action={action}
-        className="space-y-4 rounded-2xl border border-slate-200 bg-white p-5"
+        className="space-y-4 rounded-2xl border border-line bg-card p-5"
       >
         <div>
           <label htmlFor="name" className="mb-1 block text-sm font-medium">
@@ -44,7 +44,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Coffee stamp card"
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            className="w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent"
           />
         </div>
 
@@ -59,7 +59,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
             value={reward}
             onChange={(e) => setReward(e.target.value)}
             placeholder="Free coffee"
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            className="w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent"
           />
         </div>
 
@@ -76,7 +76,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
               max={20}
               value={stamps}
               onChange={(e) => setStamps(parseInt(e.target.value || "1", 10))}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+              className="w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             />
           </div>
           <div>
@@ -89,14 +89,14 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
               type="number"
               min={1}
               defaultValue={defaults?.reward_expiry_days ?? 30}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+              className="w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             />
           </div>
         </div>
 
         <div>
           <label className="mb-1 block text-sm font-medium">
-            Reward image <span className="text-slate-400">(optional)</span>
+            Reward image <span className="text-faint">(optional)</span>
           </label>
           <ImageUpload
             name="reward_image_url"
@@ -114,7 +114,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
               id="approval_mode"
               name="approval_mode"
               defaultValue={defaults?.approval_mode ?? "auto"}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+              className="w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             >
               <option value="auto">Auto-approve</option>
               <option value="manual">Manual approval</option>
@@ -131,7 +131,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
               min={1}
               defaultValue={defaults?.stamp_validity_days ?? undefined}
               placeholder="blank = never"
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+              className="w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             />
           </div>
         </div>
@@ -143,10 +143,10 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
 
       {/* live preview */}
       <div>
-        <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+        <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-faint">
           Live preview
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-line bg-card p-5 shadow-sm">
           {image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -155,16 +155,16 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
               className="mx-auto mb-3 h-20 w-20 rounded-xl object-cover"
             />
           ) : (
-            <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-xl bg-brand/10 text-2xl text-brand">
+            <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-xl bg-accent/10 text-2xl text-accent">
               🎁
             </div>
           )}
           <div className="text-center">
-            <div className="text-xs uppercase tracking-wide text-emerald-600">
+            <div className="text-xs uppercase tracking-wide text-ok">
               Your next treat
             </div>
             <div className="font-bold">{reward || "Your reward"}</div>
-            <div className="text-sm text-slate-500">
+            <div className="text-sm text-muted">
               Collect {stamps || 0} stamps
             </div>
           </div>
@@ -172,7 +172,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
             {dots.map((i) => (
               <div
                 key={i}
-                className="flex aspect-square items-center justify-center rounded-full border border-dashed border-slate-300 text-[10px] text-slate-300"
+                className="flex aspect-square items-center justify-center rounded-full border border-dashed border-line-strong text-[10px] text-faint"
               >
                 {i + 1}
               </div>

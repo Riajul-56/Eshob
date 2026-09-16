@@ -49,31 +49,31 @@ function StatTile({
   accent?: boolean;
 }) {
   return (
-    <div className={`rounded-2xl border p-4 ${accent ? "border-transparent bg-brand text-white" : "border-slate-200 bg-white"}`}>
-      <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl ${accent ? "bg-white/20 text-white" : "bg-brand/10 text-brand"}`}>
+    <div className={`rounded-2xl border p-4 ${accent ? "border-transparent bg-brand text-white" : "border-line bg-card"}`}>
+      <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl ${accent ? "bg-white/20 text-white" : "bg-accent/10 text-accent"}`}>
         <I d={IC[icon]} />
       </div>
-      <div className={`text-2xl font-extrabold tabular-nums ${accent ? "text-white" : "text-slate-900"}`}>{value}</div>
-      <div className={`text-[11px] font-semibold uppercase tracking-wide ${accent ? "text-white/80" : "text-slate-500"}`}>{label}</div>
+      <div className={`text-2xl font-extrabold tabular-nums ${accent ? "text-white" : "text-ink"}`}>{value}</div>
+      <div className={`text-[11px] font-semibold uppercase tracking-wide ${accent ? "text-white/80" : "text-muted"}`}>{label}</div>
     </div>
   );
 }
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-baseline justify-between gap-3 border-b border-slate-50 pb-2">
-      <span className="text-sm text-slate-400">{label}</span>
-      <span className="truncate text-right text-sm font-medium text-slate-800">{value}</span>
+    <div className="flex items-baseline justify-between gap-3 border-b border-line-soft pb-2">
+      <span className="text-sm text-faint">{label}</span>
+      <span className="truncate text-right text-sm font-medium text-ink">{value}</span>
     </div>
   );
 }
 
 function StatusChip({ ok, label, neutral }: { ok: boolean; label: string; neutral?: boolean }) {
   const cls = neutral
-    ? "bg-slate-100 text-slate-600"
+    ? "bg-elev text-body"
     : ok
-    ? "bg-emerald-50 text-emerald-700"
-    : "bg-amber-50 text-amber-700";
+    ? "bg-ok-soft text-ok"
+    : "bg-warn-soft text-warn";
   return (
     <span className={`rounded-full px-3 py-1 text-xs font-medium ${cls}`}>
       {!neutral && (ok ? "✓ " : "• ")}
@@ -180,15 +180,15 @@ export default async function DashboardHome() {
       {/* quick actions */}
       <div className="flex flex-wrap gap-2">
         <Link href="/dashboard/campaigns" className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-ink">+ Create offer</Link>
-        <Link href="/dashboard/customers" className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">View customers</Link>
-        {primaryQr && <a href={primaryQr} download="qr-code.png" className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Download QR</a>}
+        <Link href="/dashboard/customers" className="rounded-xl border border-line-strong bg-card px-4 py-2 text-sm font-semibold text-body hover:bg-app">View customers</Link>
+        {primaryQr && <a href={primaryQr} download="qr-code.png" className="rounded-xl border border-line-strong bg-card px-4 py-2 text-sm font-semibold text-body hover:bg-app">Download QR</a>}
       </div>
 
       {/* business info at a glance */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-5">
+      <section className="rounded-2xl border border-line bg-card p-5">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-semibold">Business info</h2>
-          <Link href="/dashboard/settings" className="text-sm font-medium text-brand hover:underline">Manage in Settings →</Link>
+          <Link href="/dashboard/settings" className="text-sm font-medium text-accent hover:underline">Manage in Settings →</Link>
         </div>
         <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
           <InfoRow label="Phone" value={bi.phone || "—"} />
@@ -196,37 +196,37 @@ export default async function DashboardHome() {
           <InfoRow label="Address" value={bi.address || "—"} />
           <InfoRow label="Hours" value={bi.open_daily === false ? hours : `${hours} · daily`} />
         </div>
-        <div className="mt-4 flex flex-wrap gap-2 border-t border-slate-100 pt-4">
+        <div className="mt-4 flex flex-wrap gap-2 border-t border-line-soft pt-4">
           <StatusChip ok={!!(bi.lat && bi.lng)} label={bi.lat && bi.lng ? "GPS set" : "No GPS"} />
           <StatusChip ok={!!bi.redemption_pin_hash} label={bi.redemption_pin_hash ? "PIN set" : "No PIN"} />
           <StatusChip ok={!!bi.allow_remote_scan} neutral label={bi.allow_remote_scan ? "Remote scan on" : "Geofenced scan"} />
           <StatusChip ok={!bi.compulsory_approval} neutral label={bi.compulsory_approval ? "Manual approval" : "Auto approval"} />
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">{branches} branch{branches === 1 ? "" : "es"}</span>
+          <span className="rounded-full bg-elev px-3 py-1 text-xs font-medium text-body">{branches} branch{branches === 1 ? "" : "es"}</span>
         </div>
       </section>
 
       {/* pending approvals */}
       {pendingStamps.length > 0 && (
-        <section className="rounded-2xl border border-amber-200 bg-amber-50/50 p-5">
+        <section className="rounded-2xl border border-warn-line bg-warn-soft/50 p-5">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="font-semibold text-amber-900">Pending approvals</h2>
-            <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-amber-500 px-2 text-xs font-bold text-white">{pendingStamps.length}</span>
+            <h2 className="font-semibold text-warn-strong">Pending approvals</h2>
+            <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-warn-solid px-2 text-xs font-bold text-white">{pendingStamps.length}</span>
           </div>
           <div className="space-y-2">
             {pendingStamps.map((s) => {
               const c = s.memberships?.customers;
               return (
-                <div key={s.id} className="flex items-center justify-between rounded-xl bg-white p-3">
+                <div key={s.id} className="flex items-center justify-between rounded-xl bg-card p-3">
                   <div className="min-w-0">
                     <div className="truncate font-medium">{c?.name || c?.phone || "Customer"}</div>
-                    <div className="text-xs text-slate-400">{timeAgo(s.created_at)}</div>
+                    <div className="text-xs text-faint">{timeAgo(s.created_at)}</div>
                   </div>
                   <div className="flex gap-2">
                     <form action={rejectStamp.bind(null, s.id)}>
-                      <button aria-label="Reject" className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 hover:bg-slate-50">✕</button>
+                      <button aria-label="Reject" className="flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-card text-muted hover:bg-app">✕</button>
                     </form>
                     <form action={approveStamp.bind(null, s.id)}>
-                      <button aria-label="Approve" className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500 text-white hover:bg-emerald-600">✓</button>
+                      <button aria-label="Approve" className="flex h-9 w-9 items-center justify-center rounded-lg bg-ok-solid text-white transition hover:brightness-110">✓</button>
                     </form>
                   </div>
                 </div>
@@ -238,33 +238,33 @@ export default async function DashboardHome() {
 
       {/* activity + QR */}
       <div className="grid gap-5 lg:grid-cols-2">
-        <section className="rounded-2xl border border-slate-200 bg-white p-5">
+        <section className="rounded-2xl border border-line bg-card p-5">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="font-semibold">Recent activity</h2>
-            <Link href="/dashboard/customers" className="text-sm font-medium text-brand hover:underline">
+            <Link href="/dashboard/customers" className="text-sm font-medium text-accent hover:underline">
               View all customers →
             </Link>
           </div>
           {activity.length === 0 ? (
-            <p className="py-6 text-center text-sm text-slate-400">No activity yet. Share your QR code to get your first scan.</p>
+            <p className="py-6 text-center text-sm text-faint">No activity yet. Share your QR code to get your first scan.</p>
           ) : (
             <ul className="space-y-3">
               {activity.map((a) => (
                 <li key={a.id} className="flex items-center gap-3">
-                  <div className={`flex h-8 w-8 flex-none items-center justify-center rounded-full ${a.kind === "reward" ? "bg-emerald-50 text-emerald-600" : "bg-brand/10 text-brand"}`}>
+                  <div className={`flex h-8 w-8 flex-none items-center justify-center rounded-full ${a.kind === "reward" ? "bg-ok-soft text-ok" : "bg-accent/10 text-accent"}`}>
                     <I d={a.kind === "reward" ? IC.gift : IC.check} />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="truncate text-sm"><span className="font-medium">{a.who}</span> <span className="text-slate-500">{a.text}</span></div>
+                    <div className="truncate text-sm"><span className="font-medium">{a.who}</span> <span className="text-muted">{a.text}</span></div>
                   </div>
-                  <span className="flex-none text-xs text-slate-400">{timeAgo(a.when)}</span>
+                  <span className="flex-none text-xs text-faint">{timeAgo(a.when)}</span>
                 </li>
               ))}
             </ul>
           )}
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-5">
+        <section className="rounded-2xl border border-line bg-card p-5">
           <h2 className="mb-3 font-semibold">Your QR codes</h2>
           {offers.length > 0 ? (
             <div className="space-y-4">
@@ -274,30 +274,30 @@ export default async function DashboardHome() {
                 return (
                   <div key={o.slug} className="flex items-center gap-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={src} alt="" width={84} height={84} className="flex-none rounded-xl border border-slate-200" />
+                    <img src={src} alt="" width={84} height={84} className="flex-none rounded-xl border border-line" />
                     <div className="min-w-0 flex-1">
                       <div className="truncate font-medium">{o.name}</div>
-                      <div className="text-xs text-slate-500">{o.stamps_required} stamps → {o.reward_text}</div>
+                      <div className="text-xs text-muted">{o.stamps_required} stamps → {o.reward_text}</div>
                       <a
                         href={joinUrl}
                         target="_blank"
                         rel="noopener"
-                        className="mt-1 block break-all font-mono text-[11px] text-brand hover:underline"
+                        className="mt-1 block break-all font-mono text-[11px] text-accent hover:underline"
                       >
                         {joinUrl}
                       </a>
-                      <a href={src} download={`qr-${o.slug}.png`} className="mt-0.5 inline-block text-xs font-medium text-slate-500 hover:underline">
+                      <a href={src} download={`qr-${o.slug}.png`} className="mt-0.5 inline-block text-xs font-medium text-muted hover:underline">
                         Download QR
                       </a>
                     </div>
                   </div>
                 );
               })}
-              <p className="text-xs text-slate-400">Print &amp; display each one at your counter.</p>
+              <p className="text-xs text-faint">Print &amp; display each one at your counter.</p>
             </div>
           ) : (
-            <p className="py-6 text-center text-sm text-slate-500">
-              <Link href="/dashboard/campaigns" className="font-medium text-brand hover:underline">Create an offer</Link> to generate your QR code.
+            <p className="py-6 text-center text-sm text-muted">
+              <Link href="/dashboard/campaigns" className="font-medium text-accent hover:underline">Create an offer</Link> to generate your QR code.
             </p>
           )}
         </section>

@@ -52,7 +52,7 @@ type Sub = {
 };
 
 const input =
-  "w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand";
+  "w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent";
 
 function Section({
   title,
@@ -64,9 +64,9 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5">
+    <section className="rounded-2xl border border-line bg-card p-5">
       <h2 className="font-semibold">{title}</h2>
-      {desc && <p className="mt-0.5 text-sm text-slate-500">{desc}</p>}
+      {desc && <p className="mt-0.5 text-sm text-muted">{desc}</p>}
       <div className="mt-4">{children}</div>
     </section>
   );
@@ -90,16 +90,16 @@ function Switch({
     <form action={setToggle.bind(null, field, !on)} className="flex items-center justify-between gap-4">
       <div>
         <div className="font-medium">{label}</div>
-        <div className="text-sm text-slate-500">{desc}</div>
+        <div className="text-sm text-muted">{desc}</div>
       </div>
       <button
         aria-pressed={on}
         className={`relative h-6 w-11 flex-none rounded-full transition ${
-          on ? "bg-brand" : "bg-slate-300"
+          on ? "bg-brand" : "bg-line-strong"
         }`}
       >
         <span
-          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-all ${
+          className={`absolute top-0.5 h-5 w-5 rounded-full bg-card transition-all ${
             on ? "left-[22px]" : "left-0.5"
           }`}
         />
@@ -144,7 +144,7 @@ export default async function SettingsPage({
     <div className="mx-auto max-w-2xl space-y-5">
       <div>
         <h1 className="text-2xl font-bold">Profile &amp; Settings</h1>
-        <p className="mt-1 text-sm text-slate-500">Manage your business and account.</p>
+        <p className="mt-1 text-sm text-muted">Manage your business and account.</p>
       </div>
 
       {/* Business profile */}
@@ -192,7 +192,7 @@ export default async function SettingsPage({
             label="Allow remote scan"
             desc="Let customers scan from anywhere (off = must be near your GPS point)."
           />
-          <div className="border-t border-slate-100" />
+          <div className="border-t border-line-soft" />
           <Switch
             on={!!biz.compulsory_approval}
             field="compulsory_approval"
@@ -210,9 +210,9 @@ export default async function SettingsPage({
         <div className="mb-2 text-sm">
           Status:{" "}
           {biz.redemption_pin_hash ? (
-            <span className="font-medium text-emerald-600">PIN is set ✓</span>
+            <span className="font-medium text-ok">PIN is set ✓</span>
           ) : (
-            <span className="font-medium text-amber-600">Not set yet</span>
+            <span className="font-medium text-warn">Not set yet</span>
           )}
         </div>
         <form action={setRedemptionPin} className="flex gap-2">
@@ -237,20 +237,20 @@ export default async function SettingsPage({
       <Section title="Branch locations" desc="Add extra store locations. Your main location is always active.">
         <div className="space-y-2">
           {branches.map((b) => (
-            <div key={b.id} className="flex items-center justify-between rounded-xl border border-slate-200 p-3">
+            <div key={b.id} className="flex items-center justify-between rounded-xl border border-line p-3">
               <div>
                 <div className="font-medium">{b.name}</div>
-                {b.address && <div className="text-xs text-slate-400">{b.address}</div>}
+                {b.address && <div className="text-xs text-faint">{b.address}</div>}
               </div>
               <form action={deleteBranch.bind(null, b.id)}>
-                <button className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50">
+                <button className="rounded-lg border border-danger-line px-3 py-1.5 text-sm font-medium text-danger hover:bg-danger-soft">
                   Remove
                 </button>
               </form>
             </div>
           ))}
           {branches.length === 0 && (
-            <p className="text-sm text-slate-400">No additional branches yet.</p>
+            <p className="text-sm text-faint">No additional branches yet.</p>
           )}
         </div>
         <form action={addBranch} className="mt-3 flex flex-col gap-2 sm:flex-row">
@@ -317,19 +317,19 @@ export default async function SettingsPage({
           <div className="mb-2 text-sm font-medium">Prizes</div>
           <div className="space-y-2">
             {prizes.map((p) => (
-              <div key={p.id} className="flex items-center justify-between rounded-xl border border-slate-200 p-3">
+              <div key={p.id} className="flex items-center justify-between rounded-xl border border-line p-3">
                 <div>
                   <span className="font-medium">{p.label}</span>{" "}
-                  <span className="text-xs text-slate-400">· odds {p.weight}</span>
+                  <span className="text-xs text-faint">· odds {p.weight}</span>
                 </div>
                 <form action={deleteScratchPrize.bind(null, p.id)}>
-                  <button className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50">
+                  <button className="rounded-lg border border-danger-line px-3 py-1.5 text-sm font-medium text-danger hover:bg-danger-soft">
                     Remove
                   </button>
                 </form>
               </div>
             ))}
-            {prizes.length === 0 && <p className="text-sm text-slate-400">No prizes yet — add one below.</p>}
+            {prizes.length === 0 && <p className="text-sm text-faint">No prizes yet — add one below.</p>}
           </div>
           <form action={addScratchPrize} className="mt-3 flex flex-col gap-2 sm:flex-row">
             <input name="label" required placeholder="Prize (e.g. Free cookie)" className={input} />
@@ -367,10 +367,10 @@ function Billing({ sub, billing }: { sub: Sub | null; billing?: string }) {
   const hasCustomer = !!sub?.stripe_customer_id;
 
   const badge: Record<Sub["status"], { text: string; cls: string }> = {
-    trialing: { text: "Free trial", cls: "bg-sky-100 text-sky-700" },
-    active: { text: "Active", cls: "bg-emerald-100 text-emerald-700" },
-    past_due: { text: "Payment failed", cls: "bg-red-100 text-red-700" },
-    canceled: { text: "No active plan", cls: "bg-slate-100 text-slate-600" },
+    trialing: { text: "Free trial", cls: "bg-info-soft text-info" },
+    active: { text: "Active", cls: "bg-ok-soft text-ok" },
+    past_due: { text: "Payment failed", cls: "bg-danger-soft text-danger" },
+    canceled: { text: "No active plan", cls: "bg-elev text-body" },
   };
 
   let summary = "";
@@ -402,12 +402,12 @@ function Billing({ sub, billing }: { sub: Sub | null; billing?: string }) {
   return (
     <div className="space-y-4">
       {billing === "success" && (
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
+        <div className="rounded-xl border border-ok-line bg-ok-soft p-3 text-sm text-ok">
           ✓ Checkout complete — your plan is shown below.
         </div>
       )}
       {billing === "cancel" && (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-700">
+        <div className="rounded-xl border border-warn-line bg-warn-soft p-3 text-sm text-warn">
           Checkout was cancelled. No charge was made — pick a plan whenever you&apos;re ready.
         </div>
       )}
@@ -421,13 +421,13 @@ function Billing({ sub, billing }: { sub: Sub | null; billing?: string }) {
             <form action={refreshBilling}>
               <button
                 title="Re-read your plan from Stripe"
-                className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium hover:bg-slate-50"
+                className="rounded-lg border border-line-strong px-3 py-1.5 text-sm font-medium hover:bg-app"
               >
                 ↻ Refresh
               </button>
             </form>
             <form action={openBillingPortal}>
-              <button className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium hover:bg-slate-50">
+              <button className="rounded-lg border border-line-strong px-3 py-1.5 text-sm font-medium hover:bg-app">
                 Manage billing →
               </button>
             </form>
@@ -435,7 +435,7 @@ function Billing({ sub, billing }: { sub: Sub | null; billing?: string }) {
         )}
       </div>
 
-      <p className="text-sm text-slate-600">{summary}</p>
+      <p className="text-sm text-body">{summary}</p>
 
       {!lifetime && (
         <div className="grid gap-3 sm:grid-cols-3">
@@ -447,20 +447,20 @@ function Billing({ sub, billing }: { sub: Sub | null; billing?: string }) {
                 key={key}
                 action={startCheckout.bind(null, key)}
                 className={`flex flex-col rounded-2xl border p-4 ${
-                  current ? "border-brand ring-1 ring-brand" : "border-slate-200"
+                  current ? "border-brand ring-1 ring-brand" : "border-line"
                 }`}
               >
                 <div className="font-semibold">{p.label}</div>
                 <div className="mt-1">
                   <span className="text-2xl font-bold">{p.price}</span>
-                  <span className="text-sm text-slate-500"> {p.per}</span>
+                  <span className="text-sm text-muted"> {p.per}</span>
                 </div>
-                <div className="mt-1 text-xs text-slate-500">{p.note}</div>
+                <div className="mt-1 text-xs text-muted">{p.note}</div>
                 <button
                   disabled={current}
                   className={`mt-3 rounded-lg px-3 py-2 text-sm font-semibold ${
                     current
-                      ? "cursor-default bg-slate-100 text-slate-500"
+                      ? "cursor-default bg-elev text-muted"
                       : "bg-brand text-white hover:bg-brand-ink"
                   }`}
                 >

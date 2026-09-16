@@ -9,11 +9,11 @@ export default function DashboardError({
 }) {
   return (
     <div className="mx-auto max-w-md py-16 text-center">
-      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-2xl">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-warn-soft text-2xl">
         ⚠️
       </div>
       <h2 className="text-lg font-bold">Something went wrong</h2>
-      <p className="mt-1 text-sm text-slate-500">
+      <p className="mt-1 text-sm text-muted">
         {error.message || "Please try again."}
       </p>
       <button

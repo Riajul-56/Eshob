@@ -37,16 +37,16 @@ function BarChart({
                 minHeight: d.value ? 6 : 0,
                 animationDelay: `${i * 55}ms`,
                 boxShadow: d.value
-                  ? "inset 0 2px 0 rgba(255,255,255,0.28), 0 4px 10px rgba(0,0,0,0.12)"
+                  ? "inset 0 2px 0 rgba(255,255,255,0.28), 0 4px 10px rgb(var(--shadow) / 0.18)"
                   : "none",
               }}
               title={`${d.label}: ${d.value}`}
             />
           </div>
-          <span className="mt-1 h-3 text-center text-[10px] font-semibold tabular-nums text-slate-600">
+          <span className="mt-1 h-3 text-center text-[10px] font-semibold tabular-nums text-body">
             {d.value || ""}
           </span>
-          <span className="whitespace-nowrap text-center text-[8px] leading-tight text-slate-400">
+          <span className="whitespace-nowrap text-center text-[8px] leading-tight text-faint">
             {showLabel(i) ? d.label : ""}
           </span>
         </div>
@@ -57,10 +57,10 @@ function BarChart({
 
 function Stat({ value, label, sub }: { value: string; label: string; sub?: string }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-      <div className="text-2xl font-extrabold tabular-nums text-brand-ink">{value}</div>
-      <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{label}</div>
-      {sub && <div className="mt-0.5 text-xs text-slate-400">{sub}</div>}
+    <div className="rounded-2xl border border-line bg-card p-4">
+      <div className="text-2xl font-extrabold tabular-nums text-accent">{value}</div>
+      <div className="text-[11px] font-semibold uppercase tracking-wide text-muted">{label}</div>
+      {sub && <div className="mt-0.5 text-xs text-faint">{sub}</div>}
     </div>
   );
 }
@@ -124,14 +124,14 @@ export default async function AnalyticsPage({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">Insights</h1>
-          <p className="mt-1 text-sm text-slate-500">Your loyalty program over the last {days} days.</p>
+          <p className="mt-1 text-sm text-muted">Your loyalty program over the last {days} days.</p>
         </div>
-        <div className="flex gap-1 rounded-xl bg-slate-100 p-1 text-sm">
+        <div className="flex gap-1 rounded-xl bg-elev p-1 text-sm">
           {["7", "30"].map((r) => (
             <Link
               key={r}
               href={`/dashboard/analytics?range=${r}`}
-              className={`rounded-lg px-3 py-1.5 font-medium ${range === r ? "bg-white text-brand-ink shadow-sm" : "text-slate-500"}`}
+              className={`rounded-lg px-3 py-1.5 font-medium ${range === r ? "bg-card text-accent shadow-sm" : "text-muted"}`}
             >
               {r} days
             </Link>
@@ -148,40 +148,40 @@ export default async function AnalyticsPage({
       </div>
 
       {/* scans chart */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-5">
+      <section className="rounded-2xl border border-line bg-card p-5">
         <h2 className="mb-3 font-semibold">Daily scans</h2>
-        <BarChart data={scanSeries} color="#0f766e" />
+        <BarChart data={scanSeries} color="rgb(var(--brand))" />
       </section>
 
       {/* rewards chart */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-5">
+      <section className="rounded-2xl border border-line bg-card p-5">
         <h2 className="mb-3 font-semibold">Daily rewards redeemed</h2>
-        <BarChart data={redSeries} color="#b26a1b" />
+        <BarChart data={redSeries} color="rgb(var(--warn-solid))" />
       </section>
 
       {/* top customers */}
-      <section className="rounded-2xl border border-slate-200 bg-white p-5">
+      <section className="rounded-2xl border border-line bg-card p-5">
         <h2 className="mb-3 font-semibold">Top customers</h2>
         {top.length === 0 ? (
-          <p className="py-4 text-center text-sm text-slate-400">No customers yet.</p>
+          <p className="py-4 text-center text-sm text-faint">No customers yet.</p>
         ) : (
           <ol className="space-y-2">
             {top.map((t, i) => (
               <li key={i} className="flex items-center gap-3">
-                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-brand/10 text-sm font-bold text-brand">
+                <span className="flex h-7 w-7 flex-none items-center justify-center rounded-full bg-accent/10 text-sm font-bold text-accent">
                   {i + 1}
                 </span>
                 <span className="flex-1 truncate text-sm font-medium">
                   {t.customers?.name || t.customers?.phone || "Customer"}
                 </span>
-                <span className="text-sm font-semibold tabular-nums text-brand-ink">{t.stamp_count} stamps</span>
+                <span className="text-sm font-semibold tabular-nums text-accent">{t.stamp_count} stamps</span>
               </li>
             ))}
           </ol>
         )}
       </section>
 
-      <p className="text-center text-xs text-slate-400">
+      <p className="text-center text-xs text-faint">
         Live analytics update automatically as customers scan.
       </p>
     </div>

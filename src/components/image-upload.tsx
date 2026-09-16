@@ -74,12 +74,10 @@ export function ImageUpload({
           src={url}
           alt=""
           onError={() => setBroken(true)}
-          className={`${box} rounded-xl border border-slate-200 object-cover`}
+          className={`${box} rounded-xl border border-line object-cover`}
         />
       ) : (
-        <div
-          className={`${box} flex items-center justify-center rounded-xl border border-dashed border-slate-300 text-2xl text-slate-300`}
-        >
+        <div className={`${box} flex items-center justify-center rounded-xl border border-dashed border-line-strong text-2xl text-faint`}>
           🖼️
         </div>
       )}
@@ -89,16 +87,12 @@ export function ImageUpload({
           type="file"
           accept="image/*"
           onChange={handleFile}
-          className="block text-sm text-slate-500 file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-brand file:px-3 file:py-1.5 file:font-medium file:text-white hover:file:bg-brand-ink"
+          className="block text-sm text-muted file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-brand file:px-3 file:py-1.5 file:font-medium file:text-white hover:file:bg-brand-ink"
         />
-        {busy && <p className="mt-1 text-xs text-slate-500">Uploading…</p>}
-        {err && <p className="mt-1 text-xs text-red-600">{err}</p>}
+        {busy && <p className="mt-1 text-xs text-muted">Uploading…</p>}
+        {err && <p className="mt-1 text-xs text-danger">{err}</p>}
         {url && !busy && (
-          <button
-            type="button"
-            onClick={clear}
-            className="mt-1 text-xs text-slate-500 hover:underline"
-          >
+          <button type="button" onClick={clear} className="mt-1 text-xs text-muted hover:underline">
             Remove
           </button>
         )}

@@ -50,7 +50,7 @@ export function SidebarNav() {
             key={it.href}
             href={it.href}
             className={`flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition ${
-              active ? "bg-brand text-white" : "text-slate-600 hover:bg-slate-100"
+              active ? "bg-brand text-white" : "text-body hover:bg-elev"
             }`}
           >
             <Icon name={it.icon} className="h-5 w-5" />
@@ -65,7 +65,7 @@ export function SidebarNav() {
 export function BottomNav() {
   const pathname = usePathname();
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-slate-200 bg-white/95 backdrop-blur sm:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-line bg-card/95 backdrop-blur sm:hidden">
       {ITEMS.map((it) => {
         const active = isActive(pathname, it.href);
         return (
@@ -73,7 +73,7 @@ export function BottomNav() {
             key={it.href}
             href={it.href}
             className={`flex flex-1 flex-col items-center gap-1 py-2 text-[10px] font-medium ${
-              active ? "text-brand" : "text-slate-400"
+              active ? "text-accent" : "text-faint"
             }`}
           >
             <Icon name={it.icon} className="h-5 w-5" />

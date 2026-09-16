@@ -63,17 +63,17 @@ export default async function RewardsPage({
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="text-2xl font-bold">Rewards</h1>
-      <p className="mt-1 text-sm text-slate-500">
+      <p className="mt-1 text-sm text-muted">
         Rewards customers have claimed, and stamps waiting for approval.
       </p>
 
-      <div className="mt-4 flex gap-1 rounded-xl bg-slate-100 p-1">
+      <div className="mt-4 flex gap-1 rounded-xl bg-elev p-1">
         {tabs.map((t) => (
           <Link
             key={t.key}
             href={`/dashboard/rewards?tab=${t.key}`}
             className={`flex-1 rounded-lg px-3 py-1.5 text-center text-sm font-medium transition ${
-              tab === t.key ? "bg-white text-brand-ink shadow-sm" : "text-slate-500"
+              tab === t.key ? "bg-card text-accent shadow-sm" : "text-muted"
             }`}
           >
             {t.label}
@@ -82,10 +82,10 @@ export default async function RewardsPage({
       </div>
 
       {tab === "pending" ? (
-        <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 text-center">
+        <div className="mt-6 rounded-2xl border border-line bg-card p-6 text-center">
           {pending > 0 ? (
             <>
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-body">
                 <strong>{pending}</strong> stamp{pending > 1 ? "s" : ""} waiting for manual
                 approval.
               </p>
@@ -97,30 +97,30 @@ export default async function RewardsPage({
               </Link>
             </>
           ) : (
-            <p className="text-sm text-slate-500">Nothing waiting for approval. 🎉</p>
+            <p className="text-sm text-muted">Nothing waiting for approval. 🎉</p>
           )}
         </div>
       ) : tab === "wins" ? (
         <div className="mt-4 space-y-2">
           {wins.length === 0 && (
-            <p className="py-8 text-center text-sm text-slate-500">No scratch wins yet.</p>
+            <p className="py-8 text-center text-sm text-muted">No scratch wins yet.</p>
           )}
           {wins.map((w) => {
             const c = w.customers;
             return (
-              <div key={w.id} className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4">
+              <div key={w.id} className="flex items-center justify-between rounded-2xl border border-line bg-card p-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-50 text-amber-600">🎁</div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-warn-soft text-warn">🎁</div>
                   <div>
                     <div className="font-medium">{w.prize_label}</div>
-                    <div className="text-xs text-slate-400">
+                    <div className="text-xs text-faint">
                       {c?.name || c?.phone || "Customer"} · {new Date(w.created_at).toLocaleDateString()}
                       {!w.revealed && " · not scratched yet"}
                     </div>
                   </div>
                 </div>
                 {w.claimed ? (
-                  <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-semibold uppercase text-slate-500">
+                  <span className="rounded-full bg-elev px-2.5 py-1 text-[10px] font-semibold uppercase text-muted">
                     Claimed
                   </span>
                 ) : (
@@ -137,28 +137,28 @@ export default async function RewardsPage({
       ) : (
         <div className="mt-4 space-y-2">
           {redemptions.length === 0 && (
-            <p className="py-8 text-center text-sm text-slate-500">No rewards claimed yet.</p>
+            <p className="py-8 text-center text-sm text-muted">No rewards claimed yet.</p>
           )}
           {redemptions.map((r) => {
             const c = r.memberships?.customers;
             return (
               <div
                 key={r.id}
-                className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-4"
+                className="flex items-center justify-between rounded-2xl border border-line bg-card p-4"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-ok-soft text-ok">
                     ✓
                   </div>
                   <div>
                     <div className="font-medium">{r.reward_text}</div>
-                    <div className="text-xs text-slate-400">
+                    <div className="text-xs text-faint">
                       {c?.name || c?.phone || "Customer"} ·{" "}
                       {new Date(r.created_at).toLocaleDateString()}
                     </div>
                   </div>
                 </div>
-                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-600">
+                <span className="rounded-full bg-ok-soft px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-ok">
                   Redeemed
                 </span>
               </div>

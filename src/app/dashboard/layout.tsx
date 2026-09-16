@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { syncFromStripe } from "@/lib/billing-sync";
 import { signOut } from "@/app/actions";
 import { SidebarNav, BottomNav } from "./nav";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type SubRow = {
   status: string;
@@ -40,12 +41,12 @@ function BillingBanner({ sub }: { sub: SubRow }) {
   if (!msg) return null;
 
   return (
-    <div className="border-b border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-800">
+    <div className="border-b border-warn-line bg-warn-soft px-4 py-2.5 text-sm text-warn">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
         <span>⚠️ {msg}</span>
         <Link
           href="/dashboard/settings#subscription"
-          className="flex-none rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700"
+          className="flex-none rounded-lg bg-warn-solid px-3 py-1.5 text-xs font-semibold text-white transition hover:brightness-110"
         >
           Manage plan
         </Link>
@@ -87,10 +88,10 @@ export default async function DashboardLayout({
   const logo = business?.logo_url;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-app">
       <div className="mx-auto flex max-w-6xl">
         {/* desktop sidebar */}
-        <aside className="sticky top-0 hidden h-screen w-64 flex-col border-r border-slate-200 bg-white p-5 sm:flex">
+        <aside className="sticky top-0 hidden h-screen w-64 flex-col border-r border-line bg-card p-5 sm:flex">
           <div className="mb-6 flex items-center gap-3">
             {logo ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -102,23 +103,26 @@ export default async function DashboardLayout({
             )}
             <div className="min-w-0">
               <div className="truncate font-bold">{business?.name ?? "Business"}</div>
-              <div className="truncate text-xs text-slate-500">
+              <div className="truncate text-xs text-muted">
                 {business?.category ?? "Dashboard"}
               </div>
             </div>
           </div>
           <SidebarNav />
-          <form action={signOut} className="mt-auto pt-4">
-            <button className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">
-              Sign out
-            </button>
-          </form>
+          <div className="mt-auto flex items-center gap-2 pt-4">
+            <form action={signOut} className="min-w-0 flex-1">
+              <button className="w-full rounded-lg border border-line-strong px-3 py-2 text-sm text-body hover:bg-elev">
+                Sign out
+              </button>
+            </form>
+            <ThemeToggle />
+          </div>
         </aside>
 
         {/* main */}
         <div className="min-w-0 flex-1 pb-20 sm:pb-0">
           {/* mobile top bar */}
-          <header className="sticky top-0 z-20 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 sm:hidden">
+          <header className="sticky top-0 z-20 flex items-center justify-between border-b border-line bg-card px-4 py-3 sm:hidden">
             <div className="flex items-center gap-2">
               {logo ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -130,9 +134,12 @@ export default async function DashboardLayout({
               )}
               <span className="font-bold">{business?.name ?? "Dashboard"}</span>
             </div>
-            <form action={signOut}>
-              <button className="text-xs text-slate-500">Sign out</button>
-            </form>
+            <div className="flex items-center gap-3">
+              <ThemeToggle className="h-8 w-8" />
+              <form action={signOut}>
+                <button className="text-xs text-muted">Sign out</button>
+              </form>
+            </div>
           </header>
 
           {sub && needsWarning(sub as SubRow) && <BillingBanner sub={sub as SubRow} />}

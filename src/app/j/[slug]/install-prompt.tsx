@@ -34,7 +34,7 @@ export function InstallPrompt() {
         await deferred.userChoice;
         setDeferred(null);
       }}
-      className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-brand/30 bg-brand/5 px-4 py-3 text-sm font-semibold text-brand-ink hover:bg-brand/10"
+      className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-brand/30 bg-accent/5 px-4 py-3 text-sm font-semibold text-accent hover:bg-accent/10"
     >
       📲 Add to Home Screen
     </button>

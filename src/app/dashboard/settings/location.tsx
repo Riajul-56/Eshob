@@ -14,7 +14,7 @@ type Defaults = {
 };
 
 const input =
-  "w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand";
+  "w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent";
 
 export function LocationForm({ defaults }: { defaults: Defaults }) {
   const [lat, setLat] = useState(defaults.lat != null ? String(defaults.lat) : "");
@@ -49,7 +49,7 @@ export function LocationForm({ defaults }: { defaults: Defaults }) {
 
       <div>
         <div className="mb-1 text-sm font-medium">Opening hours</div>
-        <label className="flex items-center gap-2 text-sm text-slate-600">
+        <label className="flex items-center gap-2 text-sm text-body">
           <input
             type="checkbox"
             name="open_daily"
@@ -60,13 +60,13 @@ export function LocationForm({ defaults }: { defaults: Defaults }) {
         </label>
         <div className="mt-2 grid grid-cols-2 gap-3">
           <div>
-            <label htmlFor="open_from" className="mb-1 block text-xs text-slate-500">
+            <label htmlFor="open_from" className="mb-1 block text-xs text-muted">
               Open from
             </label>
             <input id="open_from" name="open_from" type="time" defaultValue={defaults.open_from ?? "09:00"} className={input} />
           </div>
           <div>
-            <label htmlFor="close_at" className="mb-1 block text-xs text-slate-500">
+            <label htmlFor="close_at" className="mb-1 block text-xs text-muted">
               Close at
             </label>
             <input id="close_at" name="close_at" type="time" defaultValue={defaults.close_at ?? "22:00"} className={input} />
@@ -74,28 +74,28 @@ export function LocationForm({ defaults }: { defaults: Defaults }) {
         </div>
       </div>
 
-      <div className="rounded-xl border border-slate-200 p-3">
+      <div className="rounded-xl border border-line p-3">
         <div className="text-sm font-medium">GPS location (for scan verification)</div>
-        <p className="mt-0.5 text-xs text-slate-500">
+        <p className="mt-0.5 text-xs text-muted">
           Stand at your store and capture the coordinates. Used for geofenced scans.
         </p>
         <button
           type="button"
           onClick={useCurrent}
-          className="mt-2 rounded-lg border border-brand px-3 py-1.5 text-sm font-medium text-brand hover:bg-brand/5"
+          className="mt-2 rounded-lg border border-brand px-3 py-1.5 text-sm font-medium text-accent hover:bg-accent/5"
         >
           📍 Use current location
         </button>
-        {status && <p className="mt-2 text-xs text-slate-500">{status}</p>}
+        {status && <p className="mt-2 text-xs text-muted">{status}</p>}
         {lat && lng && (
-          <p className="mt-1 text-xs font-medium text-emerald-600">
+          <p className="mt-1 text-xs font-medium text-ok">
             GPS set: {lat}, {lng}
           </p>
         )}
         <input type="hidden" name="lat" value={lat} />
         <input type="hidden" name="lng" value={lng} />
         <div className="mt-2">
-          <label htmlFor="geofence_radius" className="mb-1 block text-xs text-slate-500">
+          <label htmlFor="geofence_radius" className="mb-1 block text-xs text-muted">
             Geofence radius (meters)
           </label>
           <input

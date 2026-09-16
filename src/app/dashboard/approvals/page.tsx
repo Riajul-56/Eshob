@@ -24,13 +24,13 @@ export default async function ApprovalsPage() {
   return (
     <div className="max-w-2xl">
       <h1 className="text-2xl font-bold">Stamp approvals</h1>
-      <p className="mt-1 text-sm text-slate-500">
+      <p className="mt-1 text-sm text-muted">
         Pending stamps from campaigns set to manual approval.
       </p>
 
       <div className="mt-6 space-y-3">
         {pending.length === 0 && (
-          <p className="text-sm text-slate-500">Nothing waiting for approval. 🎉</p>
+          <p className="text-sm text-muted">Nothing waiting for approval. 🎉</p>
         )}
         {pending.map((s) => {
           const c = s.memberships?.customers;
@@ -38,11 +38,11 @@ export default async function ApprovalsPage() {
           return (
             <div
               key={s.id}
-              className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4"
+              className="flex items-center justify-between rounded-xl border border-line bg-card p-4"
             >
               <div>
                 <div className="font-medium">{who}</div>
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-muted">
                   {s.memberships?.campaigns?.name} ·{" "}
                   {new Date(s.created_at).toLocaleString()}
                 </div>

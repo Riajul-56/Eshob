@@ -5,7 +5,7 @@ import { addMenuItem, generateDescription } from "./actions";
 import { ImageUpload } from "@/components/image-upload";
 
 const input =
-  "w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand";
+  "w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent";
 
 export function MenuForm() {
   const [name, setName] = useState("");
@@ -25,7 +25,7 @@ export function MenuForm() {
   }
 
   return (
-    <form action={addMenuItem} className="space-y-3 rounded-2xl border border-slate-200 bg-white p-5">
+    <form action={addMenuItem} className="space-y-3 rounded-2xl border border-line bg-card p-5">
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label htmlFor="name" className="mb-1 block text-sm font-medium">Item name</label>
@@ -42,7 +42,7 @@ export function MenuForm() {
           <input id="price" name="price" type="number" step="0.01" min={0} placeholder="4.50" className={input} />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium">Photo <span className="text-slate-400">(optional)</span></label>
+          <label className="mb-1 block text-sm font-medium">Photo <span className="text-faint">(optional)</span></label>
           <ImageUpload name="image_url" onChange={setImageUrl} />
         </div>
       </div>
@@ -50,13 +50,13 @@ export function MenuForm() {
       <div>
         <div className="mb-1 flex items-center justify-between">
           <label htmlFor="description" className="block text-sm font-medium">
-            Description <span className="text-slate-400">(optional)</span>
+            Description <span className="text-faint">(optional)</span>
           </label>
           <button
             type="button"
             onClick={runAI}
             disabled={aiBusy}
-            className="rounded-lg border border-brand/40 bg-brand/5 px-2.5 py-1 text-xs font-semibold text-brand-ink hover:bg-brand/10 disabled:opacity-60"
+            className="rounded-lg border border-brand/40 bg-accent/5 px-2.5 py-1 text-xs font-semibold text-accent hover:bg-accent/10 disabled:opacity-60"
           >
             {aiBusy ? "Generating…" : "✨ Generate with AI"}
           </button>
@@ -70,7 +70,7 @@ export function MenuForm() {
           placeholder="Write it yourself, or generate with AI"
           className={input}
         />
-        {aiErr && <p className="mt-1 text-xs text-amber-700">{aiErr}</p>}
+        {aiErr && <p className="mt-1 text-xs text-warn">{aiErr}</p>}
       </div>
 
       <button className="rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">

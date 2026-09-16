@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type Item = {
   category: string | null;
@@ -54,7 +55,8 @@ export default async function PublicMenuPage({
   }
 
   return (
-    <main className="mx-auto min-h-screen max-w-md px-5 py-10">
+    <main className="relative mx-auto min-h-screen max-w-md px-5 py-10">
+      <ThemeToggle className="absolute right-4 top-4" />
       <div className="mb-6 flex flex-col items-center text-center">
         {biz.logo_url ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -65,16 +67,16 @@ export default async function PublicMenuPage({
           </div>
         )}
         <h1 className="text-xl font-bold">{biz.name}</h1>
-        <div className="text-xs uppercase tracking-widest text-brand">Menu</div>
+        <div className="text-xs uppercase tracking-widest text-accent">Menu</div>
       </div>
 
       {items.length === 0 ? (
-        <p className="py-10 text-center text-sm text-slate-500">Menu coming soon.</p>
+        <p className="py-10 text-center text-sm text-muted">Menu coming soon.</p>
       ) : (
         <div className="space-y-6">
           {[...groups.entries()].map(([cat, list]) => (
             <section key={cat}>
-              <h2 className="mb-2 border-b border-slate-200 pb-1 font-bold text-brand-ink">{cat}</h2>
+              <h2 className="mb-2 border-b border-line pb-1 font-bold text-accent">{cat}</h2>
               <div className="space-y-3">
                 {list.map((it, i) => (
                   <div key={i} className="flex items-center gap-3">
@@ -86,10 +88,10 @@ export default async function PublicMenuPage({
                       <div className="flex items-baseline justify-between gap-2">
                         <span className="font-medium">{it.name}</span>
                         {it.price != null && (
-                          <span className="text-sm font-semibold text-slate-700">${Number(it.price).toFixed(2)}</span>
+                          <span className="text-sm font-semibold text-body">${Number(it.price).toFixed(2)}</span>
                         )}
                       </div>
-                      {it.description && <div className="text-xs text-slate-500">{it.description}</div>}
+                      {it.description && <div className="text-xs text-muted">{it.description}</div>}
                     </div>
                   </div>
                 ))}

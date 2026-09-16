@@ -16,9 +16,9 @@ type Campaign = {
 };
 
 const statusStyle: Record<string, string> = {
-  active: "bg-emerald-50 text-emerald-600",
-  paused: "bg-amber-50 text-amber-600",
-  archived: "bg-slate-100 text-slate-500",
+  active: "bg-ok-soft text-ok",
+  paused: "bg-warn-soft text-warn",
+  archived: "bg-elev text-muted",
 };
 
 export default async function CampaignsPage() {
@@ -44,14 +44,14 @@ export default async function CampaignsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Reward Programs</h1>
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-muted">
             Create one or more offers. Each gets its own QR code.
           </p>
         </div>
       </div>
 
       {compulsory && (
-        <div className="mt-4 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+        <div className="mt-4 flex items-start gap-2 rounded-xl border border-warn-line bg-warn-soft p-3 text-sm text-warn">
           <span>⚠️</span>
           <span>
             <strong>Compulsory Approval is ON.</strong> Every stamp needs manual approval — even
@@ -67,7 +67,7 @@ export default async function CampaignsPage() {
       {/* existing offers */}
       <div className="mt-5 space-y-3">
         {campaigns.length === 0 && (
-          <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm text-slate-500">
+          <p className="rounded-2xl border border-dashed border-line-strong bg-card p-6 text-center text-sm text-muted">
             No offers yet — create your first below.
           </p>
         )}
@@ -75,13 +75,13 @@ export default async function CampaignsPage() {
           const joinUrl = `${base}/j/${c.slug}`;
           const qrSrc = `/api/qr?data=${encodeURIComponent(joinUrl)}`;
           return (
-            <div key={c.id} className="rounded-2xl border border-slate-200 bg-white p-4">
+            <div key={c.id} className="rounded-2xl border border-line bg-card p-4">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 {c.reward_image_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={c.reward_image_url} alt="" className="h-16 w-16 rounded-xl object-cover" />
                 ) : (
-                  <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-brand/10 text-2xl text-brand">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-accent/10 text-2xl text-accent">
                     🎁
                   </div>
                 )}
@@ -92,38 +92,38 @@ export default async function CampaignsPage() {
                       {c.status}
                     </span>
                   </div>
-                  <div className="text-sm text-slate-600">
+                  <div className="text-sm text-body">
                     {c.stamps_required} visits → {c.reward_text}
                   </div>
-                  <div className="text-xs text-slate-400">
+                  <div className="text-xs text-faint">
                     Reward expires in {c.reward_expiry_days ?? "∞"} days
                   </div>
                 </div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={qrSrc} alt="QR" width={64} height={64} className="rounded-lg border border-slate-200" />
+                <img src={qrSrc} alt="QR" width={64} height={64} className="rounded-lg border border-line" />
               </div>
 
-              <div className="mt-3 flex flex-wrap gap-2 border-t border-slate-100 pt-3 text-sm">
+              <div className="mt-3 flex flex-wrap gap-2 border-t border-line-soft pt-3 text-sm">
                 <Link
                   href={`/dashboard/campaigns/${c.id}`}
-                  className="rounded-lg border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-50"
+                  className="rounded-lg border border-line-strong px-3 py-1.5 font-medium text-body hover:bg-app"
                 >
                   Edit
                 </Link>
                 <a
                   href={qrSrc}
                   download={`qr-${c.slug}.png`}
-                  className="rounded-lg border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-50"
+                  className="rounded-lg border border-line-strong px-3 py-1.5 font-medium text-body hover:bg-app"
                 >
                   Download QR
                 </a>
                 <form action={setCampaignStatus.bind(null, c.id, c.status === "active" ? "paused" : "active")}>
-                  <button className="rounded-lg border border-slate-300 px-3 py-1.5 font-medium text-slate-700 hover:bg-slate-50">
+                  <button className="rounded-lg border border-line-strong px-3 py-1.5 font-medium text-body hover:bg-app">
                     {c.status === "active" ? "Pause" : "Resume"}
                   </button>
                 </form>
                 <form action={deleteCampaign.bind(null, c.id)}>
-                  <button className="rounded-lg border border-red-200 px-3 py-1.5 font-medium text-red-600 hover:bg-red-50">
+                  <button className="rounded-lg border border-danger-line px-3 py-1.5 font-medium text-danger hover:bg-danger-soft">
                     Delete
                   </button>
                 </form>
@@ -136,7 +136,7 @@ export default async function CampaignsPage() {
       {/* create new */}
       <div className="mt-8">
         <h2 className="mb-3 flex items-center gap-2 font-semibold">
-          <span className="text-brand">＋</span> Add a new offer
+          <span className="text-accent">＋</span> Add a new offer
         </h2>
         <OfferForm />
       </div>

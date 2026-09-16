@@ -2,38 +2,185 @@
 @tailwind components;
 @tailwind utilities;
 
-/* This app is a light-themed design — force light so OS dark mode doesn't
-   turn form controls dark (which made inputs unreadable). */
+/* =============================================================================
+   THEME TOKENS
+   Values are "R G B" channels so Tailwind opacity modifiers work
+   (bg-card/80, bg-accent/15, …). Light is the default; `.dark` on <html>
+   swaps the whole palette. Nothing else in the app names a raw colour.
+   ============================================================================= */
 :root {
   color-scheme: light;
+
+  --app: 246 248 251;
+  --card: 255 255 255;
+  --elev: 241 245 249;
+
+  --line: 226 232 240;
+  --line-strong: 203 213 225;
+  --line-soft: 241 245 249;
+
+  --ink: 15 23 42;
+  --body: 51 65 85;
+  --muted: 100 116 139;
+  --faint: 148 163 184;
+
+  --brand: 15 118 110;
+  --brand-ink: 11 88 80;
+  --accent: 13 110 103;
+
+  --ok: 4 120 87;
+  --ok-soft: 209 250 229;
+  --ok-line: 167 243 208;
+  --ok-solid: 16 185 129;
+
+  --warn: 180 83 9;
+  --warn-strong: 120 53 15;
+  --warn-soft: 254 243 199;
+  --warn-line: 253 230 138;
+  --warn-solid: 245 158 11;
+
+  --danger: 185 28 28;
+  --danger-soft: 254 226 226;
+  --danger-line: 254 202 202;
+
+  --info: 3 105 161;
+  --info-soft: 224 242 254;
+
+  --shadow: 15 23 42;
 }
 
+.dark {
+  color-scheme: dark;
+
+  /* A deep blue-slate rather than pure black — softer on the eyes, and it
+     lets the teal brand colour sing. */
+  --app: 8 12 22;
+  --card: 17 24 39;
+  --elev: 27 36 55;
+
+  --line: 38 50 74;
+  --line-strong: 55 71 100;
+  --line-soft: 30 40 61;
+
+  --ink: 236 241 250;
+  --body: 199 210 229;
+  --muted: 150 165 191;
+  --faint: 111 126 153;
+
+  /* `brand` stays deep enough that white button text still reads;
+     `accent` goes bright so teal text/icons pop against the dark card. */
+  --brand: 13 148 136;
+  --brand-ink: 20 184 166;
+  --accent: 94 234 212;
+
+  --ok: 52 211 153;
+  --ok-soft: 6 60 48;
+  --ok-line: 6 95 70;
+  --ok-solid: 16 185 129;
+
+  --warn: 251 191 36;
+  --warn-strong: 253 230 138;
+  --warn-soft: 61 44 12;
+  --warn-line: 120 53 15;
+  --warn-solid: 245 158 11;
+
+  --danger: 248 113 113;
+  --danger-soft: 67 25 25;
+  --danger-line: 127 29 29;
+
+  --info: 56 189 248;
+  --info-soft: 12 44 68;
+
+  --shadow: 0 0 0;
+}
+
+/* =============================================================================
+   BASE
+   ============================================================================= */
 html,
 body {
   padding: 0;
   margin: 0;
-  background: #ffffff;
 }
 
-/* Keep every form control legible: light field, dark text, grey placeholder. */
+body {
+  background: rgb(var(--app));
+  color: rgb(var(--ink));
+}
+
+/* Form controls follow the theme instead of the OS. */
 input,
 select,
-textarea,
-button {
-  color: #0f172a;
-  background-color: #ffffff;
+textarea {
+  background-color: rgb(var(--card));
+  color: rgb(var(--ink));
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: #94a3b8;
+  color: rgb(var(--faint));
 }
 
 button {
+  color: inherit;
   background-color: transparent;
 }
 
-/* celebration animations */
+/* Native pickers (date/time) render black-on-black in dark mode. */
+.dark input[type="time"]::-webkit-calendar-picker-indicator,
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(0.75);
+}
+
+/* Themed scrollbars — a bright gutter on a dark page is jarring. */
+* {
+  scrollbar-color: rgb(var(--line-strong)) transparent;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--line-strong));
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--muted));
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::selection {
+  background: rgb(var(--brand) / 0.25);
+}
+
+/* Consistent focus ring for keyboard users. */
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 2px;
+}
+
+/* A QR code must stay dark-on-white to scan, whatever the theme. */
+.qr-surface {
+  background: #ffffff;
+  border-radius: 0.75rem;
+}
+
+/* Swapping theme shouldn't strobe. */
+@media (prefers-reduced-motion: no-preference) {
+  body {
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+}
+
+/* =============================================================================
+   ANIMATIONS
+   ============================================================================= */
 @keyframes pop-in {
   0% { transform: scale(0.6); opacity: 0; }
   60% { transform: scale(1.08); }
@@ -80,6 +227,20 @@ button {
 .tilt {
   transition: transform 0.18s ease-out;
   transform-style: preserve-3d;
+}
+
+/* soft brand glow behind hero art */
+.aura::before {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  z-index: -1;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, rgb(var(--brand) / 0.26), transparent 70%);
+  filter: blur(40px);
+}
+.dark .aura::before {
+  background: radial-gradient(closest-side, rgb(var(--accent) / 0.2), transparent 70%);
 }
 
 /* bars grow up on load */

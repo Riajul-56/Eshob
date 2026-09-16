@@ -24,7 +24,7 @@ export default async function EditCampaignPage({
 
   return (
     <div className="mx-auto max-w-3xl">
-      <Link href="/dashboard/campaigns" className="text-sm text-brand hover:underline">
+      <Link href="/dashboard/campaigns" className="text-sm text-accent hover:underline">
         ← Back to offers
       </Link>
       <h1 className="mt-2 text-2xl font-bold">Edit offer</h1>

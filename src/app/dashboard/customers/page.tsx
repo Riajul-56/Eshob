@@ -78,20 +78,20 @@ export default async function CustomersPage({
         <h1 className="text-2xl font-bold">Customers</h1>
         <a
           href="/dashboard/customers/export"
-          className="flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          className="flex items-center gap-1.5 rounded-lg border border-line-strong px-3 py-2 text-sm font-medium text-body hover:bg-app"
         >
           ↓ Export
         </a>
       </div>
 
       {/* tabs */}
-      <div className="mt-4 flex gap-1 rounded-xl bg-slate-100 p-1">
+      <div className="mt-4 flex gap-1 rounded-xl bg-elev p-1">
         {tabs.map((t) => (
           <Link
             key={t.key}
             href={`/dashboard/customers?tab=${t.key}`}
             className={`flex-1 rounded-lg px-3 py-1.5 text-center text-sm font-medium transition ${
-              tab === t.key ? "bg-white text-brand-ink shadow-sm" : "text-slate-500"
+              tab === t.key ? "bg-card text-accent shadow-sm" : "text-muted"
             }`}
           >
             {t.label}
@@ -102,7 +102,7 @@ export default async function CustomersPage({
       {/* list */}
       <div className="mt-4 space-y-2">
         {members.length === 0 && (
-          <p className="py-8 text-center text-sm text-slate-500">No customers yet.</p>
+          <p className="py-8 text-center text-sm text-muted">No customers yet.</p>
         )}
         {members.map((m) => {
           const c = m.customers;
@@ -111,63 +111,63 @@ export default async function CustomersPage({
           const visits = history.filter((s) => s.approved).length;
           const completed = m.stamp_count >= req;
           return (
-            <details key={m.id} className="group rounded-2xl border border-slate-200 bg-white">
+            <details key={m.id} className="group rounded-2xl border border-line bg-card">
               <summary className="flex cursor-pointer list-none items-center justify-between p-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 font-semibold text-slate-500">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-elev font-semibold text-muted">
                     {(c?.name ?? "?").charAt(0).toUpperCase()}
                   </div>
                   <div>
                     <div className="font-medium">{c?.name || "Customer"}</div>
-                    <div className="text-xs text-slate-400">{c?.phone || c?.email || "—"}</div>
+                    <div className="text-xs text-faint">{c?.phone || c?.email || "—"}</div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-bold text-brand-ink">
+                  <div className="text-sm font-bold text-accent">
                     {m.stamp_count}/{req}
                   </div>
-                  <div className="text-[10px] uppercase tracking-wide text-slate-400">stamps</div>
+                  <div className="text-[10px] uppercase tracking-wide text-faint">stamps</div>
                 </div>
               </summary>
 
-              <div className="border-t border-slate-100 px-4 py-3 text-sm">
+              <div className="border-t border-line-soft px-4 py-3 text-sm">
                 <div className="grid grid-cols-3 gap-2">
                   <div>
-                    <div className="text-xs text-slate-400">Total visits</div>
+                    <div className="text-xs text-faint">Total visits</div>
                     <div className="font-medium">{visits}</div>
                   </div>
                   <div>
-                    <div className="text-xs text-slate-400">Last visit</div>
+                    <div className="text-xs text-faint">Last visit</div>
                     <div className="font-medium">{timeAgo(m.last_stamp_at)}</div>
                   </div>
                   <div>
-                    <div className="text-xs text-slate-400">Status</div>
-                    <div className={`font-medium ${completed ? "text-emerald-600" : "text-brand-ink"}`}>
+                    <div className="text-xs text-faint">Status</div>
+                    <div className={`font-medium ${completed ? "text-ok" : "text-accent"}`}>
                       {completed ? "Completed" : "Active"}
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-3">
-                  <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                  <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-faint">
                     Scan history
                   </div>
                   <ul className="space-y-1">
                     {history.slice(0, 10).map((s, i) => (
-                      <li key={s.id} className="flex items-center justify-between text-slate-600">
+                      <li key={s.id} className="flex items-center justify-between text-body">
                         <span>
                           #{history.length - i}{" "}
                           {!s.approved && (
-                            <span className="ml-1 text-[10px] text-amber-600">pending</span>
+                            <span className="ml-1 text-[10px] text-warn">pending</span>
                           )}
                         </span>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-faint">
                           {new Date(s.created_at).toLocaleString()}
                         </span>
                       </li>
                     ))}
                     {history.length === 0 && (
-                      <li className="text-xs text-slate-400">No scans yet.</li>
+                      <li className="text-xs text-faint">No scans yet.</li>
                     )}
                   </ul>
                 </div>

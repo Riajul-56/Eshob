@@ -6,7 +6,7 @@ import { joinCampaign, collectStamp, redeemReward, type ActionState } from "./ac
 const initial: ActionState = { ok: false, message: "" };
 
 const inputCls =
-  "w-full rounded-xl border border-slate-300 px-3 py-2.5 outline-none focus:border-brand focus:ring-1 focus:ring-brand";
+  "w-full rounded-xl border border-line-strong px-3 py-2.5 outline-none focus:border-accent focus:ring-1 focus:ring-accent";
 
 function getCoords(): Promise<{ lat: number; lng: number } | null> {
   return new Promise((resolve) => {
@@ -24,7 +24,7 @@ function Message({ state }: { state: ActionState }) {
   return (
     <p
       className={`rounded-lg px-3 py-2 text-center text-sm ${
-        state.ok ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-800"
+        state.ok ? "bg-ok-soft text-ok" : "bg-warn-soft text-warn"
       }`}
     >
       {state.message}
@@ -56,7 +56,7 @@ export function JoinForm({ slug, geoRequired }: { slug: string; geoRequired: boo
     <form ref={formRef} action={action} onSubmit={onSubmit} className="mt-6 space-y-3">
       <input name="name" required placeholder="Your name" className={inputCls} />
       <input name="phone" type="tel" placeholder="Phone number" className={inputCls} />
-      <div className="text-center text-xs text-slate-400">or</div>
+      <div className="text-center text-xs text-faint">or</div>
       <input name="email" type="email" placeholder="Email" className={inputCls} />
       <input ref={latRef} type="hidden" name="lat" />
       <input ref={lngRef} type="hidden" name="lng" />
@@ -67,7 +67,7 @@ export function JoinForm({ slug, geoRequired }: { slug: string; geoRequired: boo
       >
         {pending ? "Joining…" : "Join & get my first stamp"}
       </button>
-      <p className="text-center text-xs text-slate-400">
+      <p className="text-center text-xs text-faint">
         No app to download. We only use this to save your stamps.
       </p>
     </form>
@@ -107,15 +107,15 @@ export function CollectButton({
   // celebration after a successful auto stamp
   if (state.ok && state.message.includes("Collected")) {
     return (
-      <div className="mt-6 rounded-2xl bg-emerald-50 p-5 text-center">
-        <div className="animate-pop mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500 text-3xl text-white">
+      <div className="mt-6 rounded-2xl bg-ok-soft p-5 text-center">
+        <div className="animate-pop mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-full bg-ok-solid text-3xl text-white">
           ✓
         </div>
-        <div className="animate-float text-lg font-bold text-emerald-800">Stamp Collected! 🎉</div>
-        <div className="animate-float mt-1 inline-block rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">
+        <div className="animate-float text-lg font-bold text-ok">Stamp Collected! 🎉</div>
+        <div className="animate-float mt-1 inline-block rounded-full bg-ok-soft px-3 py-1 text-sm font-semibold text-ok">
           +10 XP
         </div>
-        <p className="animate-float mt-2 text-xs text-emerald-600">Come back tomorrow for your next stamp.</p>
+        <p className="animate-float mt-2 text-xs text-ok">Come back tomorrow for your next stamp.</p>
       </div>
     );
   }
@@ -131,7 +131,7 @@ export function CollectButton({
       >
         {pending ? "Adding…" : "I'm here — add my stamp"}
       </button>
-      <p className="text-center text-xs text-slate-400">
+      <p className="text-center text-xs text-faint">
         {approvalMode === "manual"
           ? "Stamps are confirmed by staff before they count."
           : geoRequired
@@ -149,7 +149,7 @@ export function RedeemForm({ slug, reward }: { slug: string; reward: string }) {
   // big celebration once the reward is redeemed
   if (state.ok) {
     return (
-      <div className="animate-pop mt-6 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 p-6 text-center text-white">
+      <div className="animate-pop mt-6 rounded-2xl bg-gradient-to-br from-ok-solid to-ok p-6 text-center text-white">
         <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 text-4xl">
           🎉
         </div>
@@ -163,25 +163,25 @@ export function RedeemForm({ slug, reward }: { slug: string; reward: string }) {
   }
 
   return (
-    <div className="animate-pop mt-6 rounded-2xl bg-amber-50 p-5 text-center ring-2 ring-amber-300">
-      <div className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-amber-400 text-3xl">
+    <div className="animate-pop mt-6 rounded-2xl bg-warn-soft p-5 text-center ring-2 ring-warn-line">
+      <div className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-warn-solid text-3xl">
         🎁
       </div>
-      <div className="text-lg font-bold text-amber-900">Reward ready to claim!</div>
-      <p className="mt-1 text-sm text-amber-800">
+      <div className="text-lg font-bold text-warn-strong">Reward ready to claim!</div>
+      <p className="mt-1 text-sm text-warn">
         Show this screen to a staff member to get <strong>{reward}</strong>.
       </p>
 
       {!revealed ? (
         <button
           onClick={() => setRevealed(true)}
-          className="mt-3 w-full rounded-lg bg-emerald-600 px-4 py-2.5 font-semibold text-white hover:bg-emerald-700"
+          className="mt-3 w-full rounded-lg bg-ok-solid px-4 py-2.5 font-semibold text-white transition hover:brightness-110"
         >
           Claim reward
         </button>
       ) : (
         <form action={action} className="mt-3">
-          <p className="mb-1 text-xs font-semibold text-amber-900">
+          <p className="mb-1 text-xs font-semibold text-warn-strong">
             👉 Staff only — enter your PIN to confirm
           </p>
           <div className="flex gap-2">
@@ -190,20 +190,20 @@ export function RedeemForm({ slug, reward }: { slug: string; reward: string }) {
               inputMode="numeric"
               autoFocus
               placeholder="Staff PIN"
-              className="w-0 min-w-0 flex-1 rounded-lg border border-amber-300 bg-white px-3 py-2 text-center outline-none focus:border-amber-500"
+              className="w-0 min-w-0 flex-1 rounded-lg border border-warn-line bg-card px-3 py-2 text-center outline-none focus:border-warn-solid"
             />
             <button
               disabled={pending}
-              className="flex-none rounded-lg bg-emerald-600 px-4 py-2 font-semibold text-white hover:bg-emerald-700 disabled:opacity-60"
+              className="flex-none rounded-lg bg-ok-solid px-4 py-2 font-semibold text-white transition hover:brightness-110 disabled:opacity-60"
             >
               {pending ? "…" : "Confirm"}
             </button>
           </div>
-          <p className="mt-1 text-[11px] text-amber-700">The customer doesn&apos;t know this PIN — it protects your rewards.</p>
+          <p className="mt-1 text-[11px] text-warn">The customer doesn&apos;t know this PIN — it protects your rewards.</p>
         </form>
       )}
       {state.message && !state.ok && (
-        <p className="mt-2 rounded-lg bg-white px-3 py-2 text-sm text-amber-800">{state.message}</p>
+        <p className="mt-2 rounded-lg bg-card px-3 py-2 text-sm text-warn">{state.message}</p>
       )}
     </div>
   );

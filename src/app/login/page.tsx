@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -48,17 +49,18 @@ export default function LoginPage() {
     <main className="relative mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
       <Link
         href="/"
-        className="absolute left-6 top-6 inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900"
+        className="absolute left-6 top-6 inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-ink"
       >
         <span aria-hidden>←</span> Back to home
       </Link>
-      <span className="mb-2 font-mono text-xs uppercase tracking-widest text-brand">
+      <ThemeToggle className="absolute right-6 top-6" />
+      <span className="mb-2 font-mono text-xs uppercase tracking-widest text-accent">
         Loyalty Platform
       </span>
       <h1 className="text-2xl font-bold">
         {mode === "signin" ? "Business sign in" : "Create your account"}
       </h1>
-      <p className="mt-1 text-sm text-slate-500">
+      <p className="mt-1 text-sm text-muted">
         {mode === "signin"
           ? "Sign in to manage your loyalty program."
           : "Start your 3-day free trial. No card required."}
@@ -75,7 +77,7 @@ export default function LoginPage() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            className="w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent"
           />
         </div>
         <div>
@@ -89,15 +91,15 @@ export default function LoginPage() {
             minLength={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand"
+            className="w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent"
           />
         </div>
 
         {error && (
-          <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
+          <p className="rounded-lg bg-danger-soft px-3 py-2 text-sm text-danger">{error}</p>
         )}
         {notice && (
-          <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">{notice}</p>
+          <p className="rounded-lg bg-warn-soft px-3 py-2 text-sm text-warn">{notice}</p>
         )}
 
         <button
@@ -115,7 +117,7 @@ export default function LoginPage() {
           setError(null);
           setNotice(null);
         }}
-        className="mt-4 text-sm text-brand hover:underline"
+        className="mt-4 text-sm text-accent hover:underline"
       >
         {mode === "signin"
           ? "New here? Create an account"
