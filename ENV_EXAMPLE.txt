@@ -1,0 +1,39 @@
+# Copy this file's contents into a NEW file named ".env.local" and fill in the values.
+# Supabase Dashboard -> Project Settings -> API
+
+# Public (safe to expose to the browser)
+NEXT_PUBLIC_SUPABASE_URL=https://YOUR-PROJECT-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key
+
+# Server-only (NEVER expose to the browser). Keep this secret.
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-secret-key
+
+# Base URL of the app — used to build QR-code links. Localhost for dev.
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+# AI menu descriptions (optional). Default provider = Groq (FREE, no card):
+#   get a key at https://console.groq.com/keys  (starts with gsk_)
+# Without this, owners just write descriptions manually.
+AI_API_KEY=your-groq-api-key
+# To use a different OpenAI-compatible provider, also set these:
+# AI_BASE_URL=https://api.openai.com/v1
+# AI_MODEL=gpt-4o-mini
+
+# ---------------------------------------------------------------------------
+# Stripe billing
+# Dashboard -> Developers -> API keys (use TEST keys while developing).
+# ---------------------------------------------------------------------------
+# Server-only secret key (sk_test_... in test mode). NEVER expose to browser.
+STRIPE_SECRET_KEY=sk_test_your-secret-key
+# Publishable key (pk_test_...). Safe for the browser.
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your-publishable-key
+# Webhook signing secret (whsec_...). For local dev, run:
+#   stripe listen --forward-to localhost:3000/api/webhooks/stripe
+# and paste the whsec_... it prints. In production, get it from
+# Dashboard -> Developers -> Webhooks -> your endpoint.
+STRIPE_WEBHOOK_SECRET=whsec_your-webhook-secret
+
+# Price IDs — created by `node scripts/stripe-setup.mjs`. Paste its output here.
+STRIPE_PRICE_MONTHLY=price_...
+STRIPE_PRICE_YEARLY=price_...
+STRIPE_PRICE_LIFETIME=price_...

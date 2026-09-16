@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* This app is a light-themed design — force light so OS dark mode doesn't
+   turn form controls dark (which made inputs unreadable). */
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: #ffffff;
+}
+
+/* Keep every form control legible: light field, dark text, grey placeholder. */
+input,
+select,
+textarea,
+button {
+  color: #0f172a;
+  background-color: #ffffff;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8;
+}
+
+button {
+  background-color: transparent;
+}
+
+/* celebration animations */
+@keyframes pop-in {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-pop {
+  animation: pop-in 0.45s ease-out both;
+}
+@keyframes float-up {
+  0% { transform: translateY(6px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+.animate-float {
+  animation: float-up 0.4s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-pop,
+  .animate-float {
+    animation: none;
+  }
+}
+
+/* ---------- landing page effects ---------- */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.floaty { animation: floaty 6s ease-in-out infinite; }
+
+/* scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+/* 3D tilt card */
+.tilt {
+  transition: transform 0.18s ease-out;
+  transform-style: preserve-3d;
+}
+
+/* bars grow up on load */
+@keyframes growUp {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+.bar-grow {
+  transform-origin: bottom;
+  animation: growUp 0.7s cubic-bezier(0.2, 0.85, 0.25, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floaty { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .tilt { transform: none !important; }
+  .bar-grow { animation: none; }
+}

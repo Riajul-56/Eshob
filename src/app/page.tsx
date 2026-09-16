@@ -1,0 +1,276 @@
+import Link from "next/link";
+import { LandingFX } from "./landing-fx";
+
+/* ---------- inline icons ---------- */
+function Ico({ d, className = "h-6 w-6" }: { d: string; className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+      strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden>
+      <path d={d} />
+    </svg>
+  );
+}
+const P = {
+  qr: "M4 7V5a1 1 0 0 1 1-1h2M4 17v2a1 1 0 0 0 1 1h2M20 7V5a1 1 0 0 0-1-1h-2M20 17v2a1 1 0 0 1-1 1h-2M4 12h16",
+  repeat: "M17 2l4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3",
+  chart: "M3 3v18h18M8 17V10M13 17V6M18 17v-4",
+  pin: "M12 21s-7-6.5-7-11a7 7 0 1 1 14 0c0 4.5-7 11-7 11ZM12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z",
+  menu: "M4 6h16M4 12h16M4 18h16",
+  gift: "M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8M2 7h20v5H2zM12 21V7M12 7S11 3 8.5 3 6 5 6 5s.5 2 3 2M12 7s1-4 3.5-4S18 5 18 5s-.5 2-3 2",
+  stand: "M4 4h16v10H4zM12 14v6M8 20h8",
+  check: "M20 6 9 17l-5-5",
+};
+
+const FEATURES = [
+  { icon: P.qr, title: "One QR code", body: "Print one QR. Customers scan and stamps collect automatically — no app to download." },
+  { icon: P.repeat, title: "More repeat visits", body: "Customers come back to complete their card and claim rewards. Loyalty made effortless." },
+  { icon: P.chart, title: "Real-time insights", body: "Daily scans, active customers, redemption rate and trends — all in one dashboard." },
+  { icon: P.pin, title: "Multi-branch & geofence", body: "One QR across locations, with GPS scan verification so stamps only count at your store." },
+  { icon: P.menu, title: "AI digital menu", body: "The same QR opens your full menu — write item descriptions by hand or generate with AI." },
+  { icon: P.gift, title: "Scratch cards", body: "Surprise 'scratch & win' bonuses on some visits keep customers coming back for more." },
+];
+
+const STEPS = [
+  { n: 1, title: "Register your business", body: "Sign up, set your reward (e.g. 10 visits = free coffee), add your logo." },
+  { n: 2, title: "Display your QR code", body: "Download and print your branded QR, or add it to your counter." },
+  { n: 3, title: "Watch customers return", body: "Track scans, repeat rate and claimed rewards — all from your dashboard." },
+];
+
+const PLANS = [
+  { name: "Monthly", price: "$20", per: "/month", features: ["All features included", "Unlimited scans", "3-day free trial"], popular: false, cta: "Start free trial" },
+  { name: "Yearly", price: "$150", per: "/year", features: ["Everything in Monthly", "Save vs paying monthly", "Priority support"], popular: true, cta: "Start free trial" },
+  { name: "Lifetime", price: "$250", per: "once", features: ["Pay once, use forever", "All features included", "3-day free trial"], popular: false, cta: "Start free trial" },
+];
+
+const FAQS = [
+  { q: "How does it work for my business?", a: "Sign up, set your reward, and display your QR code. Customers scan it each visit to collect stamps. You track everything from your dashboard." },
+  { q: "Do customers need to download an app?", a: "No. They scan your QR with their phone camera and it opens a web page — nothing to install." },
+  { q: "Is there a free trial?", a: "Yes — every plan starts with a 3-day free trial. No card required to begin." },
+  { q: "Can I use one QR code for multiple branches?", a: "Yes. One QR works across all your locations, with optional GPS verification so stamps only count at your store." },
+];
+
+export default function Home() {
+  return (
+    <div className="bg-white text-slate-900">
+      {/* nav */}
+      <header className="sticky top-0 z-30 border-b border-slate-100 bg-white/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+          <div className="flex items-center gap-2">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-lg font-bold text-white">◎</span>
+            <span className="font-bold tracking-tight">Loyalty</span>
+          </div>
+          <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 sm:flex">
+            <a href="#features" className="hover:text-slate-900">Features</a>
+            <a href="#how" className="hover:text-slate-900">How it works</a>
+            <a href="#pricing" className="hover:text-slate-900">Pricing</a>
+          </nav>
+          <div className="flex items-center gap-2">
+            <Link href="/login" className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 sm:block">
+              Business sign in
+            </Link>
+            <Link href="/login" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-ink">
+              Start free trial
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* hero */}
+      <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 lg:grid-cols-2 lg:py-24">
+        <div>
+          <span className="font-mono text-xs font-semibold uppercase tracking-widest text-brand">
+            Loyalty platform · Canada 🍁
+          </span>
+          <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+            Turn every visit into a <span className="text-brand">repeat customer.</span>
+          </h1>
+          <p className="mt-4 max-w-md text-lg text-slate-600">
+            Digital loyalty stamp cards for cafés, salons, gyms &amp; more. Customers scan one QR code —
+            no app to download.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link href="/login" className="rounded-xl bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-ink">
+              Start free trial
+            </Link>
+            <a href="#how" className="rounded-xl border border-slate-300 px-6 py-3 font-semibold text-slate-700 hover:bg-slate-50">
+              See how it works
+            </a>
+          </div>
+          <p className="mt-4 text-sm text-slate-500">3-day free trial · No card required · Set up in 2 minutes</p>
+        </div>
+
+        {/* mock card */}
+        <div id="hero-card-wrap" className="floaty relative mx-auto w-full max-w-sm" style={{ perspective: "1000px" }}>
+          <div className="absolute -right-3 -top-3 z-10 rotate-6 rounded-xl bg-emerald-500 px-3 py-1.5 text-sm font-bold text-white shadow-lg">
+            +1 Stamp ⭐
+          </div>
+          <div id="hero-card" className="tilt rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-xl font-bold text-white">M</div>
+              <div>
+                <div className="font-bold">Maple Café</div>
+                <div className="text-xs uppercase tracking-widest text-brand">Premium partner ✓</div>
+              </div>
+            </div>
+            <div className="mt-4 flex items-center justify-between">
+              <div className="text-lg font-bold">7 of 10 Stamps</div>
+              <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-semibold text-brand">✦ 70 XP</span>
+            </div>
+            <div className="mt-2 h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
+              <div className="h-full rounded-full bg-brand" style={{ width: "70%" }} />
+            </div>
+            <div className="mt-5 grid grid-cols-5 gap-2">
+              {Array.from({ length: 10 }, (_, i) => (
+                <div key={i} className={`flex aspect-square items-center justify-center rounded-full border text-sm font-bold ${i < 7 ? "border-brand bg-brand text-white" : "border-dashed border-slate-300 text-slate-300"}`}>
+                  {i < 7 ? "★" : i === 9 ? "🎁" : i + 1}
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 rounded-xl bg-slate-50 p-3 text-center text-sm text-slate-600">
+              3 more stamps until <strong>Free Coffee</strong> ☕
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* trust band */}
+      <section className="border-y border-slate-100 bg-slate-50">
+        <div className="mx-auto grid max-w-5xl grid-cols-3 gap-4 px-5 py-8 text-center">
+          {[
+            { big: "2 min", small: "to set up" },
+            { big: "0", small: "apps to download" },
+            { big: "1 QR", small: "for every customer" },
+          ].map((s, i) => (
+            <div key={i}>
+              <div className="text-2xl font-extrabold text-brand-ink sm:text-3xl">{s.big}</div>
+              <div className="text-xs uppercase tracking-wide text-slate-500 sm:text-sm">{s.small}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* features */}
+      <section id="features" className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold tracking-tight">Everything you need to boost repeat customers</h2>
+          <p className="mx-auto mt-3 max-w-xl text-slate-600">One simple platform — from the QR on your counter to the insights on your dashboard.</p>
+        </div>
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURES.map((f, i) => (
+            <div key={f.title} style={{ transitionDelay: `${i * 70}ms` }} className="reveal rounded-2xl border border-slate-200 bg-white p-6 transition-shadow duration-300 hover:shadow-lg">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                <Ico d={f.icon} />
+              </div>
+              <h3 className="mt-4 font-bold">{f.title}</h3>
+              <p className="mt-1 text-sm text-slate-600">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* how it works */}
+      <section id="how" className="border-y border-slate-100 bg-slate-50">
+        <div className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
+          <div className="text-center">
+            <h2 className="text-3xl font-extrabold tracking-tight">Go live in 3 steps</h2>
+            <p className="mx-auto mt-3 max-w-xl text-slate-600">No hardware, no setup fees. Start rewarding customers today.</p>
+          </div>
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+            {STEPS.map((s, i) => (
+              <div key={s.n} style={{ transitionDelay: `${i * 90}ms` }} className="reveal rounded-2xl bg-white p-6 shadow-sm">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand text-lg font-bold text-white">{s.n}</div>
+                <h3 className="mt-4 font-bold">{s.title}</h3>
+                <p className="mt-1 text-sm text-slate-600">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* pricing */}
+      <section id="pricing" className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold tracking-tight">Simple, transparent pricing</h2>
+          <p className="mx-auto mt-3 max-w-xl text-slate-600">Start free. Every plan includes a 3-day free trial — no card required.</p>
+        </div>
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {PLANS.map((p, i) => (
+            <div key={p.name} style={{ transitionDelay: `${i * 90}ms` }} className={`reveal relative rounded-2xl border bg-white p-6 transition-shadow duration-300 hover:shadow-xl ${p.popular ? "border-brand shadow-lg ring-1 ring-brand" : "border-slate-200"}`}>
+              {p.popular && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white">
+                  Most popular
+                </span>
+              )}
+              <div className="font-semibold text-slate-500">{p.name}</div>
+              <div className="mt-2 flex items-baseline gap-1">
+                <span className="text-4xl font-extrabold tracking-tight">{p.price}</span>
+                <span className="text-slate-500">{p.per}</span>
+              </div>
+              <ul className="mt-5 space-y-2 text-sm">
+                {p.features.map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-slate-600">
+                    <span className="text-brand"><Ico d={P.check} className="h-4 w-4" /></span>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/login"
+                className={`mt-6 block rounded-xl px-4 py-2.5 text-center font-semibold ${p.popular ? "bg-brand text-white hover:bg-brand-ink" : "border border-slate-300 text-slate-700 hover:bg-slate-50"}`}
+              >
+                {p.cta}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="border-t border-slate-100 bg-slate-50">
+        <div className="mx-auto max-w-3xl px-5 py-16 lg:py-20">
+          <h2 className="text-center text-3xl font-extrabold tracking-tight">Frequently asked questions</h2>
+          <div className="mt-8 space-y-3">
+            {FAQS.map((f) => (
+              <details key={f.q} className="group rounded-2xl border border-slate-200 bg-white p-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between font-semibold">
+                  {f.q}
+                  <span className="text-slate-400 transition group-open:rotate-45">＋</span>
+                </summary>
+                <p className="mt-2 text-sm text-slate-600">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* final CTA */}
+      <section className="mx-auto max-w-5xl px-5 py-16">
+        <div className="reveal rounded-3xl bg-gradient-to-br from-brand to-brand-ink p-10 text-center text-white">
+          <h2 className="text-3xl font-extrabold tracking-tight">Ready to grow your repeat customers?</h2>
+          <p className="mx-auto mt-3 max-w-md text-white/80">Set up your loyalty program in minutes. No app, no hardware, no risk.</p>
+          <Link href="/login" className="mt-6 inline-block rounded-xl bg-white px-6 py-3 font-semibold text-brand-ink hover:bg-slate-100">
+            Start your free trial
+          </Link>
+        </div>
+      </section>
+
+      {/* footer */}
+      <footer className="border-t border-slate-100">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-slate-500 sm:flex-row">
+          <div className="flex items-center gap-2">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand text-sm font-bold text-white">◎</span>
+            <span className="font-semibold text-slate-700">Loyalty Platform</span>
+          </div>
+          <div className="flex gap-5">
+            <a href="#" className="hover:text-slate-700">Terms</a>
+            <a href="#" className="hover:text-slate-700">Privacy</a>
+            <a href="#" className="hover:text-slate-700">Refund</a>
+          </div>
+          <div>© 2026 · Made in Canada 🍁</div>
+        </div>
+      </footer>
+
+      <LandingFX />
+    </div>
+  );
+}
