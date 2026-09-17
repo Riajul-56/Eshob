@@ -89,20 +89,29 @@ export default function Home() {
       {/* overflow-hidden keeps the card's glow (.aura spreads 18% past its box)
           from widening the page on a narrow screen */}
       <section className="mx-auto grid max-w-6xl items-center gap-10 overflow-hidden px-5 py-16 lg:grid-cols-2 lg:py-24">
-        <div>
+        {/* centred on a phone, left-aligned once the two-column layout kicks in */}
+        <div className="text-center lg:text-left">
           <span className="font-mono text-xs font-semibold uppercase tracking-widest text-accent">
             Loyalty platform · Canada 🍁
           </span>
           <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
             Turn every visit into a <span className="text-accent">repeat customer.</span>
           </h1>
-          <p className="mt-4 max-w-md text-lg text-body">
+          <p className="mx-auto mt-4 max-w-md text-lg text-body lg:mx-0">
             Digital loyalty stamp cards for cafés, salons, gyms &amp; more. Customers scan one QR code —
             no app to download.
           </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link href="/login" className="rounded-xl bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-ink">
+          <div className="mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
+            <Link
+              href="/login"
+              className="group inline-flex items-center gap-2 rounded-xl bg-brand px-6 py-3 font-semibold text-white transition hover:bg-brand-ink"
+            >
               Start free trial
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
+                strokeLinecap="round" strokeLinejoin="round"
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </Link>
             <a href="#how" className="rounded-xl border border-line-strong px-6 py-3 font-semibold text-body hover:bg-app">
               See how it works
@@ -249,8 +258,16 @@ export default function Home() {
         <div className="reveal rounded-3xl bg-gradient-to-br from-brand to-brand-ink p-10 text-center text-white">
           <h2 className="text-3xl font-extrabold tracking-tight">Ready to grow your repeat customers?</h2>
           <p className="mx-auto mt-3 max-w-md text-white/80">Set up your loyalty program in minutes. No app, no hardware, no risk.</p>
-          <Link href="/login" className="mt-6 inline-block rounded-xl bg-card px-6 py-3 font-semibold text-accent hover:bg-elev">
+          <Link
+            href="/login"
+            className="group mt-6 inline-flex items-center gap-2 rounded-xl bg-card px-6 py-3 font-semibold text-accent transition hover:bg-elev"
+          >
             Start your free trial
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
+              strokeLinecap="round" strokeLinejoin="round"
+              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden>
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
           </Link>
         </div>
       </section>
