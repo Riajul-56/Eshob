@@ -56,7 +56,11 @@ function offerFields(formData: FormData) {
   return {
     name,
     reward_text,
-    stamps_required: Number.isFinite(stamps_required) ? stamps_required : 10,
+    // Clamped here as well: the form's max= only binds a real browser, and a
+    // card with thousands of stamps would render thousands of circles.
+    stamps_required: Number.isFinite(stamps_required)
+      ? Math.min(Math.max(stamps_required, 1), 50)
+      : 10,
     stamp_validity_days: validityRaw ? parseInt(validityRaw, 10) : null,
     reward_expiry_days: expiryRaw ? parseInt(expiryRaw, 10) : null,
     reward_image_url,

@@ -4,6 +4,9 @@ import { useState } from "react";
 import { createCampaign, updateCampaign } from "@/app/actions";
 import { ImageUpload } from "@/components/image-upload";
 
+/** Upper bound on a card's stamp count — mirrored in the server action. */
+const MAX_STAMPS = 50;
+
 export type OfferDefaults = {
   id?: string;
   name?: string;
@@ -21,10 +24,15 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
 
   const [name, setName] = useState(defaults?.name ?? "");
   const [reward, setReward] = useState(defaults?.reward_text ?? "");
-  const [stamps, setStamps] = useState(defaults?.stamps_required ?? 10);
+  // Kept as a STRING, not a number: with a number state, clearing the box
+  // immediately forces a value back into it, so the last digit can never be
+  // deleted — you'd be stuck editing around a "1" that won't go away.
+  const [stamps, setStamps] = useState(String(defaults?.stamps_required ?? 10));
   const [image, setImage] = useState(defaults?.reward_image_url ?? "");
 
-  const dots = Array.from({ length: Math.min(Math.max(stamps || 0, 1), 20) }, (_, i) => i);
+  // Only the preview is clamped; the field keeps exactly what you typed.
+  const stampCount = Math.min(Math.max(parseInt(stamps, 10) || 0, 1), MAX_STAMPS);
+  const dots = Array.from({ length: stampCount }, (_, i) => i);
 
   return (
     <div className="grid min-w-0 gap-6 lg:grid-cols-[1fr_320px]">
@@ -72,12 +80,15 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
               id="stamps_required"
               name="stamps_required"
               type="number"
+              inputMode="numeric"
+              required
               min={1}
-              max={20}
+              max={MAX_STAMPS}
               value={stamps}
-              onChange={(e) => setStamps(parseInt(e.target.value || "1", 10))}
+              onChange={(e) => setStamps(e.target.value)}
               className="w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             />
+            <p className="mt-1 text-xs text-faint">1–{MAX_STAMPS} stamps</p>
           </div>
           <div>
             <label htmlFor="reward_expiry_days" className="mb-1 block text-sm font-medium">
@@ -165,7 +176,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
             </div>
             <div className="font-bold">{reward || "Your reward"}</div>
             <div className="text-sm text-muted">
-              Collect {stamps || 0} stamps
+              Collect {stampCount} stamps
             </div>
           </div>
           <div className="mt-4 grid grid-cols-5 gap-1.5 [&>*]:min-w-0">
