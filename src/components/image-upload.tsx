@@ -67,7 +67,7 @@ export function ImageUpload({
   }
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex min-w-0 items-center gap-4">
       {showImage ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -77,28 +77,22 @@ export function ImageUpload({
           className={`${box} rounded-xl border border-line object-cover`}
         />
       ) : (
-        <div
-          className={`${box} flex items-center justify-center rounded-xl border border-dashed border-line-strong text-2xl text-faint`}
-        >
+        <div className={`${box} flex items-center justify-center rounded-xl border border-dashed border-line-strong text-2xl text-faint`}>
           🖼️
         </div>
       )}
-      <div>
+      <div className="min-w-0 flex-1">
         <input
           ref={inputRef}
           type="file"
           accept="image/*"
           onChange={handleFile}
-          className="block text-sm text-muted file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-brand file:px-3 file:py-1.5 file:font-medium file:text-white hover:file:bg-brand-ink"
+          className="block w-full min-w-0 text-sm text-muted file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-brand file:px-3 file:py-1.5 file:font-medium file:text-white hover:file:bg-brand-ink"
         />
         {busy && <p className="mt-1 text-xs text-muted">Uploading…</p>}
         {err && <p className="mt-1 text-xs text-danger">{err}</p>}
         {url && !busy && (
-          <button
-            type="button"
-            onClick={clear}
-            className="mt-1 text-xs text-muted hover:underline"
-          >
+          <button type="button" onClick={clear} className="mt-1 text-xs text-muted hover:underline">
             Remove
           </button>
         )}

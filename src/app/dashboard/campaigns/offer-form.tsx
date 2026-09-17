@@ -27,11 +27,11 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
   const dots = Array.from({ length: Math.min(Math.max(stamps || 0, 1), 20) }, (_, i) => i);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+    <div className="grid min-w-0 gap-6 lg:grid-cols-[1fr_320px]">
       {/* form */}
       <form
         action={action}
-        className="space-y-4 rounded-2xl border border-line bg-card p-5"
+        className="min-w-0 space-y-4 rounded-2xl border border-line bg-card p-5"
       >
         <div>
           <label htmlFor="name" className="mb-1 block text-sm font-medium">
@@ -63,7 +63,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="stamps_required" className="mb-1 block text-sm font-medium">
               Visits required
@@ -105,7 +105,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="approval_mode" className="mb-1 block text-sm font-medium">
               Stamp approval
@@ -146,7 +146,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
         <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-faint">
           Live preview
         </div>
-        <div className="rounded-2xl border border-line bg-card p-5 shadow-sm">
+        <div className="min-w-0 rounded-2xl border border-line bg-card p-5 shadow-sm">
           {image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -168,7 +168,7 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
               Collect {stamps || 0} stamps
             </div>
           </div>
-          <div className="mt-4 grid grid-cols-5 gap-1.5">
+          <div className="mt-4 grid grid-cols-5 gap-1.5 [&>*]:min-w-0">
             {dots.map((i) => (
               <div
                 key={i}

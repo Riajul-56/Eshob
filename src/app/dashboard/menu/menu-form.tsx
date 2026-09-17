@@ -25,8 +25,8 @@ export function MenuForm() {
   }
 
   return (
-    <form action={addMenuItem} className="space-y-3 rounded-2xl border border-line bg-card p-5">
-      <div className="grid grid-cols-2 gap-3">
+    <form action={addMenuItem} className="min-w-0 space-y-3 rounded-2xl border border-line bg-card p-5">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className="mb-1 block text-sm font-medium">Item name</label>
           <input id="name" name="name" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Cappuccino" className={input} />
@@ -36,7 +36,7 @@ export function MenuForm() {
           <input id="category" name="category" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Hot drinks" className={input} />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div>
           <label htmlFor="price" className="mb-1 block text-sm font-medium">Price</label>
           <input id="price" name="price" type="number" step="0.01" min={0} placeholder="4.50" className={input} />
