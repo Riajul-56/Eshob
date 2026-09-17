@@ -27,7 +27,7 @@ function Row({
   href?: string;
 }) {
   return (
-    <div className="flex items-start gap-3">
+    <div className="flex min-w-0 items-start gap-3">
       <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-accent/10 text-sm text-accent">
         {icon}
       </span>
@@ -67,9 +67,13 @@ export function Contact() {
           </p>
         </div>
 
+        {/* min-w-0 on the grid items is load-bearing: without it a grid track
+            refuses to shrink below its content's min-content width, and the
+            `truncate` lines below ask for their full un-wrapped length. That
+            pushed the whole column past the screen on a phone. */}
         <div className="mt-10 grid gap-6 lg:grid-cols-5">
           {/* details */}
-          <div className="space-y-5 lg:col-span-2">
+          <div className="min-w-0 space-y-5 lg:col-span-2">
             <div className="rounded-2xl border border-line bg-card p-6">
               <div className="space-y-5">
                 {CONTACT.email && (
@@ -102,7 +106,7 @@ export function Contact() {
           </div>
 
           {/* form */}
-          <div className="lg:col-span-3">
+          <div className="min-w-0 lg:col-span-3">
             <form
               action={action}
               className="rounded-2xl border border-line bg-card p-6 shadow-card"

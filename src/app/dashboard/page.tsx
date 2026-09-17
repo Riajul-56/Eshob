@@ -61,7 +61,7 @@ function StatTile({
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-baseline justify-between gap-3 border-b border-line-soft pb-2">
+    <div className="flex min-w-0 items-baseline justify-between gap-3 border-b border-line-soft pb-2">
       <span className="text-sm text-faint">{label}</span>
       <span className="truncate text-right text-sm font-medium text-ink">{value}</span>
     </div>
@@ -216,7 +216,7 @@ export default async function DashboardHome() {
             {pendingStamps.map((s) => {
               const c = s.memberships?.customers;
               return (
-                <div key={s.id} className="flex items-center justify-between rounded-xl bg-card p-3">
+                <div key={s.id} className="flex min-w-0 items-center justify-between rounded-xl bg-card p-3">
                   <div className="min-w-0">
                     <div className="truncate font-medium">{c?.name || c?.phone || "Customer"}</div>
                     <div className="text-xs text-faint">{timeAgo(s.created_at)}</div>
@@ -250,7 +250,7 @@ export default async function DashboardHome() {
           ) : (
             <ul className="space-y-3">
               {activity.map((a) => (
-                <li key={a.id} className="flex items-center gap-3">
+                <li key={a.id} className="flex min-w-0 items-center gap-3">
                   <div className={`flex h-8 w-8 flex-none items-center justify-center rounded-full ${a.kind === "reward" ? "bg-ok-soft text-ok" : "bg-accent/10 text-accent"}`}>
                     <I d={a.kind === "reward" ? IC.gift : IC.check} />
                   </div>
@@ -272,7 +272,7 @@ export default async function DashboardHome() {
                 const joinUrl = `${base}/j/${o.slug}`;
                 const src = `/api/qr?data=${encodeURIComponent(joinUrl)}`;
                 return (
-                  <div key={o.slug} className="flex items-center gap-3">
+                  <div key={o.slug} className="flex min-w-0 items-center gap-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={src} alt="" width={84} height={84} className="flex-none rounded-xl border border-line" />
                     <div className="min-w-0 flex-1">

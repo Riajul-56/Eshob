@@ -69,7 +69,7 @@ export default async function MenuPage() {
                     <div className="flex h-14 w-14 flex-none items-center justify-center rounded-xl bg-elev text-xl">🍽️</div>
                   )}
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
+                    <div className="flex min-w-0 items-center gap-2">
                       <span className="font-medium">{it.name}</span>
                       {it.price != null && <span className="text-sm text-muted">${Number(it.price).toFixed(2)}</span>}
                     </div>
