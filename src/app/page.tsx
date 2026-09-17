@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { LandingFX } from "./landing-fx";
 import { PhoneShowcase } from "./phone-showcase";
+import { LiveStats } from "./live-stats";
+import { Contact } from "./contact";
 import { ThemeToggle } from "@/components/theme-toggle";
+
+// Regenerate hourly so the live counts stay fresh without making every
+// visitor wait on a database round-trip.
+export const revalidate = 3600;
 
 /* ---------- inline icons ---------- */
 function Ico({ d, className = "h-6 w-6" }: { d: string; className?: string }) {
@@ -65,6 +71,7 @@ export default function Home() {
             <a href="#features" className="hover:text-ink">Features</a>
             <a href="#how" className="hover:text-ink">How it works</a>
             <a href="#pricing" className="hover:text-ink">Pricing</a>
+            <a href="#contact" className="hover:text-ink">Contact</a>
           </nav>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -138,21 +145,8 @@ export default function Home() {
 
       <PhoneShowcase />
 
-      {/* trust band */}
-      <section className="border-y border-line-soft bg-card">
-        <div className="mx-auto grid max-w-5xl grid-cols-3 gap-4 px-5 py-8 text-center">
-          {[
-            { big: "2 min", small: "to set up" },
-            { big: "0", small: "apps to download" },
-            { big: "1 QR", small: "for every customer" },
-          ].map((s, i) => (
-            <div key={i}>
-              <div className="text-2xl font-extrabold text-accent sm:text-3xl">{s.big}</div>
-              <div className="text-xs uppercase tracking-wide text-muted sm:text-sm">{s.small}</div>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* trust band — real counts once there are enough of them */}
+      <LiveStats />
 
       {/* features */}
       <section id="features" className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
@@ -259,6 +253,8 @@ export default function Home() {
         </div>
       </section>
 
+      <Contact />
+
       {/* footer */}
       <footer className="border-t border-line-soft">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-muted sm:flex-row">
@@ -267,9 +263,9 @@ export default function Home() {
             <span className="font-semibold text-body">Loyalty Platform</span>
           </div>
           <div className="flex gap-5">
-            <a href="#" className="hover:text-body">Terms</a>
-            <a href="#" className="hover:text-body">Privacy</a>
-            <a href="#" className="hover:text-body">Refund</a>
+            <a href="#contact" className="hover:text-body">Contact</a>
+            <a href="#pricing" className="hover:text-body">Pricing</a>
+            <a href="#features" className="hover:text-body">Features</a>
           </div>
           <div>© 2026 · Made in Canada 🍁</div>
         </div>

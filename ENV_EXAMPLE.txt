@@ -37,3 +37,21 @@ STRIPE_WEBHOOK_SECRET=whsec_your-webhook-secret
 STRIPE_PRICE_MONTHLY=price_...
 STRIPE_PRICE_YEARLY=price_...
 STRIPE_PRICE_LIFETIME=price_...
+
+# ---------------------------------------------------------------------------
+# Contact-form email (optional)
+# Without these the form still saves every enquiry to the `leads` table —
+# you just won't get an email about it.
+#   1. Sign up free at https://resend.com  (3,000 emails/month, no card)
+#   2. API Keys -> Create API Key -> paste below
+# ---------------------------------------------------------------------------
+RESEND_API_KEY=re_your_key
+
+# Where enquiry notifications land — your own inbox.
+LEAD_NOTIFY_EMAIL=you@example.com
+
+# Who the email appears to come from. The default shared sender below works
+# with no setup, but Resend will ONLY deliver it to the address that owns the
+# Resend account. To mail any address, verify your own domain in Resend and
+# put an address on it here, e.g. "Loyalty <hello@yourdomain.ca>".
+# MAIL_FROM=Loyalty <onboarding@resend.dev>
