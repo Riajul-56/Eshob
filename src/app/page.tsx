@@ -276,17 +276,21 @@ export default function Home() {
 
       {/* footer */}
       <footer className="border-t border-line-soft">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-muted sm:flex-row">
-          <div className="flex items-center gap-2">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand text-sm font-bold text-white">◎</span>
-            <span className="font-semibold text-body">Loyalty Platform</span>
-          </div>
-          <div className="flex gap-5">
+        <div className="mx-auto max-w-6xl px-5 py-12 text-center">
+          <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-xl font-bold text-white">
+            ◎
+          </span>
+
+          <nav className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-sm text-muted">
+            <Link href="/terms" className="hover:text-body">Terms &amp; Conditions</Link>
+            <Link href="/privacy" className="hover:text-body">Privacy Policy</Link>
+            <Link href="/refund" className="hover:text-body">Refund Policy</Link>
             <a href="#contact" className="hover:text-body">Contact</a>
-            <a href="#pricing" className="hover:text-body">Pricing</a>
-            <a href="#features" className="hover:text-body">Features</a>
-          </div>
-          <div>© 2026 · Made in Canada 🍁</div>
+          </nav>
+
+          <p className="mt-6 text-sm text-muted">
+            © {new Date().getFullYear()} Loyalty Platform · Built for Canadian businesses 🍁
+          </p>
         </div>
       </footer>
 
