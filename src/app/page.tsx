@@ -86,7 +86,9 @@ export default function Home() {
       </header>
 
       {/* hero */}
-      <section className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 lg:grid-cols-2 lg:py-24">
+      {/* overflow-hidden keeps the card's glow (.aura spreads 18% past its box)
+          from widening the page on a narrow screen */}
+      <section className="mx-auto grid max-w-6xl items-center gap-10 overflow-hidden px-5 py-16 lg:grid-cols-2 lg:py-24">
         <div>
           <span className="font-mono text-xs font-semibold uppercase tracking-widest text-accent">
             Loyalty platform · Canada 🍁

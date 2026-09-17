@@ -156,13 +156,15 @@ export function Contact() {
                 />
               </div>
 
-              {/* honeypot — hidden from people, irresistible to bots */}
+              {/* Honeypot — hidden from people, irresistible to bots.
+                  `sr-only` hides it in place; the old off-screen -9999px trick
+                  is a classic source of horizontal page overflow. */}
               <input
                 name="website"
                 tabIndex={-1}
                 autoComplete="off"
                 aria-hidden="true"
-                className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                className="sr-only"
               />
 
               <button

@@ -101,6 +101,10 @@ html,
 body {
   padding: 0;
   margin: 0;
+  /* Safety net: nothing may widen the page sideways. `clip` rather than
+     `hidden` because `hidden` turns the page into a scroll container, which
+     silently breaks the sticky nav. */
+  overflow-x: clip;
 }
 
 body {
