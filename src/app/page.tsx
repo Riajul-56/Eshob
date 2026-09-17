@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LandingFX } from "./landing-fx";
+import { PhoneShowcase } from "./phone-showcase";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 /* ---------- inline icons ---------- */
@@ -135,8 +136,10 @@ export default function Home() {
         </div>
       </section>
 
+      <PhoneShowcase />
+
       {/* trust band */}
-      <section className="border-y border-line-soft bg-app">
+      <section className="border-y border-line-soft bg-card">
         <div className="mx-auto grid max-w-5xl grid-cols-3 gap-4 px-5 py-8 text-center">
           {[
             { big: "2 min", small: "to set up" },

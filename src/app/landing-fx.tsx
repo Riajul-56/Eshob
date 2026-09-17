@@ -39,11 +39,35 @@ export function LandingFX() {
     wrap?.addEventListener("mousemove", onMove);
     wrap?.addEventListener("mouseleave", reset);
 
+    // gentle parallax on the phone cluster — it swings toward the cursor
+    const stage = document.getElementById("showcase-stage");
+    const cluster = document.getElementById("showcase-cluster");
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let raf2 = 0;
+    function onStageMove(ev: MouseEvent) {
+      if (!stage || !cluster || still) return;
+      const r = stage.getBoundingClientRect();
+      const px = (ev.clientX - r.left) / r.width - 0.5;
+      const py = (ev.clientY - r.top) / r.height - 0.5;
+      cancelAnimationFrame(raf2);
+      raf2 = requestAnimationFrame(() => {
+        cluster.style.transform = `rotateY(${px * 10}deg) rotateX(${-py * 7}deg)`;
+      });
+    }
+    function stageReset() {
+      if (cluster) cluster.style.transform = "";
+    }
+    stage?.addEventListener("mousemove", onStageMove);
+    stage?.addEventListener("mouseleave", stageReset);
+
     return () => {
       io.disconnect();
       wrap?.removeEventListener("mousemove", onMove);
       wrap?.removeEventListener("mouseleave", reset);
+      stage?.removeEventListener("mousemove", onStageMove);
+      stage?.removeEventListener("mouseleave", stageReset);
       cancelAnimationFrame(raf);
+      cancelAnimationFrame(raf2);
     };
   }, []);
 

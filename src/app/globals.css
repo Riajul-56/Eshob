@@ -243,6 +243,42 @@ button {
   background: radial-gradient(closest-side, rgb(var(--accent) / 0.2), transparent 70%);
 }
 
+/* ---------- phone showcase ---------- */
+/* The float lives on a wrapper so it can't fight the static 3D rotation
+   applied to the phone inside it. */
+@keyframes floatA {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+@keyframes floatB {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-11px); }
+}
+@keyframes floatC {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+.float-a { animation: floatA 7s ease-in-out infinite; }
+.float-b { animation: floatB 5.5s ease-in-out infinite 0.4s; }
+.float-c { animation: floatC 8s ease-in-out infinite 0.9s; }
+
+/* cards drift in, then bob gently */
+@keyframes badgeIn {
+  0% { opacity: 0; transform: translateY(14px) scale(0.92); }
+  55% { opacity: 1; transform: translateY(-4px) scale(1.02); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes badgeBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+.badge-float {
+  opacity: 0;
+  animation:
+    badgeIn 0.7s cubic-bezier(0.2, 0.8, 0.25, 1) both,
+    badgeBob 6s ease-in-out infinite 0.7s;
+}
+
 /* bars grow up on load */
 @keyframes growUp {
   from { transform: scaleY(0); }
@@ -258,4 +294,6 @@ button {
   .reveal { opacity: 1; transform: none; transition: none; }
   .tilt { transform: none !important; }
   .bar-grow { animation: none; }
+  .float-a, .float-b, .float-c { animation: none; }
+  .badge-float { opacity: 1; animation: none; }
 }
