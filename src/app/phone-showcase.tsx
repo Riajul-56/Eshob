@@ -261,22 +261,27 @@ function Badge({
       : tone === "warn"
       ? "bg-warn-soft text-warn"
       : "bg-accent/15 text-accent";
+  // The position lives on the outer div and the float animation on the inner
+  // one — a CSS animation sets `transform`, so it would wipe out any
+  // translate-* utility sharing the same element.
   return (
-    <div
-      className={`badge-float absolute z-20 flex items-center gap-2.5 rounded-2xl border border-line bg-card px-3 py-2.5 shadow-lift ${className}`}
-      style={{ animationDelay: delay }}
-    >
-      <span
-        className={`flex h-8 w-8 flex-none items-center justify-center rounded-xl text-sm ${chip}`}
+    <div className={`absolute z-20 ${className}`}>
+      <div
+        className="badge-float flex items-center gap-2 rounded-2xl border border-line bg-card px-2.5 py-2 shadow-lift sm:gap-2.5 sm:px-3 sm:py-2.5"
+        style={{ animationDelay: delay }}
       >
-        {icon}
-      </span>
-      <div className="leading-tight">
-        <div className="text-[9px] font-bold uppercase tracking-widest text-faint">
-          {label}
-        </div>
-        <div className="whitespace-nowrap text-[12px] font-bold text-ink">
-          {title}
+        <span
+          className={`flex h-7 w-7 flex-none items-center justify-center rounded-lg text-xs sm:h-8 sm:w-8 sm:rounded-xl sm:text-sm ${chip}`}
+        >
+          {icon}
+        </span>
+        <div className="leading-tight">
+          <div className="text-[8px] font-bold uppercase tracking-widest text-faint sm:text-[9px]">
+            {label}
+          </div>
+          <div className="whitespace-nowrap text-[10px] font-bold text-ink sm:text-[12px]">
+            {title}
+          </div>
         </div>
       </div>
     </div>
@@ -301,63 +306,73 @@ export function PhoneShowcase() {
       {/* stage */}
       <div
         id="showcase-stage"
-        className="reveal relative mx-auto mt-12 flex h-[470px] max-w-5xl items-center justify-center"
+        className="reveal relative mx-auto mt-10 flex h-[330px] max-w-5xl items-center justify-center sm:mt-12 sm:h-[410px] lg:h-[470px]"
         style={{ perspective: "1600px" }}
       >
-        <div id="showcase-cluster" className="relative flex items-center justify-center transition-transform duration-300">
-          {/* left phone */}
-          <div className="float-a absolute -left-[210px] hidden lg:block">
-            <div style={{ transform: "rotateY(22deg) rotateZ(-6deg) scale(0.84)" }}>
-              <Phone>
-                <DashboardScreen />
-              </Phone>
+        {/* Two things shrink together on a narrow screen: the cluster scale AND
+            how far the side phones sit from the centre. Scaling alone isn't
+            enough — at full spread the outer phones still run off the edge, so
+            on mobile they tuck in close and peek out from behind instead. */}
+        <div className="scale-[0.68] sm:scale-[0.85] lg:scale-100">
+          <div
+            id="showcase-cluster"
+            className="relative flex items-center justify-center transition-transform duration-300"
+          >
+            {/* left phone */}
+            <div className="float-a absolute -left-[85px] sm:-left-[140px] lg:-left-[190px]">
+              <div style={{ transform: "rotateY(22deg) rotateZ(-6deg) scale(0.84)" }}>
+                <Phone>
+                  <DashboardScreen />
+                </Phone>
+              </div>
+            </div>
+
+            {/* right phone */}
+            <div className="float-c absolute -right-[85px] sm:-right-[140px] lg:-right-[190px]">
+              <div style={{ transform: "rotateY(-22deg) rotateZ(6deg) scale(0.84)" }}>
+                <Phone>
+                  <RewardScreen />
+                </Phone>
+              </div>
+            </div>
+
+            {/* centre phone */}
+            <div className="float-b relative z-10">
+              <div className="aura relative">
+                <Phone className="scale-[1.04]">
+                  <StampScreen />
+                </Phone>
+              </div>
             </div>
           </div>
-
-          {/* right phone */}
-          <div className="float-c absolute -right-[210px] hidden lg:block">
-            <div style={{ transform: "rotateY(-22deg) rotateZ(6deg) scale(0.84)" }}>
-              <Phone>
-                <RewardScreen />
-              </Phone>
-            </div>
-          </div>
-
-          {/* centre phone */}
-          <div className="float-b relative z-10">
-            <div className="aura relative">
-              <Phone className="scale-[1.04]">
-                <StampScreen />
-              </Phone>
-            </div>
-          </div>
-
-          {/* floating cards */}
-          <Badge
-            tone="ok"
-            icon="✓"
-            label="Just now"
-            title="+1 stamp added"
-            className="-top-2 left-[-150px] hidden sm:flex"
-            delay="0.4s"
-          />
-          <Badge
-            tone="brand"
-            icon="◷"
-            label="Live"
-            title="Scans update instantly"
-            className="right-[-130px] top-[92px] hidden sm:flex"
-            delay="1.1s"
-          />
-          <Badge
-            tone="warn"
-            icon="🎁"
-            label="Reward"
-            title="Free coffee claimed"
-            className="bottom-6 left-[-120px] hidden sm:flex"
-            delay="1.8s"
-          />
         </div>
+
+        {/* Floating cards sit OUTSIDE the scaled wrapper so they stay readable
+            on a phone instead of shrinking with the artwork. */}
+        <Badge
+          tone="ok"
+          icon="✓"
+          label="Just now"
+          title="+1 stamp added"
+          className="left-1/2 top-2 -translate-x-[125px] sm:-translate-x-[250px] lg:-translate-x-[330px]"
+          delay="0.4s"
+        />
+        <Badge
+          tone="brand"
+          icon="◷"
+          label="Live"
+          title="Scans update live"
+          className="left-1/2 top-[46%] -translate-x-[60px] sm:translate-x-[110px] lg:translate-x-[150px]"
+          delay="1.1s"
+        />
+        <Badge
+          tone="warn"
+          icon="🎁"
+          label="Reward"
+          title="Free coffee claimed"
+          className="bottom-3 left-1/2 -translate-x-[130px] sm:bottom-8 sm:-translate-x-[230px] lg:-translate-x-[300px]"
+          delay="1.8s"
+        />
       </div>
     </section>
   );

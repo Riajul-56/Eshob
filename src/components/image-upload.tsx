@@ -77,7 +77,9 @@ export function ImageUpload({
           className={`${box} rounded-xl border border-line object-cover`}
         />
       ) : (
-        <div className={`${box} flex items-center justify-center rounded-xl border border-dashed border-line-strong text-2xl text-faint`}>
+        <div
+          className={`${box} flex items-center justify-center rounded-xl border border-dashed border-line-strong text-2xl text-faint`}
+        >
           🖼️
         </div>
       )}
@@ -92,7 +94,11 @@ export function ImageUpload({
         {busy && <p className="mt-1 text-xs text-muted">Uploading…</p>}
         {err && <p className="mt-1 text-xs text-danger">{err}</p>}
         {url && !busy && (
-          <button type="button" onClick={clear} className="mt-1 text-xs text-muted hover:underline">
+          <button
+            type="button"
+            onClick={clear}
+            className="mt-1 text-xs text-muted hover:underline"
+          >
             Remove
           </button>
         )}
