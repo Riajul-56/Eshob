@@ -6,7 +6,8 @@ import { Logo } from "@/components/brand";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { PasswordField } from "@/components/password-field";
+import { PasswordField, PasswordRules } from "@/components/password-field";
+import { isStrongPassword, MIN_PASSWORD_LENGTH } from "@/lib/password";
 
 /**
  * Where the emailed reset link lands.
@@ -30,6 +31,7 @@ export default function ResetPasswordPage() {
   const [saving, setSaving] = useState(false);
 
   const mismatch = confirm.length > 0 && password !== confirm;
+  const weak = password.length > 0 && !isStrongPassword(password);
 
   useEffect(() => {
     let alive = true;
@@ -75,6 +77,7 @@ export default function ResetPasswordPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    if (!isStrongPassword(password)) return setError("Please meet all five password rules below.");
     if (password !== confirm) return setError("Those two passwords don't match.");
 
     setSaving(true);
@@ -135,18 +138,23 @@ export default function ResetPasswordPage() {
             </p>
 
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-              <PasswordField
-                label="New password"
-                value={password}
-                onChange={setPassword}
-                autoComplete="new-password"
-                hint="At least 6 characters"
-              />
+              <div>
+                <PasswordField
+                  label="New password"
+                  value={password}
+                  onChange={setPassword}
+                  autoComplete="new-password"
+                  minLength={MIN_PASSWORD_LENGTH}
+                  error={weak}
+                />
+                <PasswordRules value={password} />
+              </div>
               <PasswordField
                 label="Confirm new password"
                 value={confirm}
                 onChange={setConfirm}
                 autoComplete="new-password"
+                minLength={MIN_PASSWORD_LENGTH}
                 error={mismatch}
                 hint={mismatch ? "Passwords don't match yet" : undefined}
               />
@@ -159,7 +167,7 @@ export default function ResetPasswordPage() {
 
               <button
                 type="submit"
-                disabled={saving || mismatch}
+                disabled={saving || mismatch || weak}
                 className="w-full rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
               >
                 {saving ? "Saving…" : "Update password"}

@@ -1,6 +1,38 @@
 "use client";
 
 import { useId, useState } from "react";
+import { passwordRules } from "@/lib/password";
+
+/**
+ * Live checklist under a new-password field. Showing every rule up front —
+ * and ticking them off as they're met — beats rejecting the password after
+ * the fact with a sentence nobody reads.
+ */
+export function PasswordRules({ value }: { value: string }) {
+  const rules = passwordRules(value);
+  return (
+    <ul className="mt-2 grid gap-1">
+      {rules.map((r) => (
+        <li
+          key={r.label}
+          className={`flex items-center gap-2 text-xs transition-colors ${
+            r.ok ? "text-ok" : value.length > 0 ? "text-muted" : "text-faint"
+          }`}
+        >
+          <span
+            aria-hidden
+            className={`flex h-4 w-4 flex-none items-center justify-center rounded-full border text-[10px] ${
+              r.ok ? "border-ok bg-ok-soft" : "border-line-strong"
+            }`}
+          >
+            {r.ok ? "✓" : ""}
+          </span>
+          {r.label}
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 /**
  * Password input with a show/hide eye. Typing a password blind on a phone
