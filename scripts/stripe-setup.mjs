@@ -29,9 +29,7 @@ loadEnv();
 
 const key = process.env.STRIPE_SECRET_KEY;
 if (!key) {
-  console.error(
-    "\n✗ STRIPE_SECRET_KEY not found. Add it to .env.local first (sk_test_...).\n",
-  );
+  console.error("\n✗ STRIPE_SECRET_KEY not found. Add it to .env.local first (sk_test_...).\n");
   process.exit(1);
 }
 const stripe = new Stripe(key);
@@ -62,10 +60,7 @@ const PRODUCTS = [
 async function findProduct(tag) {
   // search API isn't on every account; fall back to listing.
   try {
-    const r = await stripe.products.search({
-      query: `metadata['eshop_tag']:'${tag}'`,
-      limit: 1,
-    });
+    const r = await stripe.products.search({ query: `metadata['eshop_tag']:'${tag}'`, limit: 1 });
     if (r.data[0]) return r.data[0];
   } catch {
     /* search not enabled — fall through */
@@ -77,13 +72,8 @@ async function findProduct(tag) {
 }
 
 async function priceForProduct(product, wanted) {
-  for await (const pr of stripe.prices.list({
-    product: product.id,
-    active: true,
-    limit: 100,
-  })) {
-    const sameAmount =
-      pr.unit_amount === wanted.unit_amount && pr.currency === CURRENCY;
+  for await (const pr of stripe.prices.list({ product: product.id, active: true, limit: 100 })) {
+    const sameAmount = pr.unit_amount === wanted.unit_amount && pr.currency === CURRENCY;
     const sameInterval =
       (pr.recurring?.interval ?? null) === (wanted.recurring?.interval ?? null);
     if (sameAmount && sameInterval) return pr;
@@ -98,10 +88,7 @@ for (const def of PRODUCTS) {
   if (product) {
     console.log(`• Reusing product "${def.name}" (${product.id})`);
   } else {
-    product = await stripe.products.create({
-      name: def.name,
-      metadata: { eshop_tag: def.tag },
-    });
+    product = await stripe.products.create({ name: def.name, metadata: { eshop_tag: def.tag } });
     console.log(`✓ Created product "${def.name}" (${product.id})`);
   }
 
@@ -119,8 +106,29 @@ for (const def of PRODUCTS) {
   results[def.envVar] = price.id;
 }
 
+// --- compare against whatever is currently configured -----------------------
+const stale = Object.entries(results).filter(([k, v]) => process.env[k] && process.env[k] !== v);
+const missing = Object.keys(results).filter((k) => !process.env[k]);
+
 console.log("\n=============================================================");
 console.log(" Paste these into your .env.local (then restart `npm run dev`):");
 console.log("=============================================================\n");
 for (const [k, v] of Object.entries(results)) console.log(`${k}=${v}`);
 console.log("");
+
+if (missing.length) {
+  console.log(`⚠  Not set yet: ${missing.join(", ")}`);
+}
+if (stale.length) {
+  console.log("⚠  These are set to something else — checkout will fail with");
+  console.log("   \"No such price\" until you replace them:\n");
+  for (const [k, v] of stale) {
+    console.log(`   ${k}`);
+    console.log(`     now: ${process.env[k]}`);
+    console.log(`     should be: ${v}`);
+  }
+  console.log("\n   Remember to update these in Vercel too, then redeploy.\n");
+}
+if (!missing.length && !stale.length) {
+  console.log("✓ Your current env matches Stripe — nothing to change.\n");
+}

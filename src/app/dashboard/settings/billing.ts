@@ -56,23 +56,39 @@ export async function startCheckout(plan: PlanKey) {
   }
 
   const base = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const session = await stripe.checkout.sessions.create({
-    customer: customerId!,
-    mode: conf.mode,
-    line_items: [{ price: conf.id, quantity: 1 }],
-    success_url: `${base}/dashboard/settings?billing=success`,
-    cancel_url: `${base}/dashboard/settings?billing=cancel`,
-    allow_promotion_codes: true,
-    metadata: { business_id: businessId, plan },
-    ...(conf.mode === "subscription"
-      ? {
-          subscription_data: {
-            metadata: { business_id: businessId, plan },
-            ...(trialDays ? { trial_period_days: trialDays } : {}),
-          },
-        }
-      : {}),
-  });
+
+  let session;
+  try {
+    session = await stripe.checkout.sessions.create({
+      customer: customerId!,
+      mode: conf.mode,
+      line_items: [{ price: conf.id, quantity: 1 }],
+      success_url: `${base}/dashboard/settings?billing=success`,
+      cancel_url: `${base}/dashboard/settings?billing=cancel`,
+      allow_promotion_codes: true,
+      metadata: { business_id: businessId, plan },
+      ...(conf.mode === "subscription"
+        ? {
+            subscription_data: {
+              metadata: { business_id: businessId, plan },
+              ...(trialDays ? { trial_period_days: trialDays } : {}),
+            },
+          }
+        : {}),
+    });
+  } catch (err) {
+    // "No such price" on its own sends you hunting. Say which plan, which
+    // variable, and what to run — the fix is always the same.
+    const e = err as { code?: string; message?: string };
+    if (e?.code === "resource_missing") {
+      throw new Error(
+        `The ${conf.label} plan points at a price that doesn't exist in this Stripe account (${conf.id}). ` +
+          `This usually means the STRIPE_PRICE_* values are from a different account or sandbox. ` +
+          `Run "node scripts/stripe-setup.mjs" and paste the three IDs it prints into your environment, then restart.`
+      );
+    }
+    throw err;
+  }
 
   if (!session.url) throw new Error("Could not start checkout.");
   redirect(session.url);
