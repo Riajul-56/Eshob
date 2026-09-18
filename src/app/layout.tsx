@@ -1,16 +1,25 @@
 import type { Metadata, Viewport } from "next";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
+/** Brand typeface. Self-hosted by Next, so no request leaves for Google. */
+const grotesk = Space_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-grotesk",
+});
+
 export const metadata: Metadata = {
-  title: "wscanner",
-  description: "Digital loyalty stamp cards for local businesses — no app needed.",
+  title: "wscanner — digital loyalty cards",
+  description:
+    "Digital loyalty stamp cards for cafés, salons and gyms across Canada. One QR code, no app to download.",
 };
 
 /** Paints the browser chrome (mobile address bar) to match the theme. */
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f8fa" },
-    { media: "(prefers-color-scheme: dark)", color: "#08101e" },
+    { media: "(prefers-color-scheme: light)", color: "#faf9f6" },
+    { media: "(prefers-color-scheme: dark)", color: "#101114" },
   ],
 };
 
@@ -37,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={grotesk.variable}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: noFlashTheme }} />
       </head>

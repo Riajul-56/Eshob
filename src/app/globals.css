@@ -8,38 +8,39 @@
    (bg-card/80, bg-accent/15, …). Light is the default; `.dark` on <html>
    swaps the whole palette. Nothing else in the app names a raw colour.
    ============================================================================= */
-/* wscanner brand: deep navy #0C203A + scan-bracket orange #FE6D00.
-   Fills use a deeper orange than the logo so white button text still clears
-   WCAG AA — the bright logo orange is reserved for icons, tints and gradients
-   where nothing small sits on top of it. */
+/* wscanner brand card: Ink #16171B · Accent #D9561E · Paper #FAF9F6.
+   The accent is kept exactly as specified in --flare and used for tints,
+   glows and gradients. Buttons and small text use a slightly deeper shade of
+   the same orange, because white on #D9561E measures 3.96:1 — below the 4.5:1
+   a person needs to read a button label in daylight. */
 :root {
   color-scheme: light;
 
-  --app: 247 248 250;
+  --app: 250 249 246;
   --card: 255 255 255;
-  --elev: 240 243 247;
+  --elev: 242 240 234;
 
-  --line: 224 229 236;
-  --line-strong: 200 208 219;
-  --line-soft: 240 243 247;
+  --line: 230 228 221;
+  --line-strong: 211 208 199;
+  --line-soft: 239 237 230;
 
-  --ink: 12 32 58;
-  --body: 52 71 99;
-  --muted: 100 116 139;
-  --faint: 148 163 184;
+  --ink: 22 23 27;
+  --body: 61 62 69;
+  --muted: 98 99 107;
+  --faint: 113 114 121;
 
-  --brand: 194 65 12;
-  --brand-ink: 154 52 18;
-  --accent: 208 66 10;
-  /* the untouched logo orange, for gradients and glows */
-  --flare: 254 109 0;
+  --brand: 188 71 21;
+  --brand-ink: 154 58 17;
+  --accent: 188 71 21;
+  /* the brand accent, untouched */
+  --flare: 217 86 30;
 
   --ok: 4 120 87;
   --ok-soft: 209 250 229;
   --ok-line: 167 243 208;
   --ok-solid: 16 185 129;
 
-  /* pushed yellow-ward so warnings stay distinct from the orange brand */
+  /* pushed yellow-ward so warnings stay distinct from the orange accent */
   --warn: 161 98 7;
   --warn-strong: 113 63 18;
   --warn-soft: 254 249 195;
@@ -53,33 +54,34 @@
   --info: 3 105 161;
   --info-soft: 224 242 254;
 
-  --shadow: 12 32 58;
+  --shadow: 22 23 27;
 }
 
 .dark {
   color-scheme: dark;
 
-  /* Surfaces built out of the logo's own navy rather than grey, so the
-     orange reads as the same colour it is in the mark. */
-  --app: 8 16 30;
-  --card: 15 27 47;
-  --elev: 25 39 63;
+  /* Dark surfaces stepped up from the brand Ink, and text stepped down from
+     Paper — so the dark theme is the same two colours, inverted, rather than
+     a separate grey palette. */
+  --app: 16 17 20;
+  --card: 26 27 32;
+  --elev: 37 38 45;
 
-  --line: 38 54 82;
-  --line-strong: 56 76 110;
-  --line-soft: 30 44 70;
+  --line: 50 51 59;
+  --line-strong: 70 71 79;
+  --line-soft: 42 43 50;
 
-  --ink: 232 238 247;
-  --body: 194 206 224;
-  --muted: 145 161 188;
-  --faint: 108 124 153;
+  --ink: 245 244 240;
+  --body: 210 209 203;
+  --muted: 163 162 156;
+  --faint: 135 134 143;
 
-  /* `brand` stays deep enough for white button text; `accent` goes bright so
-     orange text and icons carry against the navy. */
-  --brand: 208 66 10;
-  --brand-ink: 234 88 12;
-  --accent: 253 160 78;
-  --flare: 254 138 30;
+  /* Hover goes *darker* here: the lighter orange would drop white button
+     text to 3.96:1. */
+  --brand: 201 80 27;
+  --brand-ink: 170 67 21;
+  --accent: 240 144 80;
+  --flare: 232 99 31;
 
   --ok: 52 211 153;
   --ok-soft: 6 60 48;
@@ -118,6 +120,8 @@ body {
 body {
   background: rgb(var(--app));
   color: rgb(var(--ink));
+  font-family: var(--font-grotesk), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
 }
 
 /* Form controls follow the theme instead of the OS. */

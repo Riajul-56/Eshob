@@ -67,7 +67,16 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        // Space Grotesk is loaded in app/layout.tsx and exposed as a CSS
+        // variable; the system stack is the fallback while it swaps in.
+        sans: [
+          "var(--font-grotesk)",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "sans-serif",
+        ],
       },
       boxShadow: {
         card: "0 1px 2px rgb(var(--shadow) / 0.06), 0 8px 24px -12px rgb(var(--shadow) / 0.18)",
