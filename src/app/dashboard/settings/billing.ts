@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { stripe, PLANS, type PlanKey } from "@/lib/stripe";
+import { resolvePriceId } from "@/lib/stripe-prices";
 import { syncFromStripe } from "@/lib/billing-sync";
 import { createClient } from "@/lib/supabase/server";
 
@@ -25,10 +26,11 @@ async function requireBiz() {
 /** Start a Stripe Checkout session for the chosen plan and redirect to it. */
 export async function startCheckout(plan: PlanKey) {
   const conf = PLANS[plan];
-  if (!conf?.id) {
-    throw new Error("This plan isn't configured yet — add its Stripe price ID to .env.local.");
-  }
   const { supabase, businessId, user } = await requireBiz();
+
+  // Looked up rather than read from the environment, so a stale
+  // STRIPE_PRICE_* can't break checkout. See lib/stripe-prices.ts.
+  const priceId = await resolvePriceId(plan);
 
   // reuse or create the Stripe customer for this business
   const { data: sub } = await supabase
@@ -62,7 +64,7 @@ export async function startCheckout(plan: PlanKey) {
     session = await stripe.checkout.sessions.create({
       customer: customerId!,
       mode: conf.mode,
-      line_items: [{ price: conf.id, quantity: 1 }],
+      line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${base}/dashboard/settings?billing=success`,
       cancel_url: `${base}/dashboard/settings?billing=cancel`,
       allow_promotion_codes: true,
@@ -77,14 +79,11 @@ export async function startCheckout(plan: PlanKey) {
         : {}),
     });
   } catch (err) {
-    // "No such price" on its own sends you hunting. Say which plan, which
-    // variable, and what to run — the fix is always the same.
     const e = err as { code?: string; message?: string };
     if (e?.code === "resource_missing") {
       throw new Error(
-        `The ${conf.label} plan points at a price that doesn't exist in this Stripe account (${conf.id}). ` +
-          `This usually means the STRIPE_PRICE_* values are from a different account or sandbox. ` +
-          `Run "node scripts/stripe-setup.mjs" and paste the three IDs it prints into your environment, then restart.`
+        `Couldn't start checkout for the ${conf.label} plan (price ${priceId}). ` +
+          `Check that STRIPE_SECRET_KEY belongs to the Stripe account you expect.`
       );
     }
     throw err;

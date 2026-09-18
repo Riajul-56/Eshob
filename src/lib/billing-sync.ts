@@ -1,4 +1,5 @@
 import { stripe, mapStatus, planFromPrice, periodEndOf, tsToIso } from "./stripe";
+import { planFromResolved } from "./stripe-prices";
 import { createAdminClient } from "./supabase/admin";
 
 /**
@@ -31,7 +32,9 @@ export async function syncFromStripe(businessId: string): Promise<void> {
       subs.data[0];
 
     if (live) {
-      const plan = planFromPrice(live.items.data[0]?.price?.id);
+      // env match first, then anything we've resolved ourselves this process
+      const priceId = live.items.data[0]?.price?.id;
+      const plan = planFromPrice(priceId) ?? planFromResolved(priceId);
       await admin
         .from("subscriptions")
         .update({

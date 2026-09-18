@@ -1,6 +1,7 @@
 import type Stripe from "stripe";
 import { type NextRequest } from "next/server";
 import { stripe, mapStatus, planFromPrice, periodEndOf, tsToIso } from "@/lib/stripe";
+import { planFromResolved } from "@/lib/stripe-prices";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
@@ -61,7 +62,9 @@ export async function POST(req: NextRequest) {
       if (businessId) {
         // Trust the actual price over metadata — metadata can be stale after a
         // plan switch made from the billing portal.
-        const plan = planFromPrice(sub.items?.data?.[0]?.price?.id) ?? sub.metadata?.plan;
+        const priceId = sub.items?.data?.[0]?.price?.id;
+        const plan =
+          planFromPrice(priceId) ?? planFromResolved(priceId) ?? sub.metadata?.plan;
         await update(businessId, {
           stripe_subscription_id: sub.id,
           status: mapStatus(sub.status),
