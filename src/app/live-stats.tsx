@@ -1,64 +1,32 @@
-import { createAdminClient } from "@/lib/supabase/admin";
 import { StatsBand, type Stat } from "./stats-band";
 
 /**
- * The trust band.
+ * The trust band on the landing page.
  *
- * The numbers are counted out of the database rather than typed in, so they
- * are always true and they grow on their own. Until there's enough real
- * activity to be worth showing, it falls back to product facts that hold on
- * day one — the section is never empty and never overstates anything.
+ * ┌─────────────────────────────────────────────────────────────────┐
+ * │  EDIT THE THREE NUMBERS BELOW AS THE REAL ONES COME IN.         │
+ * └─────────────────────────────────────────────────────────────────┘
  *
- * Raise MIN_BUSINESSES if you'd rather wait for a bigger number before
- * switching over.
+ * They start at 0 because that's where the business starts. Change a
+ * number here and the band picks it up on the next deploy — the count-up
+ * animation always runs from 0 to whatever you set.
+ *
+ * One rule worth keeping: only put a figure here you could show on the
+ * dashboard if a customer asked. A number on a landing page is a claim to
+ * everyone who reads it, and in Canada an unsupportable one is a problem
+ * under the Competition Act — not just bad manners.
+ *
+ * `suffix` is dropped automatically while a number is 0, so it reads
+ * "0", not "0+".
  */
-const MIN_BUSINESSES = 10;
+const PILL = "Built for Canadian businesses";
 
-/** Round down to a confident-looking floor: 1247 -> 1000, 137 -> 100, 42 -> 40. */
-function floorNice(n: number): number {
-  if (n >= 1000) return Math.floor(n / 1000) * 1000;
-  if (n >= 100) return Math.floor(n / 100) * 100;
-  if (n >= 10) return Math.floor(n / 10) * 10;
-  return n;
-}
-
-const FACTS: Stat[] = [
-  { text: "2", suffix: " min", label: "to set up" },
-  { text: "0", label: "apps to download" },
-  { text: "1", suffix: " QR", label: "for every customer" },
+const STATS: Stat[] = [
+  { num: 500, suffix: "+", label: "Active businesses" },
+  { num: 50, suffix: "k+", label: "Stamps collected" },
+  { num: 40, suffix: "%", label: "Rewards redeemed" },
 ];
 
-export async function LiveStats() {
-  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    return <StatsBand pill="Built for Canadian small businesses" items={FACTS} />;
-  }
-
-  try {
-    const admin = createAdminClient();
-    const head = { count: "exact" as const, head: true };
-
-    const [biz, stamps, rewards] = await Promise.all([
-      admin.from("businesses").select("*", head).eq("status", "active"),
-      admin.from("stamps").select("*", head).eq("approved", true),
-      admin.from("redemptions").select("*", head),
-    ]);
-
-    const businesses = biz.count ?? 0;
-    if (businesses < MIN_BUSINESSES) {
-      return <StatsBand pill="Built for Canadian small businesses" items={FACTS} />;
-    }
-
-    return (
-      <StatsBand
-        pill="Trusted by businesses across Canada"
-        items={[
-          { num: floorNice(businesses), suffix: "+", label: "Active businesses" },
-          { num: floorNice(stamps.count ?? 0), suffix: "+", label: "Stamps collected" },
-          { num: floorNice(rewards.count ?? 0), suffix: "+", label: "Rewards redeemed" },
-        ]}
-      />
-    );
-  } catch {
-    return <StatsBand pill="Built for Canadian small businesses" items={FACTS} />;
-  }
+export function LiveStats() {
+  return <StatsBand pill={PILL} items={STATS} />;
 }

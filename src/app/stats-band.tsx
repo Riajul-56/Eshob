@@ -70,7 +70,10 @@ function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
   return (
     <span ref={ref} className="tabular-nums">
       {compact(shown)}
-      {suffix}
+      {/* "0+" would be nonsense, so the suffix only appears once there's
+          something to add to. Keyed off the target, not the animating
+          value, so it doesn't pop in halfway through the count. */}
+      {to > 0 ? suffix : ""}
     </span>
   );
 }
@@ -78,7 +81,9 @@ function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
 export function StatsBand({ pill, items }: { pill: string; items: Stat[] }) {
   return (
     <section className="bg-app px-5 py-12 lg:py-16">
-      <div className="reveal mx-auto max-w-5xl overflow-hidden rounded-3xl bg-gradient-to-br from-brand to-brand-ink px-6 py-10 shadow-lift">
+      {/* Flat brand fill rather than a gradient — one solid block of colour
+          reads as a band across the page, which is the whole point of it. */}
+      <div className="reveal mx-auto max-w-5xl overflow-hidden rounded-3xl bg-brand px-6 py-10 shadow-lift sm:px-10">
         <div className="flex justify-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur sm:text-sm">
             <svg
