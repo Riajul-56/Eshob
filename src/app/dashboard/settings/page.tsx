@@ -379,9 +379,11 @@ function Billing({ sub, billing }: { sub: Sub | null; billing?: string }) {
   } else if (status === "trialing") {
     const d = daysLeft(sub?.trial_ends_at ?? null);
     const ends = fmtDate(sub?.trial_ends_at ?? null);
-    if (plan) {
-      // already subscribed — the rest of the signup trial carried over
+    if (plan && sub?.trial_ends_at) {
+      // card on file, trial running — say exactly when the first charge lands
       summary = `${PLANS[plan].label} plan · free for ${d} more day${d === 1 ? "" : "s"}, first charge on ${ends}.`;
+    } else if (plan) {
+      summary = `${PLANS[plan].label} plan · your free trial is running.`;
     } else if (sub?.trial_ends_at) {
       summary = `${d} day${d === 1 ? "" : "s"} left · trial ends ${ends}. Pick a plan below to keep going.`;
     } else {

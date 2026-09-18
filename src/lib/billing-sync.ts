@@ -3,6 +3,20 @@ import { planFromResolved } from "./stripe-prices";
 import { createAdminClient } from "./supabase/admin";
 
 /**
+ * Record that this business has a payment method on file. Idempotent: the
+ * first card sets the timestamp and later checkouts leave it alone, because
+ * it also marks when the one free trial was handed out.
+ */
+export async function markCardOnFile(businessId: string): Promise<void> {
+  const admin = createAdminClient();
+  await admin
+    .from("subscriptions")
+    .update({ card_added_at: new Date().toISOString() })
+    .eq("business_id", businessId)
+    .is("card_added_at", null);
+}
+
+/**
  * Pull the live subscription state from Stripe and write it into our DB.
  *
  * Webhooks are the normal path, but they can be missed (CLI not running in
@@ -16,12 +30,16 @@ export async function syncFromStripe(businessId: string): Promise<void> {
   const admin = createAdminClient();
   const { data: row } = await admin
     .from("subscriptions")
-    .select("stripe_customer_id")
+    .select("stripe_customer_id,card_added_at")
     .eq("business_id", businessId)
     .maybeSingle();
 
   const customer = row?.stripe_customer_id as string | undefined;
   if (!customer) return; // never checked out — nothing to reconcile
+
+  // Checkout always collects a card, so anything Stripe has for this customer
+  // means onboarding finished — even if the return trip was interrupted.
+  const cardPatch = row?.card_added_at ? {} : { card_added_at: new Date().toISOString() };
 
   try {
     const subs = await stripe.subscriptions.list({ customer, status: "all", limit: 10 });
@@ -44,6 +62,7 @@ export async function syncFromStripe(businessId: string): Promise<void> {
           current_period_end: periodEndOf(live),
           trial_ends_at: tsToIso(live.trial_end),
           cancel_at_period_end: live.cancel_at_period_end ?? false,
+          ...cardPatch,
         })
         .eq("business_id", businessId);
       return;
@@ -55,7 +74,7 @@ export async function syncFromStripe(businessId: string): Promise<void> {
     if (paid) {
       await admin
         .from("subscriptions")
-        .update({ status: "active", plan: "lifetime", cancel_at_period_end: false })
+        .update({ status: "active", plan: "lifetime", cancel_at_period_end: false, ...cardPatch })
         .eq("business_id", businessId);
     }
   } catch (err) {

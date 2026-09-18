@@ -25,7 +25,8 @@ export async function createBusiness(formData: FormData) {
   });
   if (error) throw new Error(error.message);
 
-  redirect("/dashboard");
+  // Step 2: card on file. The trial only starts once Stripe accepts it.
+  redirect("/setup/billing");
 }
 
 /** Helper: current user's business_id (or redirect). */

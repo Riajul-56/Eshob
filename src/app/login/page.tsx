@@ -18,7 +18,7 @@ const COPY: Record<Mode, { title: string; sub: string; cta: string }> = {
   },
   signup: {
     title: "Create your account",
-    sub: "Start your 3-day free trial. No card required.",
+    sub: "Next you'll name your business and add a card. Nothing is charged for 3 days.",
     cta: "Create account",
   },
   forgot: {

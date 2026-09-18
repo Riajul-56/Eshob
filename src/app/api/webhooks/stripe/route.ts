@@ -2,6 +2,7 @@ import type Stripe from "stripe";
 import { type NextRequest } from "next/server";
 import { stripe, mapStatus, planFromPrice, periodEndOf, tsToIso } from "@/lib/stripe";
 import { planFromResolved } from "@/lib/stripe-prices";
+import { markCardOnFile } from "@/lib/billing-sync";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const runtime = "nodejs";
@@ -50,6 +51,9 @@ export async function POST(req: NextRequest) {
             plan: s.metadata?.plan ?? undefined,
           });
         }
+        // Completing checkout means a card was accepted — this is what lets
+        // the owner past onboarding. Only ever set once (see markCardOnFile).
+        await markCardOnFile(businessId);
       }
       break;
     }
@@ -73,6 +77,10 @@ export async function POST(req: NextRequest) {
           trial_ends_at: tsToIso(sub.trial_end),
           cancel_at_period_end: sub.cancel_at_period_end ?? false,
         });
+        // Safety net in case this endpoint isn't subscribed to
+        // checkout.session.completed: a subscription can only exist here
+        // because checkout collected a card.
+        await markCardOnFile(businessId);
       }
       break;
     }

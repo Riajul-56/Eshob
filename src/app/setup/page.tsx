@@ -16,6 +16,10 @@ export default async function SetupPage() {
       <p className="mt-1 text-sm text-muted">
         Tell us who you are. You can change this anytime.
       </p>
+      <p className="mt-2 text-sm text-muted">
+        Next you&apos;ll pick a plan and add a card — that&apos;s what starts your 3-day free trial.
+        Nothing is charged for 3 days.
+      </p>
 
       <form action={createBusiness} className="mt-6 space-y-4">
         <div>

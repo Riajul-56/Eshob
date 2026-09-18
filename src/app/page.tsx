@@ -46,15 +46,16 @@ const STEPS = [
 ];
 
 const PLANS = [
-  { name: "Monthly", price: "$20", per: "/month", features: ["All features included", "Unlimited scans", "3-day free trial"], popular: false, cta: "Start free trial" },
-  { name: "Yearly", price: "$150", per: "/year", features: ["Everything in Monthly", "Save vs paying monthly", "Priority support"], popular: true, cta: "Start free trial" },
-  { name: "Lifetime", price: "$250", per: "once", features: ["Pay once, use forever", "All features included", "3-day free trial"], popular: false, cta: "Start free trial" },
+  { name: "Monthly", price: "$20", per: "/month", features: ["All features included", "Unlimited scans", "First 3 days free"], popular: false, cta: "Get started" },
+  { name: "Yearly", price: "$150", per: "/year", features: ["Everything in Monthly", "Save $90 a year", "First 3 days free"], popular: true, cta: "Get started" },
+  { name: "Lifetime", price: "$250", per: "once", features: ["Pay once, use forever", "All features included", "Refundable for 14 days"], popular: false, cta: "Get started" },
 ];
 
 const FAQS = [
   { q: "How does it work for my business?", a: "Sign up, set your reward, and display your QR code. Customers scan it each visit to collect stamps. You track everything from your dashboard." },
   { q: "Do customers need to download an app?", a: "No. They scan your QR with their phone camera and it opens a web page — nothing to install." },
-  { q: "Is there a free trial?", a: "Yes — every plan starts with a 3-day free trial. No card required to begin." },
+  { q: "Is there a free trial?", a: "Monthly and Yearly start with 3 free days. You choose a plan and add a card when you sign up, and the first charge only happens once those 3 days are up. Lifetime is a single payment with no trial." },
+  { q: "Why do you need my card for a free trial?", a: "So your program keeps running the moment the trial ends — no dead QR code on your counter. Your card is entered on Stripe's checkout page and stored by Stripe, never by us. Cancel before day 3 from Settings → Subscription and you pay nothing." },
   { q: "Can I use one QR code for multiple branches?", a: "Yes. One QR works across all your locations, with optional GPS verification so stamps only count at your store." },
 ];
 
@@ -77,7 +78,7 @@ export default function Home() {
               Business sign in
             </Link>
             <Link href="/login" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-ink">
-              Start free trial
+              Get started
             </Link>
           </div>
         </div>
@@ -104,7 +105,7 @@ export default function Home() {
               href="/login"
               className="group inline-flex items-center gap-2 rounded-xl bg-brand px-6 py-3 font-semibold text-white transition hover:bg-brand-ink"
             >
-              Start free trial
+              Get started
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
                 strokeLinecap="round" strokeLinejoin="round"
                 className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden>
@@ -115,7 +116,7 @@ export default function Home() {
               See how it works
             </a>
           </div>
-          <p className="mt-4 text-sm text-muted">3-day free trial · No card required · Set up in 2 minutes</p>
+          <p className="mt-4 text-sm text-muted">3 days free · Card required to start · Cancel any time</p>
         </div>
 
         {/* mock card */}
@@ -199,7 +200,10 @@ export default function Home() {
       <section id="pricing" className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold tracking-tight">Simple, transparent pricing</h2>
-          <p className="mx-auto mt-3 max-w-xl text-body">Start free. Every plan includes a 3-day free trial — no card required.</p>
+          <p className="mx-auto mt-3 max-w-xl text-body">
+            Monthly and Yearly start with 3 free days. You add a card up front, and the first charge
+            only happens once the trial ends.
+          </p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {PLANS.map((p, i) => (
@@ -255,12 +259,12 @@ export default function Home() {
       <section className="mx-auto max-w-5xl px-5 py-16">
         <div className="reveal rounded-3xl bg-gradient-to-br from-brand to-brand-ink p-10 text-center text-white">
           <h2 className="text-3xl font-extrabold tracking-tight">Ready to grow your repeat customers?</h2>
-          <p className="mx-auto mt-3 max-w-md text-white/80">Set up your loyalty program in minutes. No app, no hardware, no risk.</p>
+          <p className="mx-auto mt-3 max-w-md text-white/80">Set up your loyalty program in minutes. No app, no hardware, 3 days free.</p>
           <Link
             href="/login"
             className="group mt-6 inline-flex items-center gap-2 rounded-xl bg-card px-6 py-3 font-semibold text-accent transition hover:bg-elev"
           >
-            Start your free trial
+            Get started
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
               strokeLinecap="round" strokeLinejoin="round"
               className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden>

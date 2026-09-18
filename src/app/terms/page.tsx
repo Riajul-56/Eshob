@@ -68,7 +68,14 @@ export default function TermsPage() {
           ))}
         </ul>
         <ul>
-          <li>Every account starts with a 3-day free trial. No card is needed to begin.</li>
+          <li>
+            Monthly and Yearly begin with a 3-day free trial. You choose a plan and enter a payment
+            method through Stripe before the trial starts; nothing is charged during those 3 days,
+            and the plan then bills automatically unless you cancel before the trial ends.
+          </li>
+          <li>
+            Lifetime is a single payment taken at checkout. It has no trial.
+          </li>
           <li>
             Subscriptions renew automatically until cancelled. You can cancel any time from
             Settings → Subscription; access continues to the end of the period you have paid for.

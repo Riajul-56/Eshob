@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUserAndBusiness } from "@/lib/business";
 import { createClient } from "@/lib/supabase/server";
+import { row } from "@/lib/db";
 import { syncFromStripe } from "@/lib/billing-sync";
 import { signOut } from "@/app/actions";
 import { SidebarNav, BottomNav } from "./nav";
@@ -12,7 +13,14 @@ type SubRow = {
   trial_ends_at: string | null;
   plan: string | null;
   stripe_customer_id: string | null;
+  card_added_at: string | null;
 };
+
+/** Onboarding isn't finished until a card is on file. */
+function needsCard(sub: SubRow): boolean {
+  if (sub.card_added_at) return false;
+  return !(sub.plan === "lifetime" && sub.status === "active");
+}
 
 /** True when we'd warn the owner their access is lapsing. */
 function needsWarning(sub: SubRow): boolean {
@@ -65,24 +73,25 @@ export default async function DashboardLayout({
   if (!businessId) redirect("/setup");
 
   const supabase = await createClient();
-  const cols = "status,trial_ends_at,plan,stripe_customer_id";
-  let { data: sub } = await supabase
-    .from("subscriptions")
-    .select(cols)
-    .eq("business_id", businessId)
-    .maybeSingle();
+  const cols = "status,trial_ends_at,plan,stripe_customer_id,card_added_at";
+  const read = async () =>
+    row<SubRow>(
+      (await supabase.from("subscriptions").select(cols).eq("business_id", businessId).maybeSingle())
+        .data
+    );
 
-  // About to warn someone who may in fact have paid? Our row could be stale
-  // (a missed webhook). Check with Stripe first, then re-read.
-  if (sub && needsWarning(sub as SubRow) && (sub as SubRow).stripe_customer_id) {
+  let sub = await read();
+
+  // About to turn someone away who may in fact have paid? Our row could be
+  // stale (a missed webhook). Check with Stripe first, then re-read.
+  const stale = sub && (needsWarning(sub) || needsCard(sub)) && sub.stripe_customer_id;
+  if (stale) {
     await syncFromStripe(businessId);
-    const { data: fresh } = await supabase
-      .from("subscriptions")
-      .select(cols)
-      .eq("business_id", businessId)
-      .maybeSingle();
-    sub = fresh ?? sub;
+    sub = (await read()) ?? sub;
   }
+
+  // No card yet → finish onboarding. The trial starts there, not here.
+  if (sub && needsCard(sub)) redirect("/setup/billing");
 
   const initial = (business?.name ?? "B").charAt(0).toUpperCase();
   const logo = business?.logo_url;
@@ -142,7 +151,7 @@ export default async function DashboardLayout({
             </div>
           </header>
 
-          {sub && needsWarning(sub as SubRow) && <BillingBanner sub={sub as SubRow} />}
+          {sub && needsWarning(sub) && <BillingBanner sub={sub} />}
           <main className="p-4 sm:p-6">{children}</main>
         </div>
       </div>

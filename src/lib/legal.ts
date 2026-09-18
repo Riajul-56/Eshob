@@ -19,7 +19,7 @@ export const LEGAL = {
   email: "support@wscanner.ca",
   phone: "+1 647 858 6669",
   /** Bump this whenever you change the wording. */
-  updated: "17 September 2026",
+  updated: "18 September 2026",
 } as const;
 
 export const PLANS_SUMMARY = [

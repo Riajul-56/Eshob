@@ -12,9 +12,13 @@ export default function RefundPage() {
     >
       <Clause title="1. Try it before you pay">
         <p>
-          Every account starts with a <strong>3-day free trial</strong> and no card is required to
-          begin. The best way to avoid needing a refund is to use the trial to check the service
-          fits your shop.
+          Monthly and Yearly start with a <strong>3-day free trial</strong>. A card is entered
+          through Stripe before the trial begins, but nothing is charged during those 3 days —
+          cancel from Settings → Subscription before the trial ends and you pay nothing at all.
+        </p>
+        <p>
+          The best way to avoid needing a refund is to use those 3 days to check the service fits
+          your shop.
         </p>
       </Clause>
 
