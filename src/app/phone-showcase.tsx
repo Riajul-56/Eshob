@@ -212,8 +212,21 @@ function RewardScreen() {
 
       <div className="flex-1 px-3 py-3">
         <div className="overflow-hidden rounded-xl border border-line bg-card">
-          <div className="flex h-24 items-center justify-center bg-gradient-to-br from-warn-solid/30 to-brand/20 text-3xl">
-            ☕
+          {/* A real photo rather than an emoji — this is the screen a
+              customer sees when their card is full, so it should show the
+              treat they came back for. */}
+          <div className="h-24 w-full overflow-hidden bg-elev">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/reward-coffee.jpg"
+              alt=""
+              aria-hidden
+              width={420}
+              height={381}
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover"
+            />
           </div>
           <div className="p-2.5 text-center">
             <div className="text-[8px] font-bold uppercase tracking-widest text-accent">
