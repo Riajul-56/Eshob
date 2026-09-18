@@ -6,8 +6,8 @@ import { submitLead, type ContactState } from "./contact-action";
 /* ── EDIT THESE ────────────────────────────────────────────────────────────
    Your real contact details. Leave a line blank to hide that row.          */
 const CONTACT = {
-  email: "riajulhasan112@gmail.com",
-  phone: "",
+  email: "support@wscanner.ca",
+  phone: "+1 647 858 6669",
   area: "Serving cafés, salons & gyms across Canada",
 };
 /* ─────────────────────────────────────────────────────────────────────── */

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Logo } from "@/components/brand";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -110,9 +111,7 @@ export default function LoginPage() {
       </div>
 
       <div className="flex flex-1 flex-col justify-center pb-16">
-        <span className="mb-2 font-mono text-xs uppercase tracking-widest text-accent">
-          Loyalty Platform
-        </span>
+        <Logo size="lg" className="mb-5" />
         <h1 className="text-2xl font-bold">{COPY[mode].title}</h1>
         <p className="mt-1 text-sm text-muted">{COPY[mode].sub}</p>
 

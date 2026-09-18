@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo, LogoMark } from "@/components/brand";
 import { LandingFX } from "./landing-fx";
 import { PhoneShowcase } from "./phone-showcase";
 import { LiveStats } from "./live-stats";
@@ -63,10 +64,7 @@ export default function Home() {
       {/* nav */}
       <header className="sticky top-0 z-30 border-b border-line-soft bg-card/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand text-lg font-bold text-white">◎</span>
-            <span className="font-bold tracking-tight">Loyalty</span>
-          </div>
+          <Logo />
           <nav className="hidden items-center gap-6 text-sm font-medium text-body sm:flex">
             <a href="#features" className="hover:text-ink">Features</a>
             <a href="#how" className="hover:text-ink">How it works</a>
@@ -92,7 +90,7 @@ export default function Home() {
         {/* centred on a phone, left-aligned once the two-column layout kicks in */}
         <div className="text-center lg:text-left">
           <span className="font-mono text-xs font-semibold uppercase tracking-widest text-accent">
-            Loyalty platform · Canada 🍁
+            wscanner · Canada 🍁
           </span>
           <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
             Turn every visit into a <span className="text-accent">repeat customer.</span>
@@ -277,9 +275,7 @@ export default function Home() {
       {/* footer */}
       <footer className="border-t border-line-soft">
         <div className="mx-auto max-w-6xl px-5 py-12 text-center">
-          <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand text-xl font-bold text-white">
-            ◎
-          </span>
+          <LogoMark className="mx-auto h-14 w-14" />
 
           <nav className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-3 text-sm text-muted">
             <Link href="/terms" className="hover:text-body">Terms &amp; Conditions</Link>
@@ -288,8 +284,17 @@ export default function Home() {
             <a href="#contact" className="hover:text-body">Contact</a>
           </nav>
 
-          <p className="mt-6 text-sm text-muted">
-            © {new Date().getFullYear()} Loyalty Platform · Built for Canadian businesses 🍁
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted">
+            <a href="mailto:support@wscanner.ca" className="hover:text-body">
+              support@wscanner.ca
+            </a>
+            <a href="tel:+16478586669" className="whitespace-nowrap hover:text-body">
+              +1 647 858 6669
+            </a>
+          </div>
+
+          <p className="mt-5 text-sm text-faint">
+            © {new Date().getFullYear()} wscanner · Built for Canadian businesses 🍁
           </p>
         </div>
       </footer>

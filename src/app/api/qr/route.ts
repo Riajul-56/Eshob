@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   const png = await QRCode.toBuffer(data, {
     width: 320,
     margin: 1,
-    color: { dark: "#0b5850", light: "#ffffff" },
+    color: { dark: "#0C203A", light: "#ffffff" },
   });
 
   return new Response(new Uint8Array(png), {

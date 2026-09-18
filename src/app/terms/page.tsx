@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalPage, Clause } from "@/components/legal-page";
 import { LEGAL, PLANS_SUMMARY } from "@/lib/legal";
 
-export const metadata: Metadata = { title: "Terms & Conditions · Loyalty Platform" };
+export const metadata: Metadata = { title: "Terms & Conditions · wscanner" };
 
 export default function TermsPage() {
   return (

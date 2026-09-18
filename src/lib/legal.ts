@@ -8,7 +8,7 @@
  */
 export const LEGAL = {
   /** Trading name shown to customers. */
-  brand: "Loyalty Platform",
+  brand: "wscanner",
   /** Registered legal entity, e.g. "1234567 Ontario Inc." */
   legalName: "[Your registered business name]",
   /** Where you're registered — sets which courts and laws apply. */
@@ -16,7 +16,8 @@ export const LEGAL = {
   country: "Canada",
   /** Business mailing address. */
   address: "[Street address, City, Province, Postal code]",
-  email: "riajulhasan112@gmail.com",
+  email: "support@wscanner.ca",
+  phone: "+1 647 858 6669",
   /** Bump this whenever you change the wording. */
   updated: "17 September 2026",
 } as const;

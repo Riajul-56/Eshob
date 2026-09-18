@@ -24,7 +24,7 @@ export async function sendEmail({ to, subject, html, replyTo }: SendArgs): Promi
   // Resend's shared sender works without a verified domain, but it can only
   // deliver to the address that owns the Resend account. Set MAIL_FROM to an
   // address on your own verified domain to mail anyone.
-  const from = process.env.MAIL_FROM || "Loyalty <onboarding@resend.dev>";
+  const from = process.env.MAIL_FROM || "wscanner <onboarding@resend.dev>";
 
   try {
     const res = await fetch("https://api.resend.com/emails", {

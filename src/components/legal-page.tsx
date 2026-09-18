@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/brand";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LEGAL } from "@/lib/legal";
 
@@ -15,11 +16,8 @@ export function LegalPage({
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-5 pb-20">
       <div className="flex items-center justify-between py-6">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-muted hover:text-ink"
-        >
-          <span aria-hidden>←</span> Back to home
+        <Link href="/" className="inline-flex items-center">
+          <Logo size="sm" />
         </Link>
         <ThemeToggle />
       </div>
@@ -34,6 +32,13 @@ export function LegalPage({
         Questions about this page? Email{" "}
         <a href={`mailto:${LEGAL.email}`} className="font-medium text-accent hover:underline">
           {LEGAL.email}
+        </a>{" "}
+        or call{" "}
+        <a
+          href={`tel:${LEGAL.phone.replace(/[^\d+]/g, "")}`}
+          className="whitespace-nowrap font-medium text-accent hover:underline"
+        >
+          {LEGAL.phone}
         </a>
         .
       </div>

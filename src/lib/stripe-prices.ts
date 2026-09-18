@@ -28,21 +28,21 @@ type PlanDef = {
 const DEFS: Record<PlanKey, PlanDef> = {
   monthly: {
     tag: "eshop_monthly",
-    name: "Eshop — Monthly",
+    name: "wscanner — Monthly",
     envVar: "STRIPE_PRICE_MONTHLY",
     unit_amount: 2000,
     recurring: { interval: "month" },
   },
   yearly: {
     tag: "eshop_yearly",
-    name: "Eshop — Yearly",
+    name: "wscanner — Yearly",
     envVar: "STRIPE_PRICE_YEARLY",
     unit_amount: 15000,
     recurring: { interval: "year" },
   },
   lifetime: {
     tag: "eshop_lifetime",
-    name: "Eshop — Lifetime",
+    name: "wscanner — Lifetime",
     envVar: "STRIPE_PRICE_LIFETIME",
     unit_amount: 25000,
   },

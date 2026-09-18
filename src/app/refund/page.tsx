@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalPage, Clause } from "@/components/legal-page";
 import { LEGAL } from "@/lib/legal";
 
-export const metadata: Metadata = { title: "Refund Policy · Loyalty Platform" };
+export const metadata: Metadata = { title: "Refund Policy · wscanner" };
 
 export default function RefundPage() {
   return (
@@ -59,7 +59,8 @@ export default function RefundPage() {
       <Clause title="6. How to request one">
         <p>
           Email <strong>{LEGAL.email}</strong> from the address on the account, with your business
-          name and roughly when you were charged. We reply within 2 business days.
+          name and roughly when you were charged, or call <strong>{LEGAL.phone}</strong>.
+          We reply within 2 business days.
         </p>
         <p>
           Approved refunds go back to the original payment method through Stripe, and usually appear

@@ -34,7 +34,7 @@ function BillingBanner({ sub }: { sub: SubRow }) {
   if (status === "past_due") {
     msg = "Your last payment failed. Update your card to keep your account active.";
   } else if (status === "canceled") {
-    msg = "Your subscription has ended. Choose a plan to keep using Eshop.";
+    msg = "Your subscription has ended. Choose a plan to keep using wscanner.";
   } else if (trialOver) {
     msg = "Your free trial has ended. Pick a plan to keep collecting stamps.";
   }

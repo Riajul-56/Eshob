@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalPage, Clause } from "@/components/legal-page";
 import { LEGAL } from "@/lib/legal";
 
-export const metadata: Metadata = { title: "Privacy Policy · Loyalty Platform" };
+export const metadata: Metadata = { title: "Privacy Policy · wscanner" };
 
 export default function PrivacyPage() {
   return (
@@ -13,7 +13,7 @@ export default function PrivacyPage() {
       <Clause title="1. Who we are">
         <p>
           {LEGAL.brand} is operated by {LEGAL.legalName}, {LEGAL.address}. You can
-          reach our privacy contact at {LEGAL.email}.
+          reach our privacy contact at {LEGAL.email} or {LEGAL.phone}.
         </p>
         <p>
           We serve two groups: <strong>businesses</strong> who run a loyalty program with

@@ -2,15 +2,15 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Loyalty Platform",
+  title: "wscanner",
   description: "Digital loyalty stamp cards for local businesses — no app needed.",
 };
 
 /** Paints the browser chrome (mobile address bar) to match the theme. */
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f6f8fb" },
-    { media: "(prefers-color-scheme: dark)", color: "#080c16" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f8fa" },
+    { media: "(prefers-color-scheme: dark)", color: "#08101e" },
   ],
 };
 

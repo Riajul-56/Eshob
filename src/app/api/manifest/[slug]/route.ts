@@ -38,7 +38,7 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ slug: stri
     scope: `/j/${slug}`,
     display: "standalone",
     background_color: "#ffffff",
-    theme_color: "#0f766e",
+    theme_color: "#C2410C",
     icons,
   };
 

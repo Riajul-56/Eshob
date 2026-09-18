@@ -39,6 +39,8 @@ const config: Config = {
           ink: c("--brand-ink"), // hover / gradient end
         },
         accent: c("--accent"),
+        /** the untouched logo orange — gradients, glows, never small text */
+        flare: c("--flare"),
 
         // status
         ok: {
