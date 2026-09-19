@@ -61,28 +61,35 @@ export default async function MenuPage() {
             <div className="mb-2 text-xs font-semibold uppercase tracking-wide text-faint">{cat}</div>
             <div className="space-y-2">
               {list.map((it) => (
-                <div key={it.id} className={`flex items-center gap-3 rounded-2xl border border-line bg-card p-3 ${!it.active ? "opacity-50" : ""}`}>
+                <div key={it.id} className={`flex items-start gap-3 rounded-2xl border border-line bg-card p-3 ${!it.active ? "opacity-50" : ""}`}>
                   {it.image_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={it.image_url} alt="" className="h-14 w-14 flex-none rounded-xl object-cover" />
                   ) : (
                     <div className="flex h-14 w-14 flex-none items-center justify-center rounded-xl bg-elev text-xl">🍽️</div>
                   )}
+                  {/* The price sits on its own line rather than beside the
+                      name: on a phone there isn't room for both next to the
+                      buttons, and the price was the part that got squeezed. */}
                   <div className="min-w-0 flex-1">
-                    <div className="flex min-w-0 items-center gap-2">
-                      <span className="font-medium">{it.name}</span>
-                      {it.price != null && <span className="text-sm text-muted">${Number(it.price).toFixed(2)}</span>}
-                    </div>
+                    <div className="truncate font-medium">{it.name}</div>
                     {it.description && <div className="truncate text-xs text-faint">{it.description}</div>}
+                    {it.price != null && (
+                      <div className="mt-1 text-sm font-semibold tabular-nums text-ink">
+                        ${Number(it.price).toFixed(2)}
+                      </div>
+                    )}
                   </div>
-                  <div className="flex flex-none gap-2">
+                  {/* Stacked on a phone, side by side once there's room —
+                      two buttons in a row eat ~130px a narrow screen needs. */}
+                  <div className="flex flex-none flex-col gap-2 sm:flex-row">
                     <form action={toggleMenuItem.bind(null, it.id, !it.active)}>
-                      <button className="rounded-lg border border-line-strong px-2.5 py-1.5 text-xs font-medium text-body hover:bg-app">
+                      <button className="w-full rounded-lg border border-line-strong px-2.5 py-1.5 text-xs font-medium text-body hover:bg-app">
                         {it.active ? "Hide" : "Show"}
                       </button>
                     </form>
                     <form action={deleteMenuItem.bind(null, it.id)}>
-                      <button className="rounded-lg border border-danger-line px-2.5 py-1.5 text-xs font-medium text-danger hover:bg-danger-soft">
+                      <button className="w-full rounded-lg border border-danger-line px-2.5 py-1.5 text-xs font-medium text-danger hover:bg-danger-soft">
                         Delete
                       </button>
                     </form>
