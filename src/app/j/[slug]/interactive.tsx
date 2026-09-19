@@ -2,6 +2,7 @@
 
 import { useActionState, useRef, useState } from "react";
 import { joinCampaign, collectStamp, redeemReward, type ActionState } from "./actions";
+import { ReviewPrompt } from "./review-cta";
 import { Spinner } from "@/components/spinner";
 
 const initial: ActionState = { ok: false, message: "" };
@@ -145,23 +146,40 @@ export function CollectButton({
   );
 }
 
-export function RedeemForm({ slug, reward }: { slug: string; reward: string }) {
+export function RedeemForm({
+  slug,
+  reward,
+  reviewUrl = null,
+  business = "us",
+}: {
+  slug: string;
+  reward: string;
+  reviewUrl?: string | null;
+  business?: string;
+}) {
   const [state, action, pending] = useActionState(redeemReward.bind(null, slug), initial);
   const [revealed, setRevealed] = useState(false);
 
   // big celebration once the reward is redeemed
   if (state.ok) {
     return (
-      <div className="animate-pop mt-6 rounded-2xl bg-gradient-to-br from-ok-solid to-ok p-6 text-center text-white">
-        <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 text-4xl">
-          🎉
+      <>
+        <div className="animate-pop mt-6 rounded-2xl bg-gradient-to-br from-ok-solid to-ok p-6 text-center text-white">
+          <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 text-4xl">
+            🎉
+          </div>
+          <div className="text-xl font-extrabold">Reward Redeemed!</div>
+          <p className="mt-1 text-sm text-white/90">
+            Enjoy your <strong>{reward}</strong> ☕
+          </p>
+          <p className="mt-3 text-xs text-white/70">Your card reset — start collecting again!</p>
         </div>
-        <div className="text-xl font-extrabold">Reward Redeemed!</div>
-        <p className="mt-1 text-sm text-white/90">
-          Enjoy your <strong>{reward}</strong> ☕
-        </p>
-        <p className="mt-3 text-xs text-white/70">Your card reset — start collecting again!</p>
-      </div>
+        {/* The one moment a customer is genuinely pleased — so this is where
+            the review is asked for, once, and never as a condition. */}
+        {reviewUrl && (
+          <ReviewPrompt href={reviewUrl} slug={slug} business={business} reward={reward} />
+        )}
+      </>
     );
   }
 

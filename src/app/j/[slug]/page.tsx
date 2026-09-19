@@ -4,6 +4,7 @@ import { row } from "@/lib/db";
 import { getCustomerId } from "@/lib/customer";
 import { JoinForm, CollectButton, RedeemForm } from "./interactive";
 import { ScratchCard } from "./scratch-card";
+import { ReviewButton } from "./review-cta";
 import { InstallPrompt } from "./install-prompt";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -218,7 +219,12 @@ export default async function JoinPage({ params }: { params: Promise<{ slug: str
         </div>
 
         {full ? (
-          <RedeemForm slug={slug} reward={campaign.reward_text} />
+          <RedeemForm
+            slug={slug}
+            reward={campaign.reward_text}
+            reviewUrl={googleReview || null}
+            business={biz?.name ?? "us"}
+          />
         ) : (
           <CollectButton slug={slug} approvalMode={campaign.approval_mode} geoRequired={!!geoRequired} />
         )}
@@ -234,16 +240,7 @@ export default async function JoinPage({ params }: { params: Promise<{ slug: str
       )}
 
       {/* rate on google */}
-      {googleReview && (
-        <a
-          href={googleReview}
-          target="_blank"
-          rel="noopener"
-          className="mt-3 flex items-center justify-center gap-2 rounded-2xl bg-warn-solid px-4 py-3 font-semibold text-warn-strong transition hover:brightness-110"
-        >
-          ★ Rate us on Google
-        </a>
-      )}
+      {googleReview && <ReviewButton href={googleReview} />}
 
       {/* other offers */}
       {others && others.length > 0 && (
