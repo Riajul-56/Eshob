@@ -16,6 +16,7 @@ import { LocationForm } from "./location";
 import { ImageUpload } from "@/components/image-upload";
 import { startCheckout, openBillingPortal, refreshBilling } from "./billing";
 import { PLANS, type PlanKey } from "@/lib/stripe";
+import { SubmitButton } from "@/components/submit-button";
 import { syncFromStripe } from "@/lib/billing-sync";
 
 type Biz = {
@@ -92,7 +93,8 @@ function Switch({
         <div className="font-medium">{label}</div>
         <div className="text-sm text-muted">{desc}</div>
       </div>
-      <button
+      <SubmitButton
+        overlay={false}
         aria-pressed={on}
         className={`relative h-6 w-11 flex-none rounded-full transition ${
           on ? "bg-brand" : "bg-line-strong"
@@ -103,7 +105,7 @@ function Switch({
             on ? "left-[22px]" : "left-0.5"
           }`}
         />
-      </button>
+      </SubmitButton>
     </form>
   );
 }
@@ -172,9 +174,9 @@ export default async function SettingsPage({
               <input id="email" name="email" type="email" defaultValue={biz.email ?? ""} className={input} />
             </div>
           </div>
-          <button className="rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
+          <SubmitButton className="rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
             Save profile
-          </button>
+          </SubmitButton>
         </form>
       </Section>
 
@@ -227,9 +229,9 @@ export default async function SettingsPage({
             placeholder="4–8 digit PIN"
             className={input}
           />
-          <button className="flex-none rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
+          <SubmitButton className="flex-none rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
             {biz.redemption_pin_hash ? "Update" : "Set PIN"}
-          </button>
+          </SubmitButton>
         </form>
       </Section>
 
@@ -243,9 +245,9 @@ export default async function SettingsPage({
                 {b.address && <div className="text-xs text-faint">{b.address}</div>}
               </div>
               <form action={deleteBranch.bind(null, b.id)}>
-                <button className="rounded-lg border border-danger-line px-3 py-1.5 text-sm font-medium text-danger hover:bg-danger-soft">
+                <SubmitButton spinner="h-3.5 w-3.5" className="rounded-lg border border-danger-line px-3 py-1.5 text-sm font-medium text-danger hover:bg-danger-soft">
                   Remove
-                </button>
+                </SubmitButton>
               </form>
             </div>
           ))}
@@ -256,9 +258,9 @@ export default async function SettingsPage({
         <form action={addBranch} className="mt-3 flex flex-col gap-2 sm:flex-row">
           <input name="name" required placeholder="Branch name" className={input} />
           <input name="address" placeholder="Address (optional)" className={input} />
-          <button className="flex-none rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
+          <SubmitButton className="flex-none rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
             + Add
-          </button>
+          </SubmitButton>
         </form>
       </Section>
 
@@ -279,9 +281,9 @@ export default async function SettingsPage({
               <input id="facebook" name="facebook" defaultValue={social.facebook ?? ""} className={input} />
             </div>
           </div>
-          <button className="rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
+          <SubmitButton className="rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
             Save links
-          </button>
+          </SubmitButton>
         </form>
       </Section>
 
@@ -308,9 +310,9 @@ export default async function SettingsPage({
               className={input}
             />
           </div>
-          <button className="flex-none rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
+          <SubmitButton className="flex-none rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
             Save
-          </button>
+          </SubmitButton>
         </form>
 
         <div className="mt-4">
@@ -323,9 +325,9 @@ export default async function SettingsPage({
                   <span className="text-xs text-faint">· odds {p.weight}</span>
                 </div>
                 <form action={deleteScratchPrize.bind(null, p.id)}>
-                  <button className="rounded-lg border border-danger-line px-3 py-1.5 text-sm font-medium text-danger hover:bg-danger-soft">
+                  <SubmitButton spinner="h-3.5 w-3.5" className="rounded-lg border border-danger-line px-3 py-1.5 text-sm font-medium text-danger hover:bg-danger-soft">
                     Remove
-                  </button>
+                  </SubmitButton>
                 </form>
               </div>
             ))}
@@ -334,9 +336,9 @@ export default async function SettingsPage({
           <form action={addScratchPrize} className="mt-3 flex flex-col gap-2 sm:flex-row">
             <input name="label" required placeholder="Prize (e.g. Free cookie)" className={input} />
             <input name="weight" type="number" min={1} defaultValue={1} title="Relative odds" className={`${input} sm:w-24`} />
-            <button className="flex-none rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
+            <SubmitButton className="flex-none rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
               + Add prize
-            </button>
+            </SubmitButton>
           </form>
         </div>
       </Section>
@@ -421,17 +423,17 @@ function Billing({ sub, billing }: { sub: Sub | null; billing?: string }) {
         {hasCustomer && (
           <div className="flex gap-2">
             <form action={refreshBilling}>
-              <button
+              <SubmitButton
                 title="Re-read your plan from Stripe"
                 className="rounded-lg border border-line-strong px-3 py-1.5 text-sm font-medium hover:bg-app"
               >
                 ↻ Refresh
-              </button>
+              </SubmitButton>
             </form>
             <form action={openBillingPortal}>
-              <button className="rounded-lg border border-line-strong px-3 py-1.5 text-sm font-medium hover:bg-app">
+              <SubmitButton className="rounded-lg border border-line-strong px-3 py-1.5 text-sm font-medium hover:bg-app">
                 Manage billing →
-              </button>
+              </SubmitButton>
             </form>
           </div>
         )}
@@ -458,7 +460,7 @@ function Billing({ sub, billing }: { sub: Sub | null; billing?: string }) {
                   <span className="text-sm text-muted"> {p.per}</span>
                 </div>
                 <div className="mt-1 text-xs text-muted">{p.note}</div>
-                <button
+                <SubmitButton
                   disabled={current}
                   className={`mt-3 rounded-lg px-3 py-2 text-sm font-semibold ${
                     current
@@ -467,7 +469,7 @@ function Billing({ sub, billing }: { sub: Sub | null; billing?: string }) {
                   }`}
                 >
                   {current ? "Current plan" : status === "active" ? "Switch" : "Choose"}
-                </button>
+                </SubmitButton>
               </form>
             );
           })}

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentUserAndBusiness } from "@/lib/business";
 import { createBusiness } from "@/app/actions";
+import { SubmitButton } from "@/components/submit-button";
 
 export default async function SetupPage() {
   const { user, businessId } = await getCurrentUserAndBusiness();
@@ -45,12 +46,9 @@ export default async function SetupPage() {
             className="w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent"
           />
         </div>
-        <button
-          type="submit"
-          className="w-full rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink"
-        >
+        <SubmitButton className="w-full rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink">
           Create business
-        </button>
+        </SubmitButton>
       </form>
     </main>
   );

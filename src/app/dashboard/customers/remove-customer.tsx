@@ -1,6 +1,7 @@
 "use client";
 
 import { removeMembership } from "@/app/actions";
+import { SubmitButton } from "@/components/submit-button";
 
 export function RemoveCustomer({ id }: { id: string }) {
   return (
@@ -13,9 +14,9 @@ export function RemoveCustomer({ id }: { id: string }) {
       }}
       className="mt-3 border-t border-line-soft pt-3"
     >
-      <button className="text-sm font-medium text-danger hover:underline">
+      <SubmitButton className="text-sm font-medium text-danger hover:underline" spinner="h-3.5 w-3.5">
         Remove customer
-      </button>
+      </SubmitButton>
     </form>
   );
 }

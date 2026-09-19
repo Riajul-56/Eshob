@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { addMenuItem, generateDescription } from "./actions";
 import { ImageUpload } from "@/components/image-upload";
+import { SubmitButton } from "@/components/submit-button";
+import { Spinner } from "@/components/spinner";
 
 const input =
   "w-full rounded-lg border border-line-strong px-3 py-2 outline-none focus:border-accent focus:ring-1 focus:ring-accent";
@@ -56,8 +58,9 @@ export function MenuForm() {
             type="button"
             onClick={runAI}
             disabled={aiBusy}
-            className="rounded-lg border border-brand/40 bg-accent/5 px-2.5 py-1 text-xs font-semibold text-accent hover:bg-accent/10 disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-brand/40 bg-accent/5 px-2.5 py-1 text-xs font-semibold text-accent hover:bg-accent/10 disabled:opacity-60"
           >
+            {aiBusy && <Spinner className="h-3 w-3" />}
             {aiBusy ? "Generating…" : "✨ Generate with AI"}
           </button>
         </div>
@@ -73,9 +76,9 @@ export function MenuForm() {
         {aiErr && <p className="mt-1 text-xs text-warn">{aiErr}</p>}
       </div>
 
-      <button className="rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
+      <SubmitButton className="rounded-lg bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-ink">
         + Add item
-      </button>
+      </SubmitButton>
     </form>
   );
 }

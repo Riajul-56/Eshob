@@ -3,6 +3,7 @@ import { getCurrentUserAndBusiness } from "@/lib/business";
 import { createClient } from "@/lib/supabase/server";
 import { rows } from "@/lib/db";
 import { approveStamp, rejectStamp } from "@/app/actions";
+import { SubmitButton } from "@/components/submit-button";
 
 /* ---------- tiny inline icons ---------- */
 function I({ d }: { d: string }) {
@@ -223,10 +224,10 @@ export default async function DashboardHome() {
                   </div>
                   <div className="flex gap-2">
                     <form action={rejectStamp.bind(null, s.id)}>
-                      <button aria-label="Reject" className="flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-card text-muted hover:bg-app">✕</button>
+                      <SubmitButton aria-label="Reject" spinner="h-4 w-4" className="flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-card text-muted hover:bg-app">✕</SubmitButton>
                     </form>
                     <form action={approveStamp.bind(null, s.id)}>
-                      <button aria-label="Approve" className="flex h-9 w-9 items-center justify-center rounded-lg bg-ok-solid text-white transition hover:brightness-110">✓</button>
+                      <SubmitButton aria-label="Approve" spinner="h-4 w-4" className="flex h-9 w-9 items-center justify-center rounded-lg bg-ok-solid text-white transition hover:brightness-110">✓</SubmitButton>
                     </form>
                   </div>
                 </div>

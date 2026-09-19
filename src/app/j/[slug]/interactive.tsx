@@ -2,6 +2,7 @@
 
 import { useActionState, useRef, useState } from "react";
 import { joinCampaign, collectStamp, redeemReward, type ActionState } from "./actions";
+import { Spinner } from "@/components/spinner";
 
 const initial: ActionState = { ok: false, message: "" };
 
@@ -63,8 +64,9 @@ export function JoinForm({ slug, geoRequired }: { slug: string; geoRequired: boo
       <Message state={state} />
       <button
         disabled={pending}
-        className="w-full rounded-xl bg-brand px-4 py-3 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
       >
+        {pending && <Spinner />}
         {pending ? "Joining…" : "Join & get my first stamp"}
       </button>
       <p className="text-center text-xs text-faint">
@@ -127,8 +129,9 @@ export function CollectButton({
       <Message state={state} />
       <button
         disabled={pending}
-        className="w-full rounded-xl bg-brand px-4 py-3 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
       >
+        {pending && <Spinner />}
         {pending ? "Adding…" : "I'm here — add my stamp"}
       </button>
       <p className="text-center text-xs text-faint">
@@ -194,9 +197,10 @@ export function RedeemForm({ slug, reward }: { slug: string; reward: string }) {
             />
             <button
               disabled={pending}
-              className="flex-none rounded-lg bg-ok-solid px-4 py-2 font-semibold text-white transition hover:brightness-110 disabled:opacity-60"
+              className="flex flex-none items-center justify-center gap-2 rounded-lg bg-ok-solid px-4 py-2 font-semibold text-white transition hover:brightness-110 disabled:opacity-60"
             >
-              {pending ? "…" : "Confirm"}
+              {pending && <Spinner className="h-4 w-4" />}
+              Confirm
             </button>
           </div>
           <p className="mt-1 text-[11px] text-warn">The customer doesn&apos;t know this PIN — it protects your rewards.</p>

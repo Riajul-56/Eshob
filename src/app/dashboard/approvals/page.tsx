@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { rows } from "@/lib/db";
 import { approveStamp } from "@/app/actions";
+import { SubmitButton } from "@/components/submit-button";
 
 type PendingStamp = {
   id: string;
@@ -48,9 +49,9 @@ export default async function ApprovalsPage() {
                 </div>
               </div>
               <form action={approveStamp.bind(null, s.id)}>
-                <button className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-ink">
+                <SubmitButton className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-ink">
                   Approve
-                </button>
+                </SubmitButton>
               </form>
             </div>
           );

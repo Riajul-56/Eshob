@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { PasswordField, PasswordRules } from "@/components/password-field";
+import { Spinner } from "@/components/spinner";
 import { isStrongPassword, MIN_PASSWORD_LENGTH } from "@/lib/password";
 
 type Mode = "signin" | "signup" | "forgot";
@@ -213,8 +214,9 @@ export default function LoginPage() {
           <button
             onClick={resend}
             disabled={loading || cooldown > 0}
-            className="mt-6 w-full rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
           >
+            {loading && <Spinner />}
             {cooldown > 0 ? `Resend in ${cooldown}s` : loading ? "Sending…" : "Resend the email"}
           </button>
 
@@ -337,8 +339,9 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading || mismatch || weak}
-            className="w-full rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
           >
+            {loading && <Spinner />}
             {loading ? "Please wait…" : COPY[mode].cta}
           </button>
         </form>

@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { Spinner } from "./spinner";
 
 /**
  * Uploads an image to the Supabase "assets" bucket and stores its public URL
@@ -89,7 +90,11 @@ export function ImageUpload({
           onChange={handleFile}
           className="block w-full min-w-0 text-sm text-muted file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-brand file:px-3 file:py-1.5 file:font-medium file:text-white hover:file:bg-brand-ink"
         />
-        {busy && <p className="mt-1 text-xs text-muted">Uploading…</p>}
+        {busy && (
+          <p className="mt-1 flex items-center gap-1.5 text-xs text-muted">
+            <Spinner className="h-3.5 w-3.5" /> Uploading…
+          </p>
+        )}
         {err && <p className="mt-1 text-xs text-danger">{err}</p>}
         {url && !busy && (
           <button type="button" onClick={clear} className="mt-1 text-xs text-muted hover:underline">

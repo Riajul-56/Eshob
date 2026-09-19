@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { submitLead, type ContactState } from "./contact-action";
+import { Spinner } from "@/components/spinner";
 
 /* ── EDIT THESE ────────────────────────────────────────────────────────────
    Your real contact details. Leave a line blank to hide that row.          */
@@ -173,8 +174,9 @@ export function Contact() {
 
               <button
                 disabled={pending}
-                className="mt-5 w-full rounded-xl bg-brand px-5 py-3 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60 sm:w-auto"
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-5 py-3 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60 sm:w-auto"
               >
+                {pending && <Spinner />}
                 {pending ? "Sending…" : "Send message"}
               </button>
 

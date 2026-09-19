@@ -1,6 +1,7 @@
 import { getCurrentUserAndBusiness } from "@/lib/business";
 import { createClient } from "@/lib/supabase/server";
 import { deleteMenuItem, toggleMenuItem } from "./actions";
+import { SubmitButton } from "@/components/submit-button";
 import { MenuForm } from "./menu-form";
 
 type Item = {
@@ -84,14 +85,14 @@ export default async function MenuPage() {
                       two buttons in a row eat ~130px a narrow screen needs. */}
                   <div className="flex flex-none flex-col gap-2 sm:flex-row">
                     <form action={toggleMenuItem.bind(null, it.id, !it.active)}>
-                      <button className="w-full rounded-lg border border-line-strong px-2.5 py-1.5 text-xs font-medium text-body hover:bg-app">
+                      <SubmitButton spinner="h-3.5 w-3.5" className="w-full rounded-lg border border-line-strong px-2.5 py-1.5 text-xs font-medium text-body hover:bg-app">
                         {it.active ? "Hide" : "Show"}
-                      </button>
+                      </SubmitButton>
                     </form>
                     <form action={deleteMenuItem.bind(null, it.id)}>
-                      <button className="w-full rounded-lg border border-danger-line px-2.5 py-1.5 text-xs font-medium text-danger hover:bg-danger-soft">
+                      <SubmitButton spinner="h-3.5 w-3.5" className="w-full rounded-lg border border-danger-line px-2.5 py-1.5 text-xs font-medium text-danger hover:bg-danger-soft">
                         Delete
-                      </button>
+                      </SubmitButton>
                     </form>
                   </div>
                 </div>

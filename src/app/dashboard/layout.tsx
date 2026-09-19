@@ -7,6 +7,8 @@ import { syncFromStripe } from "@/lib/billing-sync";
 import { signOut } from "@/app/actions";
 import { SidebarNav, BottomNav } from "./nav";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SubmitButton } from "@/components/submit-button";
+import { PendingLink } from "@/components/pending-link";
 
 type SubRow = {
   status: string;
@@ -52,12 +54,13 @@ function BillingBanner({ sub }: { sub: SubRow }) {
     <div className="border-b border-warn-line bg-warn-soft px-4 py-2.5 text-sm text-warn">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
         <span>⚠️ {msg}</span>
-        <Link
+        <PendingLink
           href="/dashboard/settings#subscription"
+          spinner="h-3.5 w-3.5"
           className="flex-none rounded-lg bg-warn-solid px-3 py-1.5 text-xs font-semibold text-white transition hover:brightness-110"
         >
           Manage plan
-        </Link>
+        </PendingLink>
       </div>
     </div>
   );
@@ -120,9 +123,9 @@ export default async function DashboardLayout({
           <SidebarNav />
           <div className="mt-auto flex items-center gap-2 pt-4">
             <form action={signOut} className="min-w-0 flex-1">
-              <button className="w-full rounded-lg border border-line-strong px-3 py-2 text-sm text-body hover:bg-elev">
+              <SubmitButton className="w-full rounded-lg border border-line-strong px-3 py-2 text-sm text-body hover:bg-elev">
                 Sign out
-              </button>
+              </SubmitButton>
             </form>
             <ThemeToggle />
           </div>
@@ -146,7 +149,9 @@ export default async function DashboardLayout({
             <div className="flex items-center gap-3">
               <ThemeToggle className="h-8 w-8" />
               <form action={signOut}>
-                <button className="text-xs text-muted">Sign out</button>
+                <SubmitButton spinner="h-3.5 w-3.5" className="text-xs text-muted">
+                  Sign out
+                </SubmitButton>
               </form>
             </div>
           </header>

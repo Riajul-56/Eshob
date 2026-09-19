@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { revealScratch } from "./actions";
+import { Spinner } from "@/components/spinner";
 
 export function ScratchCard({
   slug,
@@ -37,7 +38,9 @@ export function ScratchCard({
       disabled={busy}
       className="w-full rounded-2xl border-2 border-dashed border-warn-line bg-warn-soft p-5 text-center transition hover:bg-warn-line disabled:opacity-70"
     >
-      <div className="text-3xl">🎁</div>
+      <div className="flex justify-center text-3xl">
+        {busy ? <Spinner className="h-8 w-8 text-warn-strong" /> : "🎁"}
+      </div>
       <div className="mt-1 font-bold text-warn-strong">You got a scratch card!</div>
       <div className="text-sm text-warn">{busy ? "Revealing…" : "Tap to scratch & reveal your prize"}</div>
     </button>

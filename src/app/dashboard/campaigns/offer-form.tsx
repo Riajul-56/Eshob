@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createCampaign, updateCampaign } from "@/app/actions";
 import { ImageUpload } from "@/components/image-upload";
+import { SubmitButton } from "@/components/submit-button";
 
 /** Upper bound on a card's stamp count — mirrored in the server action. */
 const MAX_STAMPS = 50;
@@ -147,9 +148,9 @@ export function OfferForm({ defaults }: { defaults?: OfferDefaults }) {
           </div>
         </div>
 
-        <button className="w-full rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink">
+        <SubmitButton className="w-full rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink">
           {isEdit ? "Save changes" : "Create offer"}
-        </button>
+        </SubmitButton>
       </form>
 
       {/* live preview */}

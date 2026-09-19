@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getCurrentUserAndBusiness } from "@/lib/business";
 import { createClient } from "@/lib/supabase/server";
 import { setCampaignStatus, deleteCampaign } from "@/app/actions";
+import { SubmitButton } from "@/components/submit-button";
 import { OfferForm } from "./offer-form";
 
 type Campaign = {
@@ -118,14 +119,14 @@ export default async function CampaignsPage() {
                   Download QR
                 </a>
                 <form action={setCampaignStatus.bind(null, c.id, c.status === "active" ? "paused" : "active")}>
-                  <button className="rounded-lg border border-line-strong px-3 py-1.5 font-medium text-body hover:bg-app">
+                  <SubmitButton className="rounded-lg border border-line-strong px-3 py-1.5 font-medium text-body hover:bg-app">
                     {c.status === "active" ? "Pause" : "Resume"}
-                  </button>
+                  </SubmitButton>
                 </form>
                 <form action={deleteCampaign.bind(null, c.id)}>
-                  <button className="rounded-lg border border-danger-line px-3 py-1.5 font-medium text-danger hover:bg-danger-soft">
+                  <SubmitButton className="rounded-lg border border-danger-line px-3 py-1.5 font-medium text-danger hover:bg-danger-soft">
                     Delete
-                  </button>
+                  </SubmitButton>
                 </form>
               </div>
             </div>

@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { PasswordField, PasswordRules } from "@/components/password-field";
+import { Spinner } from "@/components/spinner";
+import { PendingLink } from "@/components/pending-link";
 import { isStrongPassword, MIN_PASSWORD_LENGTH } from "@/lib/password";
 
 /**
@@ -121,12 +123,12 @@ export default function ResetPasswordPage() {
               Reset links are single-use and time-limited. Request a fresh one and it
               should arrive in a minute.
             </p>
-            <Link
+            <PendingLink
               href="/login"
               className="mt-6 inline-block rounded-lg bg-brand px-4 py-2.5 text-center font-semibold text-white transition hover:bg-brand-ink"
             >
               Request a new link
-            </Link>
+            </PendingLink>
           </>
         )}
 
@@ -168,8 +170,9 @@ export default function ResetPasswordPage() {
               <button
                 type="submit"
                 disabled={saving || mismatch || weak}
-                className="w-full rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink disabled:opacity-60"
               >
+                {saving && <Spinner />}
                 {saving ? "Saving…" : "Update password"}
               </button>
             </form>

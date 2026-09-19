@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PendingLink } from "@/components/pending-link";
 import { Logo, LogoMark } from "@/components/brand";
 import { LandingFX } from "./landing-fx";
 import { PhoneShowcase } from "./phone-showcase";
@@ -74,12 +75,12 @@ export default function Home() {
           </nav>
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <Link href="/login" className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-body hover:bg-elev sm:block">
+            <PendingLink href="/login" spinner="h-4 w-4" className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-body hover:bg-elev sm:block">
               Business sign in
-            </Link>
-            <Link href="/login" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-ink">
+            </PendingLink>
+            <PendingLink href="/login" spinner="h-4 w-4" className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-ink">
               Get started
-            </Link>
+            </PendingLink>
           </div>
         </div>
       </header>
@@ -101,7 +102,7 @@ export default function Home() {
             no app to download.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
-            <Link
+            <PendingLink
               href="/login"
               className="group inline-flex items-center gap-2 rounded-xl bg-brand px-6 py-3 font-semibold text-white transition hover:bg-brand-ink"
             >
@@ -111,7 +112,7 @@ export default function Home() {
                 className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden>
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
-            </Link>
+            </PendingLink>
             <a href="#how" className="rounded-xl border border-line-strong px-6 py-3 font-semibold text-body hover:bg-app">
               See how it works
             </a>
@@ -226,12 +227,12 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <Link
+              <PendingLink
                 href="/login"
                 className={`mt-6 block rounded-xl px-4 py-2.5 text-center font-semibold ${p.popular ? "bg-brand text-white hover:bg-brand-ink" : "border border-line-strong text-body hover:bg-app"}`}
               >
                 {p.cta}
-              </Link>
+              </PendingLink>
             </div>
           ))}
         </div>
@@ -260,7 +261,7 @@ export default function Home() {
         <div className="reveal rounded-3xl bg-gradient-to-br from-brand to-brand-ink p-10 text-center text-white">
           <h2 className="text-3xl font-extrabold tracking-tight">Ready to grow your repeat customers?</h2>
           <p className="mx-auto mt-3 max-w-md text-white/80">Set up your loyalty program in minutes. No app, no hardware, 3 days free.</p>
-          <Link
+          <PendingLink
             href="/login"
             className="group mt-6 inline-flex items-center gap-2 rounded-xl bg-card px-6 py-3 font-semibold text-accent transition hover:bg-elev"
           >
@@ -270,7 +271,7 @@ export default function Home() {
               className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden>
               <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
-          </Link>
+          </PendingLink>
         </div>
       </section>
 

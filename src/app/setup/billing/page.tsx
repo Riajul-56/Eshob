@@ -6,6 +6,7 @@ import { getCurrentUserAndBusiness } from "@/lib/business";
 import { signOut } from "@/app/actions";
 import { PLANS, type PlanKey } from "@/lib/stripe";
 import { TRIAL_DAYS } from "@/lib/checkout";
+import { SubmitButton } from "@/components/submit-button";
 import { startOnboardingCheckout } from "./actions";
 
 export const metadata = { title: "Add a payment method · wscanner" };
@@ -106,9 +107,9 @@ export default async function OnboardingBillingPage({
                 <span className="text-muted">{p.per}</span>
               </div>
               <div className="mt-1 text-sm text-muted">{c.then}</div>
-              <button className="mt-5 w-full rounded-xl bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink">
+              <SubmitButton className="mt-5 w-full rounded-xl bg-brand px-4 py-2.5 font-semibold text-white transition hover:bg-brand-ink">
                 {c.cta}
-              </button>
+              </SubmitButton>
             </form>
           );
         })}
@@ -148,7 +149,9 @@ export default async function OnboardingBillingPage({
       <div className="mt-6 text-center text-sm text-muted">
         Signed in as {user.email} ·{" "}
         <form action={signOut} className="inline">
-          <button className="text-accent hover:underline">Sign out</button>
+          <SubmitButton spinner="h-3.5 w-3.5" className="text-accent hover:underline">
+            Sign out
+          </SubmitButton>
         </form>
       </div>
     </main>

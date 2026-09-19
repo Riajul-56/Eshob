@@ -3,6 +3,7 @@ import { getCurrentUserAndBusiness } from "@/lib/business";
 import { createClient } from "@/lib/supabase/server";
 import { rows } from "@/lib/db";
 import { markScratchClaimed } from "@/app/actions";
+import { SubmitButton } from "@/components/submit-button";
 
 type Redemption = {
   id: string;
@@ -125,9 +126,9 @@ export default async function RewardsPage({
                   </span>
                 ) : (
                   <form action={markScratchClaimed.bind(null, w.id)}>
-                    <button className="rounded-lg bg-brand px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-ink">
+                    <SubmitButton className="rounded-lg bg-brand px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-ink">
                       Mark claimed
-                    </button>
+                    </SubmitButton>
                   </form>
                 )}
               </div>
