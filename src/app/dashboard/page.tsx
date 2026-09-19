@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { rows } from "@/lib/db";
 import { approveStamp, rejectStamp } from "@/app/actions";
 import { SubmitButton } from "@/components/submit-button";
+import { CopyLink } from "@/components/copy-link";
 
 /* ---------- tiny inline icons ---------- */
 function I({ d }: { d: string }) {
@@ -50,12 +51,14 @@ function StatTile({
   accent?: boolean;
 }) {
   return (
-    <div className={`rounded-2xl border p-4 ${accent ? "border-transparent bg-brand text-white" : "border-line bg-card"}`}>
+    // min-w-0 so the tile can shrink inside its grid track, and truncate so a
+    // long label can't set the track's width and widen the whole page.
+    <div className={`min-w-0 rounded-2xl border p-4 ${accent ? "border-transparent bg-brand text-white" : "border-line bg-card"}`}>
       <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl ${accent ? "bg-white/20 text-white" : "bg-accent/10 text-accent"}`}>
         <I d={IC[icon]} />
       </div>
-      <div className={`text-2xl font-extrabold tabular-nums ${accent ? "text-white" : "text-ink"}`}>{value}</div>
-      <div className={`text-[11px] font-semibold uppercase tracking-wide ${accent ? "text-white/80" : "text-muted"}`}>{label}</div>
+      <div className={`truncate text-2xl font-extrabold tabular-nums ${accent ? "text-white" : "text-ink"}`}>{value}</div>
+      <div className={`truncate text-[11px] font-semibold uppercase tracking-wide ${accent ? "text-white/80" : "text-muted"}`}>{label}</div>
     </div>
   );
 }
@@ -187,7 +190,7 @@ export default async function DashboardHome() {
 
       {/* business info at a glance */}
       <section className="rounded-2xl border border-line bg-card p-5">
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
           <h2 className="font-semibold">Business info</h2>
           <Link href="/dashboard/settings" className="text-sm font-medium text-accent hover:underline">Manage in Settings →</Link>
         </div>
@@ -238,9 +241,14 @@ export default async function DashboardHome() {
       )}
 
       {/* activity + QR */}
+      {/* min-w-0 on both cards: a grid item refuses to shrink below its
+          content's minimum width by default, so one long header row was
+          stretching the track and pushing both cards past the right edge of
+          a narrow phone — which is why the left margin showed and the right
+          one didn't. */}
       <div className="grid gap-5 lg:grid-cols-2">
-        <section className="rounded-2xl border border-line bg-card p-5">
-          <div className="mb-3 flex items-center justify-between">
+        <section className="min-w-0 rounded-2xl border border-line bg-card p-5">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
             <h2 className="font-semibold">Recent activity</h2>
             <Link href="/dashboard/customers" className="text-sm font-medium text-accent hover:underline">
               View all customers →
@@ -265,36 +273,53 @@ export default async function DashboardHome() {
           )}
         </section>
 
-        <section className="rounded-2xl border border-line bg-card p-5">
+        <section className="min-w-0 rounded-2xl border border-line bg-card p-5">
           <h2 className="mb-3 font-semibold">Your QR codes</h2>
           {offers.length > 0 ? (
-            <div className="space-y-4">
-              {offers.map((o) => {
-                const joinUrl = `${base}/j/${o.slug}`;
-                const src = `/api/qr?data=${encodeURIComponent(joinUrl)}`;
-                return (
-                  <div key={o.slug} className="flex min-w-0 items-center gap-3">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={src} alt="" width={84} height={84} className="flex-none rounded-xl border border-line" />
-                    <div className="min-w-0 flex-1">
-                      <div className="truncate font-medium">{o.name}</div>
-                      <div className="text-xs text-muted">{o.stamps_required} stamps → {o.reward_text}</div>
-                      <a
-                        href={joinUrl}
-                        target="_blank"
-                        rel="noopener"
-                        className="mt-1 block break-all font-mono text-[11px] text-accent hover:underline"
-                      >
-                        {joinUrl}
-                      </a>
-                      <a href={src} download={`qr-${o.slug}.png`} className="mt-0.5 inline-block text-xs font-medium text-muted hover:underline">
-                        Download QR
-                      </a>
+            <div>
+              {/* Rows are divided rather than spaced: with the long link gone
+                  they're short enough that a gap alone stopped reading as
+                  "separate cards". */}
+              <div className="divide-y divide-line-soft">
+                {offers.map((o) => {
+                  const joinUrl = `${base}/j/${o.slug}`;
+                  const src = `/api/qr?data=${encodeURIComponent(joinUrl)}`;
+                  return (
+                    <div key={o.slug} className="flex min-w-0 items-start gap-3 py-4 first:pt-0 last:pb-0">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={src} alt="" width={84} height={84} className="h-20 w-20 flex-none rounded-xl border border-line" />
+                      <div className="min-w-0 flex-1">
+                        <div className="truncate font-medium">{o.name}</div>
+                        <div className="truncate text-xs text-muted">
+                          {o.stamps_required} stamps → {o.reward_text}
+                        </div>
+                        {/* Only the path. The full URL wrapped mid-word on a
+                            phone ("…vercel.a / pp/j/…"), which made every row
+                            a different height and looked broken. */}
+                        <a
+                          href={joinUrl}
+                          target="_blank"
+                          rel="noopener"
+                          title={joinUrl}
+                          className="mt-1 block truncate font-mono text-[11px] text-accent hover:underline"
+                        >
+                          /j/{o.slug}
+                        </a>
+                        <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1">
+                          <CopyLink
+                            value={joinUrl}
+                            className="text-xs font-medium text-accent hover:underline"
+                          />
+                          <a href={src} download={`qr-${o.slug}.png`} className="text-xs font-medium text-muted hover:underline">
+                            Download QR
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-              <p className="text-xs text-faint">Print &amp; display each one at your counter.</p>
+                  );
+                })}
+              </div>
+              <p className="mt-4 text-xs text-faint">Print &amp; display each one at your counter.</p>
             </div>
           ) : (
             <p className="py-6 text-center text-sm text-muted">

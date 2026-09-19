@@ -27,12 +27,16 @@ export async function GET(req: NextRequest) {
 
   // Only ever continue inside this app — never to a URL from the query string.
   const asked = url.searchParams.get("next") || "/setup";
-  const next = asked.startsWith("/") && !asked.startsWith("//") ? asked : "/setup";
+  const next =
+    asked.startsWith("/") && !asked.startsWith("//") ? asked : "/setup";
 
   const supabase = await createClient();
 
   if (tokenHash && type) {
-    const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
+    const { error } = await supabase.auth.verifyOtp({
+      type,
+      token_hash: tokenHash,
+    });
     if (!error) return NextResponse.redirect(new URL(next, req.url));
     return NextResponse.redirect(new URL("/login?verify=expired", req.url));
   }
