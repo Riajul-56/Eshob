@@ -10,12 +10,14 @@ export const PLANS: Record<
   PlanKey,
   { id: string | undefined; mode: "subscription" | "payment"; label: string; price: string; per: string; note: string }
 > = {
+  // The currency is part of the label everywhere a price is shown. A Canadian
+  // owner looking at "$20" shouldn't have to wonder whether it means USD.
   monthly: {
     id: process.env.STRIPE_PRICE_MONTHLY,
     mode: "subscription",
     label: "Monthly",
     price: "$20",
-    per: "/month",
+    per: "CAD / month",
     note: "Billed every month",
   },
   yearly: {
@@ -23,15 +25,15 @@ export const PLANS: Record<
     mode: "subscription",
     label: "Yearly",
     price: "$150",
-    per: "/year",
-    note: "Save $90 a year",
+    per: "CAD / year",
+    note: "Save $90 CAD a year",
   },
   lifetime: {
     id: process.env.STRIPE_PRICE_LIFETIME,
     mode: "payment",
     label: "Lifetime",
     price: "$250",
-    per: "once",
+    per: "CAD one-time",
     note: "Pay once, use forever",
   },
 };

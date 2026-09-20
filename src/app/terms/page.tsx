@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { LegalPage, Clause } from "@/components/legal-page";
-import { LEGAL, PLANS_SUMMARY } from "@/lib/legal";
+import { LEGAL, PLANS_SUMMARY, TAX_REGISTERED } from "@/lib/legal";
 
 export const metadata: Metadata = { title: "Terms & Conditions · wscanner" };
 
@@ -77,10 +77,20 @@ export default function TermsPage() {
             Lifetime is a single payment taken at checkout. It has no trial.
           </li>
           <li>
-            Subscriptions renew automatically until cancelled. You can cancel any time from
-            Settings → Subscription; access continues to the end of the period you have paid for.
+            Subscriptions renew automatically at the plan price until cancelled. You can cancel any
+            time from Settings → Subscription — cancel before the trial ends and you pay nothing;
+            cancel later and access continues to the end of the period you have paid for.
           </li>
-          <li>Payments are processed by Stripe. Prices are in Canadian dollars and exclude tax unless stated.</li>
+          <li>
+            Payments are processed by Stripe. We accept card, Apple Pay and Google Pay. Your card
+            details are entered on Stripe&apos;s checkout page and are never seen or stored by us.
+          </li>
+          <li>
+            All prices are in Canadian dollars (CAD).{" "}
+            {TAX_REGISTERED
+              ? "GST/HST is added at checkout where it applies."
+              : "We are not currently registered for GST/HST, so no tax is added at checkout. If that changes we will say so here and on the pricing page before it takes effect."}
+          </li>
           <li>
             &quot;Lifetime&quot; means the lifetime of the service — for as long as we operate
             {" "}{LEGAL.brand} — not a guarantee of any fixed number of years.

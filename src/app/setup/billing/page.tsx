@@ -12,9 +12,9 @@ import { startOnboardingCheckout } from "./actions";
 export const metadata = { title: "Add a payment method · wscanner" };
 
 const COPY: Record<PlanKey, { tag: string; then: string; cta: string }> = {
-  monthly: { tag: `${TRIAL_DAYS} days free`, then: "then $20 a month", cta: `Start ${TRIAL_DAYS}-day trial` },
-  yearly: { tag: `${TRIAL_DAYS} days free`, then: "then $150 a year", cta: `Start ${TRIAL_DAYS}-day trial` },
-  lifetime: { tag: "One payment", then: "charged today, never again", cta: "Pay $250 once" },
+  monthly: { tag: `${TRIAL_DAYS} days free`, then: "then $20 CAD a month", cta: `Start ${TRIAL_DAYS}-day trial` },
+  yearly: { tag: `${TRIAL_DAYS} days free`, then: "then $150 CAD a year", cta: `Start ${TRIAL_DAYS}-day trial` },
+  lifetime: { tag: "One payment", then: "charged today, never again", cta: "Pay $250 CAD once" },
 };
 
 const ORDER: PlanKey[] = ["monthly", "yearly", "lifetime"];

@@ -18,9 +18,22 @@ export const LEGAL = {
   address: "[Street address, City, Province, Postal code]",
   email: "support@wscanner.ca",
   phone: "+1 647 858 6669",
+  /**
+   * PIPEDA requires a named individual accountable for personal information —
+   * a role alone isn't enough. Put the owner's real name here.
+   */
+  privacyOfficer: "[Full name of the person accountable for privacy]",
   /** Bump this whenever you change the wording. */
-  updated: "18 September 2026",
+  updated: "20 September 2026",
 } as const;
+
+/**
+ * Set to true ONLY once the business is actually registered for GST/HST.
+ * Charging or advertising tax without a number is an offence, so this stays
+ * false until the owner confirms registration — then flip it and the "+ tax"
+ * wording appears wherever prices are shown.
+ */
+export const TAX_REGISTERED = false;
 
 export const PLANS_SUMMARY = [
   { name: "Monthly", price: "$20 CAD / month" },

@@ -46,8 +46,10 @@ export default function RefundPage() {
 
       <Clause title="4. Lifetime plan">
         <p>
-          The one-time Lifetime payment can be refunded in full within <strong>14 days</strong> of
-          purchase. After that it is non-refundable, as it is a single payment for ongoing access.
+          Lifetime has no trial — it is charged at checkout. The payment can be refunded in full
+          within <strong>14 days</strong> of purchase: email <strong>{LEGAL.email}</strong> from the
+          address on the account. After 14 days it is non-refundable, as it is a single payment for
+          ongoing access.
         </p>
       </Clause>
 

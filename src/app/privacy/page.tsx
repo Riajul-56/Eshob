@@ -12,8 +12,12 @@ export default function PrivacyPage() {
     >
       <Clause title="1. Who we are">
         <p>
-          {LEGAL.brand} is operated by {LEGAL.legalName}, {LEGAL.address}. You can
-          reach our privacy contact at {LEGAL.email} or {LEGAL.phone}.
+          {LEGAL.brand} is operated by {LEGAL.legalName}, {LEGAL.address}.
+        </p>
+        <p>
+          The person accountable for personal information here is{" "}
+          <strong>{LEGAL.privacyOfficer}</strong>, Privacy Officer. Reach them at{" "}
+          <strong>{LEGAL.email}</strong> or {LEGAL.phone}.
         </p>
         <p>
           We serve two groups: <strong>businesses</strong> who run a loyalty program with
@@ -39,7 +43,16 @@ export default function PrivacyPage() {
             store. We do not keep a location trail.
           </li>
           <li>A device identifier stored in your browser so your card is recognised on your next visit</li>
+          <li>
+            Basic technical data your browser sends with every request — IP address, browser and
+            device type — which our hosting and database providers log to keep the service running
+            and to block abuse such as someone farming stamps
+          </li>
         </ul>
+        <p>
+          We never receive your card number. Payment details are entered on Stripe&apos;s own
+          checkout page and held by Stripe.
+        </p>
       </Clause>
 
       <Clause title="3. Why we collect it">

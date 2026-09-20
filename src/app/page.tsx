@@ -46,17 +46,20 @@ const STEPS = [
   { n: 3, title: "Watch customers return", body: "Track scans, repeat rate and claimed rewards — all from your dashboard." },
 ];
 
+// Prices carry the currency in the label, not just in a line above the grid —
+// a Canadian shop comparing tools shouldn't have to guess whether "$20" is USD.
 const PLANS = [
-  { name: "Monthly", price: "$20", per: "/month", features: ["All features included", "Unlimited scans", "First 3 days free"], popular: false, cta: "Get started" },
-  { name: "Yearly", price: "$150", per: "/year", features: ["Everything in Monthly", "Save $90 a year", "First 3 days free"], popular: true, cta: "Get started" },
-  { name: "Lifetime", price: "$250", per: "once", features: ["Pay once, use forever", "All features included", "Refundable for 14 days"], popular: false, cta: "Get started" },
+  { name: "Monthly", price: "$20", per: "CAD / month", features: ["All features included", "Unlimited scans", "First 3 days free"], popular: false, cta: "Get started" },
+  { name: "Yearly", price: "$150", per: "CAD / year", features: ["Everything in Monthly", "Save $90 CAD a year", "First 3 days free"], popular: true, cta: "Get started" },
+  { name: "Lifetime", price: "$250", per: "CAD one-time", features: ["Pay once, use forever", "All features included", "Refundable for 14 days"], popular: false, cta: "Get started" },
 ];
 
 const FAQS = [
   { q: "How does it work for my business?", a: "Sign up, set your reward, and display your QR code. Customers scan it each visit to collect stamps. You track everything from your dashboard." },
   { q: "Do customers need to download an app?", a: "No. They scan your QR with their phone camera and it opens a web page — nothing to install." },
-  { q: "Is there a free trial?", a: "Monthly and Yearly start with 3 free days. You choose a plan and add a card when you sign up, and the first charge only happens once those 3 days are up. Lifetime is a single payment with no trial." },
+  { q: "Is there a free trial?", a: "Monthly and Yearly start with a 3-day free trial. A card is required to begin, nothing is charged during those 3 days, and the plan then renews automatically at the plan price unless you cancel. Cancel before the trial ends from Settings → Subscription and you pay nothing. Lifetime is a single payment with no trial." },
   { q: "Why do you need my card for a free trial?", a: "So your program keeps running the moment the trial ends — no dead QR code on your counter. Your card is entered on Stripe's checkout page and stored by Stripe, never by us. Cancel before day 3 from Settings → Subscription and you pay nothing." },
+  { q: "Which payment methods do you accept?", a: "Card, Apple Pay and Google Pay — all handled by Stripe. On a phone that already has Apple Pay or Google Pay set up, the option appears at checkout on its own. Your card details go straight to Stripe; wscanner never sees or stores them. All prices are in Canadian dollars." },
   { q: "Can I use one QR code for multiple branches?", a: "Yes. One QR works across all your locations, with optional GPS verification so stamps only count at your store." },
 ];
 
@@ -201,9 +204,11 @@ export default function Home() {
       <section id="pricing" className="mx-auto max-w-6xl px-5 py-16 lg:py-24">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold tracking-tight">Simple, transparent pricing</h2>
+          <p className="mt-2 text-sm font-semibold uppercase tracking-wide text-accent">
+            Prices in Canadian dollars (CAD)
+          </p>
           <p className="mx-auto mt-3 max-w-xl text-body">
-            Monthly and Yearly start with 3 free days. You add a card up front, and the first charge
-            only happens once the trial ends.
+            3-day free trial on Monthly and Yearly. Card required, charged only when the trial ends.
           </p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -236,6 +241,12 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        <p className="mt-6 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-muted">
+          <span>Pay by card, Apple&nbsp;Pay or Google&nbsp;Pay</span>
+          <span aria-hidden>·</span>
+          <span>Secured by Stripe</span>
+        </p>
       </section>
 
       {/* FAQ */}
