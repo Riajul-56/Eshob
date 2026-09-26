@@ -9,20 +9,23 @@
 export const LEGAL = {
   /** Trading name shown to customers. */
   brand: "wscanner",
-  /** Registered legal entity, e.g. "1234567 Ontario Inc." */
-  legalName: "[Your registered business name]",
+  /**
+   * The legal entity behind the service. A sole proprietor trading under their
+   * own name IS the business, so this is a person, not a company.
+   */
+  legalName: "Fahim Muktadir Mahbub",
   /** Where you're registered — sets which courts and laws apply. */
-  province: "[Province]",
+  province: "British Columbia",
   country: "Canada",
   /** Business mailing address. */
-  address: "[Street address, City, Province, Postal code]",
+  address: "7705 112 St, Delta, BC V4C 4V9",
   email: "support@wscanner.ca",
   phone: "+1 647 858 6669",
   /**
    * PIPEDA requires a named individual accountable for personal information —
    * a role alone isn't enough. Put the owner's real name here.
    */
-  privacyOfficer: "[Full name of the person accountable for privacy]",
+  privacyOfficer: "Fahim Muktadir Mahbub",
   /** Bump this whenever you change the wording. */
   updated: "20 September 2026",
 } as const;

@@ -8,7 +8,10 @@ export const runtime = "nodejs";
  * Per-card web manifest so a customer who installs from /j/<slug> gets an app
  * icon that opens straight to that loyalty card, named after the business.
  */
-export async function GET(_req: NextRequest, ctx: { params: Promise<{ slug: string }> }) {
+export async function GET(
+  _req: NextRequest,
+  ctx: { params: Promise<{ slug: string }> },
+) {
   const { slug } = await ctx.params;
   const admin = createAdminClient();
   const { data } = await admin
@@ -17,7 +20,9 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ slug: stri
     .eq("slug", slug)
     .maybeSingle();
 
-  const biz = row<{ businesses?: { name?: string; logo_url?: string | null } | null }>(data)?.businesses;
+  const biz = row<{
+    businesses?: { name?: string; logo_url?: string | null } | null;
+  }>(data)?.businesses;
   const name = biz?.name || "Loyalty Card";
   const logo = biz?.logo_url || null;
 
@@ -25,11 +30,32 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ slug: stri
   // to a generated letter icon. Add the business logo too (sizes "any", since we
   // don't know its exact dimensions) so it's used where the platform accepts it.
   const icons: Record<string, string>[] = [
-    { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
-    { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
-    { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+    {
+      src: "/icon-192.png",
+      sizes: "192x192",
+      type: "image/png",
+      purpose: "any",
+    },
+    {
+      src: "/icon-512.png",
+      sizes: "512x512",
+      type: "image/png",
+      purpose: "any",
+    },
+    {
+      src: "/icon-512.png",
+      sizes: "512x512",
+      type: "image/png",
+      purpose: "maskable",
+    },
   ];
-  if (logo) icons.unshift({ src: logo, sizes: "any", type: "image/png", purpose: "any" });
+  if (logo)
+    icons.unshift({
+      src: logo,
+      sizes: "any",
+      type: "image/png",
+      purpose: "any",
+    });
 
   const manifest = {
     name,
@@ -43,6 +69,9 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ slug: stri
   };
 
   return new Response(JSON.stringify(manifest), {
-    headers: { "Content-Type": "application/manifest+json", "Cache-Control": "public, max-age=300" },
+    headers: {
+      "Content-Type": "application/manifest+json",
+      "Cache-Control": "public, max-age=300",
+    },
   });
 }
